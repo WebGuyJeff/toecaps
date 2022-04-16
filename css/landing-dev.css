@@ -1,0 +1,622 @@
+/*~~~~~~~~~~oOo~~~~~~~~~~o~
+~o DOCUMENT  INFORMATION o~
+
+o Document  Herringbone Theme - Developer Landing Page CSS
+o Version   v0.1
+o Author	Jefferson Real
+o Contact   me@jeffersonreal.uk
+
+This style sheet must only contain styles specific to the developer landing
+page. It will ONLY be loaded for this single page. Any styles to be reused on
+multiple landing pages should go in landing.css.
+
+
+~o~~~~oOo~~~~o~
+~o CSS INDEX o~
+
+1. PAGE
+	*empty*
+2. SECTIONS
+	2.1 SECTION - WELCOME
+	2.2 SECTION - SERVICES
+	2.3 SECTION - TICKLE
+	2.4 SECTION - USP
+        2.4.1 - PLUMBOB
+    2.5 SECTION - CONTACT
+3. ANIMATION
+	3.1 ANIMATION - KEYFRAMES
+*/
+
+
+/*============================================================== 1. PAGE =====*/
+
+/*========================================================== 2. SECTIONS ==== */
+/*------------------------------------------------- 2.1 SECTION - WELCOME --- */
+
+
+.welcome {
+	/*min-height: 100vh;*/
+}
+	.welcome > .landing_content {
+		display: flex;
+		flex-flow: row nowrap;
+        justify-content: center;
+        margin-bottom: 200px;
+	}
+    .welcome > .landing_backdrop {
+        background:
+            radial-gradient(
+                at 9% 9%,
+                #fffb 0%,
+                #fff0 30%
+            ),
+            linear-gradient(
+                #66d4ff 0%,
+                #ccf1ff 20%,
+                #fce889 55%,
+                #fcd762 60%,
+                #fff 61%
+            );
+    }
+        .desert_clouds {
+            position: absolute;
+            /* dimensions are inline */
+            width: 100%;
+            height: 100%;
+        }
+            .desert_cloud {
+                animation: linear infinite animation_scrollLeftToRight;
+                animation-duration: var(--animDur);
+            }
+                @keyframes animation_scrollLeftToRight {
+                    0%		{ transform: translateX(0); }
+                    45%	    { opacity:1; }
+                    50.001% { transform: translateX(120%);  opacity:0; }
+                    50.002% { transform: translateX(-120%); opacity:0; }
+                    55%	    { opacity:1; }
+                    100%	{ transform: translateX(0); }
+                }
+        .desert_sun {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            margin-top: 15px;
+            margin-left: 2%;
+            height: 20%;
+            max-height: 25vw;
+        }
+        .desert_terrain {
+            display: flex;
+            position: relative;
+            bottom: 0;
+            justify-content: center;
+            z-index: 0;
+            margin-top: auto;
+            width: 100%;
+            height: 75%;
+            overflow: hidden;
+        }
+            .desert_furniture {
+                width: clamp(100%, 1920px, 177.777%);
+                height: 100%;
+            }
+            .desert_sand {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: -1;
+                width: clamp(100%, 1920px, 175%);
+                height: 100%;
+            }
+    .desert_fills {
+        position: absolute;
+        opacity: 0;
+        height: 0;
+    }
+
+/*------------------------------------------------ 2.2 SECTION - SERVICES --- */
+
+
+ .services > .landing_backdrop {
+	background: var(--hb_white);
+}
+
+ .services > .landing_content {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+	min-height: 80vh;
+}
+
+.graphicContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: auto 0;
+	padding: 10%;
+	font-size: 80%;
+}
+	@media (min-width: 48em) {
+		.graphicContainer {
+			font-size: 60%;
+		}
+	}
+	@media (min-width: 70em) {
+		.graphicContainer {
+			font-size: 80%;
+		}
+	}
+
+
+/*-------------------------------------------------  2.3 SECTION - TICKLE --- */
+
+
+.tickle > .landing_backdrop {
+	background: linear-gradient(#fff 60%, #fff3d4);
+}
+
+.tickle > .landing_content {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+	min-height: 80vh;
+}
+
+
+/*----------------------------------------------------- 2.4 SECTION - USP --- */
+
+
+.usp > .landing_backdrop {
+	background: #fff3d4;
+}
+	.usp_wall {
+		height: 100%;
+	}
+
+.usp > .landing_content {
+	display: grid;
+	position: relative;
+	grid-template: repeat(3, 33.333%) / repeat(2, 50%);
+	grid-template-areas: "a b"
+						 "c d"
+						 "e f";
+	padding: 0;
+	width: 100%;
+	height: 100vh;
+	text-align: center;
+}
+.landscape .usp > .landing_content {
+	display: grid;
+	grid-template: repeat(2, 50%) / repeat(3, 33.333%);
+	grid-template-areas: "a b c"
+						 "d e f";
+}
+	.usp_title {
+		font-family: 'Wellfleet';
+		font-size: var(--hb_font-xxxl);
+		font-weight: 400;
+		margin-block-end: 0;
+		margin-block-start: 0;
+		line-height: 1.6em;
+	}
+		.usp_instruction::after {
+			content: "\00a0\1F335"; /* space & cactus emoji */
+		}
+		.usp_instruction {
+			display: block;
+			margin: 5% auto;
+			font-size: 1em;
+			font-weight: 600;
+		}
+			.usp_state {
+				display: none;
+			}
+				.usp_card {
+					display: flex;
+					flex-flow: column;
+					grid-area: var(--grid_area);
+					align-items: center;
+					justify-content: flex-end;
+					width: 100%;
+				}
+				#usp_default + .usp_card {
+					display: none;
+				}
+					.usp_graphicWrap {
+						display: grid;
+						grid: 10% 90% / 100%;
+						grid-template-areas:
+							"plumbob"
+							"cacti";
+						justify-items: center;
+						cursor: pointer;
+						padding-top: 4vh;
+						max-width: 100%;
+						height: 100%;
+						overflow: hidden;
+                        width: 100%;
+					}
+						.usp_cactiBox {
+							aspect-ratio: 25 / 35;
+							place-items: flex-end;
+							display: flex;
+							grid-area: cacti;
+							perspective: 12em;
+							width: auto;
+							height: 100%;
+                            max-width: 100%;
+						}
+							.usp_cacti {
+								filter: drop-shadow(1px -2px 1px #0006);
+								place-self: end center;
+								width: 100%;
+								max-height: 100%;
+							}
+						.usp_cactiShadow {
+							place-self: end center;
+							grid-area: shadow;
+							z-index: -1;
+							width: 100%;
+							height: 0;
+						}
+					.usp_blurb,
+					.usp_subtitle {
+						opacity: 0;
+						max-height: 0;
+						font-size: 0;
+					}
+                        .usp_blurb > .copy {
+                            overflow-y: auto;
+                        }
+					.usp_button {
+						display: none;
+						grid-area: button;
+						margin: 1% auto;
+						background-position: center center;
+						background-repeat: no-repeat;
+                        background-size: 100% 100%;
+						cursor: pointer;
+						padding: 0.8em 1.2em;
+						width: -webkit-fit-content;
+						width: -moz-fit-content;
+						width: fit-content;
+						color: #fff;
+						font-family: 'Wellfleet';
+						font-weight: 400;
+					}
+						.usp_button.red {
+							background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 150 100'%3E%3Cpath fill='%23e54242' d='M11 8l125-7c8 0 15 7 13 19l-6 65c-1 9-5 15-13 14L24 92c-6 0-12-3-14-15L1 23C0 15 4 8 11 8z'/%3E%3C/svg%3E");										}
+						.usp_button.green {
+							background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 150 100'%3E%3Cpath fill='%2361af76' d='M11 8l125-7c8 0 15 7 13 19l-6 65c-1 9-5 15-13 14L24 92c-6 0-12-3-14-15L1 23C0 15 4 8 11 8z'/%3E%3C/svg%3E");										}
+
+
+/* .usp_state:checked */
+#usp_default:checked + .usp_card {
+	display: flex;
+}
+.usp_state:checked + .usp_card {
+	display: grid;
+	grid-template: 35% 55% 10% / 100%;
+	grid-template-areas: "cactus"
+						 "blurb "
+						 "button";
+	grid-row: 1 / -1;
+	grid-column: 1 / -1;
+	justify-content: space-evenly;
+	z-index: 1;
+	padding: 5vh 5vw;
+	-webkit-animation: animation_fadeIn 0.75s ease;
+	animation: animation_fadeIn 0.75s ease;
+}
+.landscape .usp_state:checked + .usp_card {
+	-moz-column-gap: 1em;
+	     column-gap: 1em;
+	grid-template: 70% 30% / 80% 20%;
+	grid-template-areas: "blurb cactus"
+						 "blurb button";
+}
+	.landscape .usp_state:checked + .usp_card .usp_blurb {
+		text-align: start;
+	}
+	.usp_state:checked + .usp_card .usp_graphicWrap {
+		display: grid;
+		grid: 12% 76% 4% / 100%;
+		gap: 4%;
+		grid-area: cactus;
+		padding-top: 0;
+		height: 80%;
+		pointer-events: none;
+		grid-template-areas:
+			"plumbob"
+			"cacti"
+			"shadow";
+	}
+		.usp_state:checked + .usp_card  .plumbob {
+			-webkit-animation: animation_floaty 0.5s ease-in-out alternate infinite;
+			animation: animation_floaty 0.5s ease-in-out alternate infinite;
+		}
+		.usp_state:checked + .usp_card .usp_cactiBox {
+			place-items: flex-start;
+			-webkit-animation: animation_floaty 0.5s ease-in-out alternate infinite;
+				    animation: animation_floaty 0.5s ease-in-out alternate infinite;
+		}
+
+			.usp_state:checked + .usp_card .usp_cacti {
+				place-self: center center;
+				-webkit-animation: animation_swagger 2s linear alternate infinite;
+					    animation: animation_swagger 2s linear alternate infinite;
+			}
+		.usp_state:checked + .usp_card .usp_cactiShadow {
+			height: 100%;
+			-webkit-animation: animation_swell 0.5s ease-in-out alternate infinite;
+					animation: animation_swell 0.5s ease-in-out alternate infinite;
+		}
+	.usp_state:checked + .usp_card > .usp_blurb {
+		display: flex;
+		flex-flow: column;
+		grid-area: blurb;
+		justify-content: space-evenly;
+		opacity: 1;
+		height: 100%;
+		max-height: 100%;
+		font-size: 1em;
+	}
+	.usp_state:checked + .usp_card .usp_button {
+		display: block;
+	}
+
+
+/* fallback for old devices 360x640 */
+@media ( max-width: 22.5em ), ( max-height: 22.5em ) and ( max-width: 40em ) {
+	.usp_state:checked + .usp_card {
+		grid-template: 25% 65% 10% / 100%;
+		grid-template-areas: "cactus"
+								"blurb "
+								"button";
+	}
+	.usp_state:checked + .usp_card > .usp_graphicWrap {
+		height: 100%;
+	}
+	.usp_blurb,
+	.usp_subtitle {
+		margin: 0;
+	}
+}
+
+@media (max-width: 47.999em) {
+	.usp_card {
+		background: #fff3d4;
+	}
+}
+
+@media (min-width: 48em) {
+	.usp > .landing_content {
+		grid-template: 60% repeat(2, 20%) / repeat(3, 33.333%);
+		grid-template-areas: "i i i"
+							 "a b c"
+							 "d e f";
+	}
+	.landscape .usp > .landing_content {
+		grid-template: 70% 30% / repeat(6, 16.666%);
+		grid-template-areas: "i i i i i i"
+							 "a b c d e f";
+	}
+		.landscape .usp_state:checked + .usp_card {
+			grid-template: 100% / 80% 20%;
+			grid-template-areas: "blurb cactus";
+		}
+			.usp_graphicWrap {
+				padding: 0;
+			}
+			.usp_subtitle {
+				opacity: revert;
+				margin: 0;
+				max-height: revert;
+				font-family: 'Wellfleet';
+				font-size: revert;
+				font-weight: 400;
+			}
+			.usp_card > .usp_button,
+			.usp_state:checked + .usp_card > .usp_button {
+				display:none;
+			}
+		.usp_state:checked + .usp_card {
+			filter: drop-shadow(2px 4px 5px #0008);
+			grid-area: i;
+			grid-template: 100% / 80% 20%;
+			grid-template-areas: "blurb cactus";
+			margin: auto;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' width='100%25' height='100%25' viewBox='0 0 1720 570'%3E%3Cpath fill='%23fafafa' d='M79 21L1640 0c45-1 88 31 79 85l-64 393c-9 54-47 93-102 92L144 539c-49-1-84-36-91-79L1 115c-7-43 25-94 78-94z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            width: -webkit-max-content;
+			width: -moz-max-content;
+			width: max-content;
+			max-width: calc( 56em + 10vw );
+			text-align: left;
+		}
+			.usp_state:checked + .usp_card > .usp_blurb {
+				display: flex;
+				flex-flow: column;
+				align-items: flex-start;
+				justify-content: center;
+				padding: 2%;
+				max-width: 44em;
+			}
+				.usp_state:checked + .usp_card > .usp_graphicWrap {
+					height: 100%;
+				}
+
+}/* media min-width: 48em */
+
+@media (min-width: 70em) {
+	.usp > .landing_content {
+		grid-template: 15% 50% 35% / repeat(6, 16.666%);
+		grid-template-areas: "i i i i i i"
+							 "i i i i i i"
+							 "a b c d e f";
+	}
+	.usp_state:checked + .usp_card {
+		max-height: 60vh;
+	}
+}/* media min-width: 70em */
+
+
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - 2.4.1 USP - PLUMBOB - - */
+
+
+.plumbob {
+    aspect-ratio: 1 / 1;
+    place-items: center;
+    display: grid;
+    perspective: 100vmin;
+    perspective-origin: 50% 20%;
+	height: 100%;
+}
+	.plumbob_model {
+		display: grid;
+		grid: 1fr 1fr / 100%;
+		transform-style: preserve-3d;
+		width: 50%;
+		height: 100%;
+		animation: animation_rotate 6s infinite linear;
+	}
+		.plumbob_top,
+		.plumbob_bottom {
+			place-items: center;
+			display: grid;
+			position: relative;
+			transform-style: preserve-3d;
+			width: 100%;
+			height: 100%;
+		}
+		.plumbob_bottom {
+			transform: rotateX( 180deg );
+		}
+			.plumbob_face {
+				color: #e2e542;
+				position:absolute;
+				transform: rotateY( var( --rotateY ) )
+						   rotateX( 23deg );
+				transform-origin: 50% 0% 0;
+				margin-bottom: -16.5%;
+				width: 45%;
+				height: 100%;
+				animation: animation_lightInOut 6s infinite linear;
+				animation-delay: var( --animDelay );
+			}
+
+
+/*------------------------------------------------- 2.5 SECTION - CONTACT --- */
+
+
+section.contact {
+    padding-top: 2em;
+    padding-bottom: 5em;
+}
+
+
+/*========================================================= 3. ANIMATION ==== */
+/*--------------------------------------------- 3.1 ANIMATION - KEYFRAMES --- */
+
+
+@-webkit-keyframes animation_swagger {
+	0%   {transform: rotate3d( 0, 0.5, 0, -20deg); filter: brightness(1.4); }
+	100% {transform: rotate3d( 0, 0.5, 0,  20deg); filter: brightness(0.6); }
+}
+@keyframes animation_swagger {
+	0%   {transform: rotate3d( 0, 0.5, 0, -20deg); filter: brightness(1.4); }
+	100% {transform: rotate3d( 0, 0.5, 0,  20deg); filter: brightness(0.6); }
+}
+
+
+@-webkit-keyframes animation_floaty {
+	0%   { transform: translatey(0px); }
+	100% { transform: translatey(10px); }
+}
+@keyframes animation_floaty {
+	0%   { transform: translatey(0px); }
+	100% { transform: translatey(10px); }
+}
+
+
+@-webkit-keyframes animation_swell {
+	0%   { transform: scale(0.9); }
+	100% { transform: scale(1.1); }
+}
+@keyframes animation_swell {
+	0%   { transform: scale(0.9); }
+	100% { transform: scale(1.1); }
+}
+
+
+@-webkit-keyframes animation_floaty_spinny {
+    0%    {transform: rotate3d( 0, 0.5, 0, 0deg)     translatey(0px);  filter: brightness(1.2); }
+    12.5% {transform: rotate3d( 0, 0.5, 0, 45deg)    translatey(5px);  filter: brightness(1.6); }
+    25%   {transform: rotate3d( 0, 0.5, 0, 90deg)    translatey(10px); filter: brightness(1.2); }
+    25.1% {transform: rotate3d( 0, 0.5, 0, 90.1deg)  translatey(10px); filter: brightness(0.4); }
+    37.5% {transform: rotate3d( 0, 0.5, 0, 135deg)   translatey(5px);  filter: brightness(0.8); }
+    50%   {transform: rotate3d( 0, 0.5, 0, 180deg)   translatey(0px);  filter: brightness(1.2); }
+    62.5% {transform: rotate3d( 0, 0.5, 0, 225deg)   translatey(5px);  filter: brightness(1.6); }
+    75%   {transform: rotate3d( 0, 0.5, 0, 270deg)   translatey(10px); filter: brightness(1.2); }
+    75.1% {transform: rotate3d( 0, 0.5, 0, 270.1deg) translatey(10px); filter: brightness(0.4); }
+    87.5% {transform: rotate3d( 0, 0.5, 0, 315deg)   translatey(5px);  filter: brightness(0.8); }
+    100%  {transform: rotate3d( 0, 0.5, 0, 360deg)   translatey(0px);  filter: brightness(1.2); }
+}
+@keyframes animation_floaty_spinny {
+    0%    {transform: rotate3d( 0, 0.5, 0, 0deg)     translatey(0px);  filter: brightness(1.2); }
+    12.5% {transform: rotate3d( 0, 0.5, 0, 45deg)    translatey(5px);  filter: brightness(1.6); }
+    25%   {transform: rotate3d( 0, 0.5, 0, 90deg)    translatey(10px); filter: brightness(1.2); }
+    25.1% {transform: rotate3d( 0, 0.5, 0, 90.1deg)  translatey(10px); filter: brightness(0.4); }
+    37.5% {transform: rotate3d( 0, 0.5, 0, 135deg)   translatey(5px);  filter: brightness(0.8); }
+    50%   {transform: rotate3d( 0, 0.5, 0, 180deg)   translatey(0px);  filter: brightness(1.2); }
+    62.5% {transform: rotate3d( 0, 0.5, 0, 225deg)   translatey(5px);  filter: brightness(1.6); }
+    75%   {transform: rotate3d( 0, 0.5, 0, 270deg)   translatey(10px); filter: brightness(1.2); }
+    75.1% {transform: rotate3d( 0, 0.5, 0, 270.1deg) translatey(10px); filter: brightness(0.4); }
+    87.5% {transform: rotate3d( 0, 0.5, 0, 315deg)   translatey(5px);  filter: brightness(0.8); }
+    100%  {transform: rotate3d( 0, 0.5, 0, 360deg)   translatey(0px);  filter: brightness(1.2); }
+}
+
+
+@-webkit-keyframes animation_lightInOut {
+	0%   { filter: brightness( 0.3 ); }
+	50%  { filter: brightness( 1 ); }
+	75%  { filter: brightness( 1 ); }
+	100% { filter: brightness( 0.3 ); }
+}
+@keyframes animation_lightInOut {
+	0%   { filter: brightness( 0.3 ); }
+	50%  { filter: brightness( 1 ); }
+	75%  { filter: brightness( 1 ); }
+	100% { filter: brightness( 0.3 ); }
+}
+
+
+@-webkit-keyframes animation_rotate {
+	0%   { transform: rotateY( 0deg );   }
+	50%  { transform: rotateY( 180deg ); }
+	100% { transform: rotateY( 360deg ); }
+}
+@keyframes animation_rotate {
+	0%   { transform: rotateY( 0deg );   }
+	50%  { transform: rotateY( 180deg ); }
+	100% { transform: rotateY( 360deg ); }
+}
+
+
+@-webkit-keyframes animation_fadeIn {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+}
+@keyframes animation_fadeIn {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+}

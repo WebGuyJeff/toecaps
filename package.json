@@ -1,0 +1,81 @@
+{
+    "name": "herringbone",
+    "version": "0.0.5",
+    "description": "## A WordPress theme for my developer site and blog.",
+    "author": "Jefferson Real",
+    "email": "me@jeffersonreal.uk",
+    "homepage": "https://github.com/wordpressjeff/herringbone#readme",
+    "license": "GPL-3.0-or-later",
+    "main": "index.php",
+    "source": "src/index.html",
+    "targets": {
+        "default": {
+            "distDir": "./build"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wordpressjeff/herringbone.git"
+    },
+    "bugs": {
+        "url": "https://github.com/wordpressjeff/herringbone/issues"
+    },
+    "browserslist": "> 0.5%, last 2 versions, not dead",
+    "scripts": {
+        "start": "parcel",
+        "dev": "parcel watch src/js/index.js src/styles/_.css --public-url /wp-content/themes/THEME/dist",
+        "build": "parcel build",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "pretest": "phplint 'src/**/*.php'"
+    },
+    "devDependencies": {
+        "eslint": "latest",
+        "@wordpress/eslint-plugin": "latest",
+        "parcel": "latest",
+        "phplint": "latest",
+        "prettier": "latest"
+    },
+    "prettier": {
+        "singleQuote": true,
+        "trailingComma": "none",
+        "tabWidth": 4,
+        "useTabs": true,
+        "semi": true,
+        "bracketSpacing": true,
+        "bracketSameLine": false,
+        "arrowParens": "always",
+        "insertPragma": true,
+        "embeddedLanguageFormatting": "off",
+        "overrides": [
+            {
+                "excludeFiles": "*.css"
+            }
+        ]
+    },
+    "eslint": {
+        "env": {
+            "es6": true,
+            "browser": true
+        },
+        "extends": [
+            "eslint:recommended",
+            "plugin:react/recommended",
+            "plugin:@wordpress/eslint-plugin/recommended"
+        ],
+        "parserOptions": {
+            "ecmaVersion": 6,
+            "sourceType": "module",
+            "ecmaFeatures": {
+                "jsx": true
+            }
+        },
+        "plugins": [
+            "react"
+        ],
+        "rules": {
+            "semi": "error",
+            "no-console": 0,
+            "react/jsx-uses-vars": "error"
+        }
+    }
+}
