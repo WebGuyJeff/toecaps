@@ -1,0 +1,570 @@
+/*~~~~~~~~~~oOo~~~~~~~~~~o~
+~o DOCUMENT  INFORMATION o~
+
+o Document  Joinery Theme - Global Landing Page CSS
+o Version   v0.1
+o Author	Jefferson Real
+o Contact   me@jeffersonreal.uk
+
+This style sheet must only contain styles for the landing pages. It will ONLY be
+loaded on landing pages. Styles specific to a single landing page should go in
+that pages dedicated css file.
+
+~o~~~~oOo~~~~o~
+~o CSS INDEX o~
+
+1. GLOBAL
+	1.1 GLOBAL - ROOT STUFF
+	1.2 GLOBAL - TYPOGRAPHY
+	1.3 GLOBAL - HEADER
+	1.4 GLOBAL - SECTION GRID LAYOUT
+    1.5 GLOBAL - MASONFLIP LAYOUT
+2. BLOCKS
+	2.1 BLOCKS - CHALKBOARD
+	2.2 BLOCKS - RESPONSIVE SCREEN ANIMATION
+	2.3 .tickle
+3. THEMES
+	3.1 THEMES - MEXICO
+*/
+
+
+/*========================================================== 1. GLOBAL =====*/
+/*--------------------------------------------- 1.1 GLOBAL - ROOT STUFF ----*/
+
+
+:root {
+	--hb_triBorder: url("data:image/svg+xml,%3Csvg width='36' height='36' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern patternUnits='userSpaceOnUse' width='12' height='12' id='trings'%3E%3Cpath fill='%23de7c61' d='M 1.4,1.3 1,9.4 9.1,1.4 Z' id='path2' /%3E%3Cpath fill='%23e2e542' d='M 2.5,11 11,2.7 10.5,10.8 Z' id='path4' /%3E%3Crect fill='none' opacity='0' width='12' height='12' x='0' y='0' /%3E%3C/pattern%3E%3C/defs%3E%3Crect style='fill:url(%23trings);' width='36' height='36' x='0' y='0' /%3E%3C/svg%3E") 12 round;
+	--hb_iconBackground: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cpath fill='%23cff9e9' d='M20 11c-32 15-23 72 8 85 30 14 76-11 72-58S51-5 20 11z'/%3E%3C/svg%3E");
+}
+
+
+/*--------------------------------------------- 1.2 GLOBAL - TYPOGRAPHY ----*/
+
+
+
+
+
+/*------------------------------------------------- 1.3 GLOBAL - HEADER ----*/
+
+
+.hb__pag-landing .header {
+    position: fixed;
+    background: var(--hb_white);
+    border-bottom: solid 0.3em var(--hb_black);
+}
+
+@media (max-width: 44.999em) {
+    .menu_active .menuToggle {
+        top: 0.5em;
+        right: 0.5em;
+    }
+}
+@media (min-width: 45em) {
+    .hb__pag-landing .menuToggle {
+        display: flex;
+    }
+}
+
+
+/*--------------------------------------- 1.4 GLOBAL - MAIN GRID LAYOUT ----*/
+
+
+.main-landing {
+	display: grid;
+	grid: auto / 100%;
+	grid-auto-flow: row dense;
+}
+
+
+/*------------------------------------ 1.4 GLOBAL - SECTION GRID LAYOUT ----*/
+
+
+.hb__pag-landing section {
+	--narrow: minmax( 0px, 48rem );             /* 48rem */
+	--medium: clamp( 0px, calc( 50% - 24rem), 8rem );   /* 64rem */
+	--wide: clamp( 0px, calc( 50% - 32rem), 13rem );    /* 90rem */
+	gap: 0;
+	display: grid;
+	position: relative;
+	grid-template-columns: [full-l] 1fr [wide-l medium-l narrow-l] var(--narrow) [narrow-r medium-r wide-r] 1fr [full-r];
+	grid-column: 1 / -1;
+	justify-content: center;
+	width: 100%;
+	text-align: center;
+}
+	.landing_content {
+		position: relative;
+		grid-row: var(--row);
+		grid-column: var(--col);
+		z-index: 0;
+	}
+	.landing_backdrop {
+		display: flex;
+		position: absolute;
+		grid-row: 1 / -1;
+		grid-column: 1 / -1;
+		justify-content: center;
+		z-index: -1;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+@media (min-width: 64rem) {
+	.hb__pag-landing section {
+		grid-template-columns: [full-l] 1fr [wide-l medium-l] var(--medium) [narrow-l] var(--narrow) [narrow-r] var(--medium) [medium-r wide-r] 1fr [full-r];
+	}
+}
+@media (min-width: 90rem) {
+	.hb__pag-landing section {
+		grid-template-columns: [full-l] 1fr [wide-l] var(--wide) [medium-l] var(--medium) [narrow-l] var(--narrow) [narrow-r] var(--medium) [medium-r] var(--wide) [wide-r] 1fr [full-r];
+	}
+}
+
+
+/*--------------------------------------- 1.4 GLOBAL - MASONFLOP LAYOUT ----*/
+
+/* Masonry + FlipFlop = MasonFlop */
+
+
+.masonFlop {
+    padding: 2em;
+    width: 100%;
+}
+	.masonFlop_card {
+		gap: 2em;
+		display: flex;
+		flex: 1 1 auto;
+		flex-flow: column;
+		margin-bottom: 2em;
+		border-radius: 2em;
+		background: #fff3d4;
+		padding: 2em;
+	}
+		.masonFlop_content-left,
+		.masonFlop_content-right {
+            flex: 1 1 50%;
+		}
+            .masonFlop_heading {
+                font-size: 125%;
+            }
+            .masonFlop_card img {
+                max-width: 100%;
+                border-radius: 1em;
+            }
+
+@media (max-width: 320px) {
+	.masonFlop {
+		margin: 0.5em;
+	}
+	.masonFlop_card {
+		gap: 0.5em;
+		margin-bottom: 0.5em;
+		border-radius: 0.5em;
+		padding: 1em;
+	}
+}
+
+/* flip-flop */
+@media (min-width: 608px) and (max-width: 1023px) {
+	.masonFlop_card:nth-child(even) {
+		flex-flow: row;
+	}
+	.masonFlop_card:nth-child(odd) {
+		flex-flow: row-reverse;
+	}
+}
+
+/* masonry */
+@media (min-width: 1024px) {
+	.masonFlop {
+		columns: 28em;
+		column-gap: 2em;
+	}
+	.masonFlop_card {
+        flex-flow: column nowrap;
+        break-inside: avoid-column;
+        page-break-inside: avoid;
+        overflow: hidden; /* fix for firefox */
+	}
+}
+
+
+/*============================================================ 2. BLOCKS =====*/
+/*- - - - - - - - - - - - - - - - - - - - - - - - 2.1 BLOCKS - CHALKBOARD - - */
+
+
+.chalkboard {
+	filter: drop-shadow(3px 8px 8px #0004);
+	position: relative;
+	z-index: 1;
+	margin-top: 160px;
+	border: solid 20px;
+	border-radius: 3px;
+	-o-border-image: var(--hb_triBorder);
+	   border-image: var(--hb_triBorder);
+	background: #fff;
+	padding: 3em;
+    max-width: 100%;
+	height: -webkit-fit-content;
+	height: -moz-fit-content;
+	height: fit-content;
+}
+    .chalkboard_pinChalkboardTop {
+        display: flex;
+        position: relative;
+        align-items: center;
+        margin-top: calc(-20px - 3em );
+		margin-bottom: calc(20px + 3em);
+        width: 100%;
+        height: 0;
+    }
+        .svg_grabhand-left,
+        .svg_grabhand-right {
+            --handWidth: calc( 80px + 2% );
+            filter: drop-shadow(1px 2px 1px #0008);
+            z-index: 1;
+            margin-top: 10px;
+            width: var(--handWidth);
+            max-width: 37%;
+        }
+        .svg_grabhand-left {
+            left: 0;
+            margin-left: clamp( 0px, calc(-151px + calc( 0.9 * 48vw) ), calc( 100% - var(--handWidth) ) );
+        }
+        .svg_grabhand-right {
+            margin-left: auto;
+        }
+        @media (min-width: 48em) {
+            .svg_grabhand-right {
+                display: none;
+            }
+        }
+	.chalkboard_title {
+		margin-block-end: 1em;
+		margin-block-start: 1.75em;
+		line-height: 2em;
+		font-family: 'wellfleet';
+		font-size: var(--hb_font-xxl);
+		font-weight: 400;
+	}
+		@media (max-width: 500px) {
+			.chalkboard_title {
+				line-height: clamp(2.5rem, 10vmin, 6rem);
+				font-size: clamp(1rem, 6vmin, 2.063rem);
+			}
+		}
+        .chalkboard_list {
+            gap: 1em;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            margin: 3em 0;
+        }
+            .chalkboard_list > li {
+                flex: 1 1 30%;
+                background-image: var(--hb_iconBackground);
+                background-position: top;
+                background-repeat: no-repeat;
+                background-size: 3.5em;
+            }
+                .chalkboard_icon {
+                    margin-top: 0.2em;
+                    margin-bottom: 0.2em;
+                    width: 1.6em;
+                    height: 1.6em;
+                }
+                .chalkboard_link {
+                    display: flex;
+                    flex-flow: column nowrap;
+                    align-items: center;
+                    text-align: center;
+                    letter-spacing: -0.25px;
+                    color: var(--hb_black);
+                    font-family: 'wellfleet';
+                }
+        .chalkboard_cta {
+            color: var(--hb_green);
+            font-family: 'wellfleet';
+            font-size: var(--hb_font-xl);
+            font-weight: 900;
+        }
+
+.chalkboard_pinChalkboardRight {
+    position: relative;
+    height: 100%;
+}
+    .svg_dimensionsBox {
+        position: absolute;
+        top: clamp( 0vw, calc( 3vw - 5vh ), 2vw );
+        right: 0;
+        width: max-content;
+        height: 100%;
+    }
+        .svg_me {
+            filter: drop-shadow(1px 2px 1px #0008);
+            display: block;
+            transform: translateX( clamp( 0px, calc( 28vw - 64% ), 78%) );
+            width: clamp(0px,24em,100vw);
+            height: 100%;
+        }
+            .svg_me #head_eyelids {
+                animation: svg_me-blinking 10s infinite;
+            }
+            .svg_me #head_eye-right,
+            .svg_me #head_eye-left {
+                animation: svg_me-lookingdown 12s infinite;
+            }
+            @media (min-width: 48em) {
+                .svg_me #head_eye-right,
+                .svg_me #head_eye-left {
+                animation: svg_me-looking 12s infinite; }
+            }
+            @keyframes svg_me-blinking {
+                20% { opacity: 0; }
+                21% { opacity: 1; }
+                22% { opacity: 0; }
+                75% { opacity: 0; }
+                76% { opacity: 1; }
+                77% { opacity: 0; }
+                82% { opacity: 0; }
+                83% { opacity: 1; }
+                84% { opacity: 0; }
+            }
+            @keyframes svg_me-looking {
+                8%   { transform: translateX( 0  ) translateY( 0  ); }
+                9%   { transform: translateX(-2px) translateY( 3px); }
+                19%  { transform: translateX(-2px) translateY( 3px); }
+                20%  { transform: translateX( 0  ) translateY( 0  ); }
+                75%  { transform: translateX( 0  ) translateY( 0  ); }
+                76%  { transform: translateX(-2px) translateY( 3px); }
+                86%  { transform: translateX(-2px) translateY( 3px); }
+                87%  { transform: translateX( 0  ) translateY( 0  ); }
+                94%  { transform: translateX( 0  ) translateY( 0  ); }
+                99%  { transform: translateX(-2px) translateY( 3px); }
+                100% { transform: translateX( 0  ) translateY( 0  ); }
+            }
+            @keyframes svg_me-lookingdown {
+                8%   { transform: translateY( 0  ); }
+                9%   { transform: translateY( 4px); }
+                29%  { transform: translateY( 4px); }
+                30%  { transform: translateY( 0  ); }
+                75%  { transform: translateY( 0  ); }
+                76%  { transform: translateY( 4px); }
+                86%  { transform: translateY( 4px); }
+                87%  { transform: translateY( 0  ); }
+                94%  { transform: translateY( 0  ); }
+                99%  { transform: translateY( 4px); }
+                100% { transform: translateY( 0  ); }
+            }
+
+
+
+/*- - - - - - - - - - - - - - -  2.2 BLOCKS - RESPONSIVE SCREEN ANIMATION - - */
+
+
+.screen {
+	filter: drop-shadow(8px 12px 5px #0007);
+	-webkit-animation: squish 6s ease-in-out alternate infinite;
+	        animation: squish 6s ease-in-out alternate infinite;
+	border: solid 0.5em #333;
+	border-radius: 1.5em;
+	background: #333;
+	width: 100%;
+	height: 100%;
+}
+	.screen_demo {
+		display: flex;
+		flex-flow: column nowrap;
+		border-radius: 1em;
+		background: #fff;
+		padding: .25em;
+		width: 100%;
+		height: 100%;
+	}
+		.screen_row {
+			display: flex;
+			flex: 1 1 auto;
+			flex-flow: row wrap;
+		}
+			.screen_column {
+				flex: 1 1 auto;
+				margin: .25em;
+				border-radius: .75em;
+			}
+				h4.screen_title {
+					position: relative;
+					margin: 0 auto;
+					width: 100%;
+					height: 100%;
+					color: var(--hb_white);
+					font-size: 2em;
+					letter-spacing: -0.04em;
+				}
+					h4.screen_title > span {
+						display: flex;
+						position: absolute;
+						align-items: center;
+						justify-content: center;
+						opacity: 0;
+						width: 100%;
+						height: 0;
+						overflow: hidden;
+					}
+						h4.screen_title > span:nth-of-type(1) {
+							-webkit-animation: titleSwitch-mobile 6s ease-in-out alternate infinite;
+							        animation: titleSwitch-mobile 6s ease-in-out alternate infinite;
+						}
+						h4.screen_title > span:nth-of-type(2) {
+							-webkit-animation: titleSwitch-tablet 6s ease-in-out alternate infinite;
+							        animation: titleSwitch-tablet 6s ease-in-out alternate infinite;
+						}
+						h4.screen_title > span:nth-of-type(3) {
+							-webkit-animation: titleSwitch-desktop 6s ease-in-out alternate infinite;
+							        animation: titleSwitch-desktop 6s ease-in-out alternate infinite;
+						}
+
+
+.screen_row.a > .screen_column {
+	-webkit-animation: screen_row-a 6s ease-in-out alternate infinite;
+	        animation: screen_row-a 6s ease-in-out alternate infinite;
+	background: var(--hb_blue);
+}
+
+.screen_row.b > .screen_column {
+	background: var(--hb_red);
+}
+
+.screen_row.c > .screen_column {
+	-webkit-animation: screen_row-c 6s ease-in-out alternate infinite;
+	        animation: screen_row-c 6s ease-in-out alternate infinite;
+	background: var(--hb_orange);
+}
+
+.screen_row.d > .screen_column {
+	-webkit-animation: screen_row-d 6s ease-in-out alternate infinite;
+	        animation: screen_row-d 6s ease-in-out alternate infinite;
+	background: var(--hb_green);
+}
+
+
+@-webkit-keyframes screen_row-a {
+	0%	{ width: calc( 40% - .5em  ); } /* minus 1.5vmin to account for the padding and margin 2 x .75vmin */
+	75.3% { width: calc( 40% - .5em  ); }
+	75.4% { width: calc( 100% - .5em ); }
+	100%  { width: calc( 100% - .5em ); }
+}
+
+
+@keyframes screen_row-a {
+	0%	{ width: calc( 40% - .5em  ); } /* minus 1.5vmin to account for the padding and margin 2 x .75vmin */
+	75.3% { width: calc( 40% - .5em  ); }
+	75.4% { width: calc( 100% - .5em ); }
+	100%  { width: calc( 100% - .5em ); }
+}
+
+@-webkit-keyframes screen_row-c {
+	0%	 { width: calc(  33% - .5em ); }
+	28.7%  { width: calc(  33% - .5em ); } /* Sandwich together the keyframes to create a stepped change in	*/
+	28.8%  { width: calc(  50% - .5em ); } /* the calculated widths, otherwise the threshold is unpredictable. */
+	75.3%  { width: calc(  50% - .5em ); }
+	75.4%  { width: calc( 100% - .5em ); }
+	100%   { width: calc( 100% - .5em ); }
+}
+
+@keyframes screen_row-c {
+	0%	 { width: calc(  33% - .5em ); }
+	28.7%  { width: calc(  33% - .5em ); } /* Sandwich together the keyframes to create a stepped change in	*/
+	28.8%  { width: calc(  50% - .5em ); } /* the calculated widths, otherwise the threshold is unpredictable. */
+	75.3%  { width: calc(  50% - .5em ); }
+	75.4%  { width: calc( 100% - .5em ); }
+	100%   { width: calc( 100% - .5em ); }
+}
+
+@-webkit-keyframes screen_row-d {
+	0%	{ width: calc( 25% - .5em ); }
+	51.4% { width: calc( 25% - .5em ); }
+	51.5% { width: calc( 50% - .5em ); }
+	100%  { width: calc( 50% - .5em ); }
+}
+
+@keyframes screen_row-d {
+	0%	{ width: calc( 25% - .5em ); }
+	51.4% { width: calc( 25% - .5em ); }
+	51.5% { width: calc( 50% - .5em ); }
+	100%  { width: calc( 50% - .5em ); }
+}
+
+@-webkit-keyframes squish {
+	0%   { width: 100%; height: 70%; }
+	100% { width: 50%; height: 100%; }
+}
+
+@keyframes squish {
+	0%   { width: 100%; height: 70%; }
+	100% { width: 50%; height: 100%; }
+}
+
+@-webkit-keyframes titleSwitch-desktop {
+	0%  { opacity: 1; height: 100%; }
+	25% { opacity: 1; height: 100%; }
+	30% { opacity: 0; height: 0;	}
+}
+
+@keyframes titleSwitch-desktop {
+	0%  { opacity: 1; height: 100%; }
+	25% { opacity: 1; height: 100%; }
+	30% { opacity: 0; height: 0;	}
+}
+
+@-webkit-keyframes titleSwitch-tablet {
+	25% { opacity: 0; height: 0;	}
+	30% { opacity: 1; height: 100%; }
+	75% { opacity: 1; height: 100%; }
+	80% { opacity: 0; height: 0;	}
+}
+
+@keyframes titleSwitch-tablet {
+	25% { opacity: 0; height: 0;	}
+	30% { opacity: 1; height: 100%; }
+	75% { opacity: 1; height: 100%; }
+	80% { opacity: 0; height: 0;	}
+}
+
+@-webkit-keyframes titleSwitch-mobile {
+	75%  { opacity: 0; height: 0;	}
+	80%  { opacity: 1; height: 100%; }
+	100% { opacity: 1; height: 100%; }
+}
+
+@keyframes titleSwitch-mobile {
+	75%  { opacity: 0; height: 0;	}
+	80%  { opacity: 1; height: 100%; }
+	100% { opacity: 1; height: 100%; }
+}
+
+
+/*============================================================ 3. THEMES =====*/
+/*--------------------------------------------------- 3.1 THEMES - MEXICO ----*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'wellfleet';
+	font-weight: 400;
+	letter-spacing: normal;
+}
+
+.title-hype {
+	color: var(--hb_green);
+	font-weight: 900;
+	white-space: nowrap;
+}
+@media (max-width: 500px) {
+	.title-hype {
+		font-size: clamp(100%, 8vmin, 250%);
+	}
+}
