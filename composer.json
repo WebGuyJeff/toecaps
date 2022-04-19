@@ -8,5 +8,10 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+	"scripts": {
+        "phpcheck": "./vendor/bin/phpcs --standard=WordPress **/*.php",
+		"phpcheck-summary": "./vendor/bin/phpcs --report=summary --standard=WordPress **/*.php",
+		"phpfix": "./vendor/bin/phpcs --standard=WordPress -v **/*.php"
     }
 }

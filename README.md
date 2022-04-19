@@ -1,4 +1,4 @@
-# Joinery Theme
+# Toecaps
 
 ## A WordPress theme for tradespeople and manufacturers.
 
@@ -29,22 +29,28 @@ Check the installed standards:
 Install PHP_CodeSniffer globally
 'composer global require "squizlabs/php_codesniffer=*"'
 
-Make sure you have the composer bin dir in your PATH. The default value is ~/.composer/vendor/bin/, but you can check the value that you need to use by running composer global config bin-dir --absolute.
+Make sure you have the composer bin dir in your PATH. The default value is ~/.composer/vendor/bin/, but you can check the value that you need to use by running 'composer global config bin-dir --absolute'.
 
 
 #### Usage
 
 Check code
-'./vendor/bin/phpcs src/**/*.php'
+'./vendor/bin/phpcs **/*.php'
 
 Fix Code
-'./vendor/bin/phpcbf src/**/*.php'
+'./vendor/bin/phpcbf **/*.php'
 
 Summarize large outputs:
-'./vendor/bin/phpcs --report=summary src/**/*.php'
+'./vendor/bin/phpcs --report=summary **/*.php'
 
 Specifying a Coding Standard:
 './vendor/bin/phpcs --standard=WordPress /path/to/code/myfile.inc'
 
 [PHP_CodeSniffer Github](https://github.com/squizlabs/PHP_CodeSniffer#installation)
 [WordPress Coding Standards for PHP_CodeSniffer Github](https://github.com/WordPress/WordPress-Coding-Standards#installation)
+
+#### PHP8.0 Bugfix
+
+See this README for patching instructions:
+
+'./vendor-wpcs-php8-bugfix/wp-coding-standards/wpcs/WordPress/Sniffs/WhiteSpace/README.md'

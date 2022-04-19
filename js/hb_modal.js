@@ -1,9 +1,9 @@
 /**
- * Joinery Theme Modal Javascript
+ * Toecaps Modal Javascript
  *
  * A function to handle modal animation and mechanics.
  *
- * @package Joinery_Theme
+ * @package Toecaps
  * @author Jefferson Real <me@jeffersonreal.uk>
  * @copyright Copyright (c) 2022, Jefferson Real
  */
@@ -288,7 +288,7 @@
 
 
 /**
- * Joinery Theme Animation Plugin.
+ * Toecaps Animation Plugin.
  *
  * A plugin to handle the animation of css properties using preset eases.
  *

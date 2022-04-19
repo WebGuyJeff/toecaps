@@ -1,10 +1,10 @@
 /**
- * Joinery Theme Dynamic Classes Javascript
+ * Toecaps Dynamic Classes Javascript
  *
  * Applies classes to the body element to indicate screen size and orientation.
  * These can be accessed using CSS as a global alternative to media queries.
  *
- * @package   Joinery_Theme
+ * @package   Toecaps
  * @author    Jefferson Real <me@jeffersonreal.uk>
  * @copyright Copyright (c) 2022, Jefferson Real
  */

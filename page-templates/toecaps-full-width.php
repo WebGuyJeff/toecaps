@@ -1,14 +1,7 @@
 <?php
+
 /**
- * Toecaps Template - Page.php
- *
- * This template is used for static pages and should be able to handle the following:
- *
- * - Display page title and page content.
- * - Display comment list and comment form (unless comments are off).
- * - Include wp_link_pages() to support navigation links within a page.
- * - Metadata such as tags, categories, date and author should not be displayed.
- * - Display an "Edit" link for logged-in users with edit permissions.
+ * Template Name: Full Width Page
  *
  * @package   Toecaps
  * @author    Jefferson Real <me@jeffersonreal.uk>
@@ -17,9 +10,8 @@
 
 get_header(); ?>
 
-
 <main class="main">
-
+	
 	<div class="base">
 
 		<?php
@@ -37,11 +29,11 @@ get_header(); ?>
 			while ( have_posts() ) :
 				the_post();
 
-				/*
-				* Include the Post-Type-specific template for the content.
-				* If you want to override this in a child theme, then include a file
-				* called content-___.php (where ___ is the Post Type name) and that will be used instead.
-				*/
+				/**
+				 * Include the Post-Type-specific template for the content.
+				 * If you want to override this in a child theme, then include a file
+				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
+				 */
 				get_template_part( 'template-parts/content', get_post_type() );
 
 			endwhile;
@@ -64,7 +56,4 @@ get_header(); ?>
 
 </main>
 
-
-<?php
-get_sidebar();
-get_footer();
+<?php get_footer(); ?>

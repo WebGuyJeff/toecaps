@@ -1,56 +1,54 @@
 <?php
-namespace BigupWeb\JoineryTheme;
-
 /**
- * Joinery Theme Template - Footer.
+ * Toecaps Template - Footer.
  *
- * @package   Joinery_Theme
+ * @package   Toecaps
  * @author    Jefferson Real <me@jeffersonreal.uk>
  * @copyright Copyright (c) 2022, Jefferson Real
  */
+
+namespace BigupWeb\Toecaps;
+
 ?>
 
 <footer class="footer">
-    <div class="footer_inner sauce">
+	<div class="footer_inner sauce">
 
-        <?php
-        Menu_Walker::output_theme_location_menu(
-            array(
-                'theme_location'    => 'global-secondary-menu',
-                'menu_class'        => 'footer_nav',
-                'nav_or_div'        => 'div',
-                'nav_aria_label'    => '',
-                'html_tab_indents'  => 3,
-                'button_class'        => 'button button-noback',
-            ) 
-        );
-        ?>
+		<?php
+		Menu_Walker::output_theme_location_menu(
+			array(
+				'theme_location'   => 'global-secondary-menu',
+				'menu_class'       => 'footer_nav',
+				'nav_or_div'       => 'div',
+				'nav_aria_label'   => '',
+				'html_tab_indents' => 3,
+				'button_class'     => 'button button-noback',
+			)
+		);
+		?>
 
 
-        <div class="footer_legalLinks">
-            <?php
-                Menu_Walker::output_theme_location_menu(
-                    array(
-                    'theme_location'    => 'global-legal-links',
-                    'nav_or_div'        => false,
-                    'nav_aria_label'    => '',
-                    'html_tab_indents'  => 3,
-                    'button_class'        => 'button button-noback',
-                    ) 
-                );
+		<div class="footer_legalLinks">
+			<?php
+				Menu_Walker::output_theme_location_menu(
+					array(
+						'theme_location'   => 'global-legal-links',
+						'nav_or_div'       => false,
+						'nav_aria_label'   => '',
+						'html_tab_indents' => 3,
+						'button_class'     => 'button button-noback',
+					)
+				);
 
-                echo "<p class=\"footer_label\">&copy; " . date("Y") . " Hello, my name is Jeff</p>";
-                ?>
-        </div>
+				$sitename = get_bloginfo( 'name', 'raw' );
+				echo '<p class="footer_label">&copy; ' . date( 'Y' ) . " {$sitename}</p>";
+				?>
+		</div>
 
-    </div>
+	</div>
 </footer>
-
-<?php get_template_part('template-parts/nav', 'mobile');?>
-<?php echo do_shortcode('[wallomatic]'); ?>
 
 <?php wp_footer(); ?>
 
 </body>
 </html>
-<!--<script> console.log( 'wp-template: footer.php' );</script>-->

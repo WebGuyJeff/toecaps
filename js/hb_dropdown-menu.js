@@ -1,10 +1,10 @@
 /**
- * Joinery Theme Dropdown Menu Javascript
+ * Toecaps Dropdown Menu Javascript
  *
  * A function to hide the header and reveal by button click. Mainly for use on
  * landing pages where the main header isn't required.
  * 
- * @package Joinery_Theme
+ * @package Toecaps
  * @author Jefferson Real <me@jeffersonreal.uk>
  * @copyright Copyright (c) 2022, Jefferson Real
  */
