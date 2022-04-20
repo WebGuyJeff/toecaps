@@ -9,6 +9,8 @@
 
 namespace BigupWeb\Toecaps;
 
+use BigupWeb\Toecaps\Helpers;
+
 ?>
 
 <!DOCTYPE html>
@@ -46,24 +48,26 @@ namespace BigupWeb\Toecaps;
 			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox" data-com.bitwarden.browser.user-edited="yes">
 			<div class="fullscreenMenu">
 				<div class="container">
-					<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').checked = false;">
-						<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
-					</button>
-					<?php
+					<div class="fullscreenMenu_contents">
+						<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').checked = false;">
+							<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
+						</button>
+						<?php
 						Menu_Walker::output_theme_location_menu(
 							array(
 								'theme_location'   => 'global-primary-menu',
 								'menu_class'       => 'mainMenu',
 								'nav_or_div'       => 'nav',
 								'nav_aria_label'   => 'Main Menu',
-								'html_tab_indents' => 3,
+								'html_tab_indents' => 5,
 								'button_class'     => 'mainMenu_link',
 							)
 						);
-						echo "<div class=\"fullscreenMenu_social\">\n";
-							get_template_part( 'template-parts/social-links' );
-						echo "</div>\n";
-					?>
+						?>
+						<div class="fullscreenMenu_social">
+							<?php get_template_part( 'template-parts/social-links' ); ?>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -86,11 +90,11 @@ namespace BigupWeb\Toecaps;
 					<?php
 					$phone = get_option( 'phone' );
 					if ( $phone ) {
-						$phone       = sanitize_title( $phone );
-						$phone_link  = "<button class=\"siteTitle_button button\" href=\"tel:{$phone}\" target=\"\" rel=\"\" aria-label=\"{$phone}\">\n";
-						$phone_link .= "\t<span>Call Now</span>\n";
-						$phone_link .= "</button\n";
-						echo $phone_link;
+						?>
+						<a class="siteTitle_button button" role="button" href="tel:<?php echo esc_attr( get_option( 'phone' ) ); ?>" aria-label="Phone us">
+							<span>Call Now</span>
+						</a>
+						<?php
 					}
 					?>
 				</div>

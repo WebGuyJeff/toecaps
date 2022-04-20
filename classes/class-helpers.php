@@ -266,5 +266,12 @@ class Helpers {
 		echo '</pre></div>';
 	}
 
+	/**
+	 * Sanitise phone numbers
+	 * 
+	 */
+	public static function sanitize_phone_number( $phone ) {
+		return preg_replace( '/[^\d+]/', '', $phone );
+	}
 
 }//end class

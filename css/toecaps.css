@@ -199,8 +199,10 @@ html, body {
 * { 
     box-sizing: border-box;
 }
+:focus,
 :focus-visible {
-    outline: -webkit-focus-ring-color auto 1px;
+	z-index: 1;
+	outline: 0.2rem solid var(--tc_colour-black);
 }
 select {
     text-transform: none;
@@ -222,7 +224,9 @@ select:hover:not(:disabled):not(.disabled),
 textarea:hover:not(:disabled):not(.disabled) {
     cursor: pointer;
 }
-a {
+a,
+button,
+input[type="button"] {
 	cursor: pointer;
 }
 
@@ -278,21 +282,7 @@ a {
 .title {
     margin-block-end: 1.688em;
     margin-block-start: 2.75em;
-    font-size: clamp( var(--tc_font-xxl), 1vw, var(--tc_font-xxxl) );
-}
-
-.display {
-    margin-block-end: 4vw;
-    line-height: 1.1;
-    font-size: clamp(7vw, 9vw ,10vw);
-    font-weight: 400;
-}
-@media (min-width: 48em) {
-    .display {
-        margin-block-end: 4vw;
-        font-size: clamp( 3.5vw, 4.5vw , 5vw );
-        font-weight: 400;
-    }
+    font-size: clamp( var(--tc_font-xxl), 3vw, var(--tc_font-xxxl) );
 }
 
 h1,
@@ -658,14 +648,8 @@ a img.aligncenter {
 }
 
 
-
 /*=========================================================== 2. ELEMENTS ====*/
 /*--------------------------------------------------- 2.1 LAYOUT ELEMENTS ----*/
-/*- - - - - - - - - - - - - - - - - - - - - -  2.1.1 LAYOUT - GLOBAL GRID - - */
-
-
-
-
 /*- - - - - - - - - - - - - - - - - - - - - - -  2.1.2 LAYOUT - BLOG POST - - */
 
 
@@ -681,15 +665,41 @@ a img.aligncenter {
     }
 
 
-/*- - - - - - - - - - - - - - - - - - - - - - - -  2.1.3 LAYOUT - ARTICLE - - */
-
-
-
-
-
 /*-------------------------------------------------------- 2.2 CONTAINERS ----*/
-/*- - - - - - - - - - - - - - 2.2.1 CONTAINERS - GLOBAL CONTENT CONTAINER - - */
+/*- - - - - - - - - - - - - - - -  2.2.1 CONTAINERS - MAIN CONTENT COLUMN - - */
 
+
+.container {
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	max-width: 100%;
+	padding-right: 24px;
+	padding-left: 24px;
+	margin-right: auto;
+	margin-left: auto;
+}
+@media (min-width: 768px) {
+	.container {
+		width: 100%;
+	}
+}
+@media (min-width: 1024px) {
+	.container {
+		width: 984px;
+	}
+}
+@media (min-width: 1280px) {
+	.container {
+		width: 1160px;
+	}
+}
+@media (min-width: 1536px) {
+	.container {
+		width: 1280px;
+	}
+}
 
 
 /*------------------------------------------------------------- 2.4 FORMS ----*/
@@ -732,10 +742,9 @@ a img.aligncenter {
 	color: var(--tc_colour-black);
 	font-family: inherit;
     font-size: inherit;
-    transition: all .2s ease-in-out,
-        background-color .2s ease-in-out,
-        border-color .2s ease-in-out,
-        filter .2s ease-in-out;
+    transition: box-shadow .2s ease-in-out,
+				background-color .2s ease-in-out,
+				border-color .2s ease-in-out;
 	box-shadow: 5px 5px 0 rgb(0 0 0 / 20%);
 }
     .button > *:first-child {
@@ -763,59 +772,6 @@ a img.aligncenter {
             color: var(--tc_colour-black);
             background: #0000;
         }
-        .button:focus,
-        .button:focus-visible {
-            z-index: 1;
-            outline: 0;
-            box-shadow: 0 0 0 0.25em var(--tc_colour-green);
-        }
-
-
-
-
-/*============================================================= 3. BLOCKS ====*/
-/*------------------------------------------------------------ 3.1 COMMON ----*/
-
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.1 promoBanner - - */
-
-.promoBanner {
-	background: var(--tc_colour-black);
-	color: var(--tc_colour-white);
-}
-	.promoBanner > .container {
-		column-gap: 1.5em;
-		display: flex;
-		flex-flow: row wrap;
-		align-items: center;
-		justify-content: center;
-		padding: 3px;
-	}
-		.promoBanner_social {
-			gap: 0.3em;
-			display: none;
-			position: absolute;
-			right: 0;
-			flex-flow: row wrap;
-			justify-content: flex-start;
-			margin-right: 2em;
-		}
-			.promoBanner_link {
-				padding: 6px;
-				text-decoration: none;
-				color: inherit;
-			}
-
-@media (min-width: 768px) {
-	.promoBanner_social {
-		display: flex;
-	}
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-	.promoBanner > .container {
-		margin-left: 2em;
-		justify-content: flex-start;
-	}
-}
 
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.2 social_link - - */
@@ -828,8 +784,57 @@ a img.aligncenter {
 }
 	i.fa {
 		color: currentColor;
-		font-size: var(--tc_font-xl);
+		font-size: inherit;
 	}
+
+
+/*============================================================= 3. BLOCKS ====*/
+/*------------------------------------------------------------ 3.1 COMMON ----*/
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.1 promoBanner - - */
+
+.promoBanner {
+	background: var(--tc_colour-black);
+	color: var(--tc_colour-white);
+	padding: 3px;
+}
+	.promoBanner_contact {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		flex-grow: 1;
+	}
+	.promoBanner_social {
+		gap: 0.3em;
+		display: none;
+		position: absolute;
+		right: 0;
+		flex-flow: row wrap;
+		justify-content: flex-start;
+		margin-right: 2em;
+		font-size: var(--tc_font-l);
+	}
+		.promoBanner a {
+			padding: 6px;
+			text-decoration: none;
+			color: inherit;
+		}
+		.promoBanner a:focus,
+		.promoBanner a:focus-visible {
+			z-index: 1;
+			outline: 0.2rem solid var(--tc_colour-white);
+		}
+
+@media (min-width: 768px) {
+	.promoBanner_social {
+		display: flex;
+	}
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+	.promoBanner .promoBanner_contact {
+		margin-left: 2em;
+		justify-content: flex-start;
+	}
+}
 
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - -  3.1.3 HEADER - - */
@@ -871,8 +876,10 @@ a img.aligncenter {
 		.header_cta {
 			margin: 7em auto;
 			background: var(--tc_colour-accent-opaque);
-			padding: 0.5em 3.5em 1.2em 3.5em;
+			padding: 1.2em clamp(0.2em, 5%, 3.5em);
 			width: fit-content;
+			max-width: 100vw;
+			text-align: center;
 		}
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - -  3.1.3 FOOTER - - */
@@ -951,6 +958,7 @@ a img.aligncenter {
 	.siteTitle_sitename {
 		margin: 0;
 		font-size: var(--tc_font-xxxl);
+		line-height: 1.3;
 	}
 	.siteTitle_tagline {
 		padding-bottom: 0.5em;
@@ -1043,13 +1051,13 @@ a img.aligncenter {
 
 
 .fullscreenMenu_open {
-	padding: 0.5em;
 	display: block;
-	width: fit-content;
-	margin-left: auto;
 	margin-right: 1em;
-	font-size: var(--tc_font-xl);
+	margin-left: auto;
 	cursor: pointer;
+	padding: 0.5em;
+	width: fit-content;
+	font-size: var(--tc_font-xl);
 }
 .fullscreenMenu_toggle {
 	display: none;
@@ -1068,30 +1076,35 @@ a img.aligncenter {
 	height: 100vh;
 }
 	.fullscreenMenu > .container {
-		display: flex;
-		flex-flow: column;
 		height: 100%;
-		justify-content: center;
 	}
-		.fullscreenMenu_close {
-			display: block;
-			position: fixed;
-			top: 0;
-			right: 0;
-			margin-left: auto;
-			border: none;
-			background: none;
-			cursor: pointer;
-			padding: 1.5em 1em;
-			width: fit-content;
-			color: var(--tc_colour-white);
-			font-size: var(--tc_font-xxxl);
+		.fullscreenMenu_contents {
+			display: flex;
+			flex-flow: column;
+			justify-content: center;
+			padding: 0.5em 0;
+			height: 100%;
 		}
-		.fullscreenMenu_social {
-			margin: 0 auto;
-			width: fit-content;
-			color: var(--tc_colour-white);
-		}
+			.fullscreenMenu_close {
+				display: block;
+				position: fixed;
+				top: 0;
+				right: 0;
+				margin-left: auto;
+				border: none;
+				background: none;
+				cursor: pointer;
+				padding: 1em;
+				width: fit-content;
+				color: var(--tc_colour-white);
+				font-size: var(--tc_font-xxxl);
+			}
+			.fullscreenMenu_social {
+				margin: 0 auto;
+				width: fit-content;
+				color: var(--tc_colour-white);
+				font-size: clamp(var(--tc_font-l), 5vw, var(--tc_font-xxl) );
+			}
 
 @media (max-width: 767px) {
 	.fullscreenMenu_toggle:checked ~ .fullscreenMenu {
@@ -1102,9 +1115,9 @@ a img.aligncenter {
 		flex-flow: column;
 	}
 	.fullscreenMenu_toggle:checked + .fullscreenMenu .mainMenu_link {
-		font-size: var(--tc_font-xxl);
-		color: var(--tc_colour-white);
 		margin: 0.4em 0;
+		color: var(--tc_colour-white);
+		font-size: clamp(var(--tc_font-s), 5vw, var(--tc_font-l) );
 	}
 }
 
@@ -1123,15 +1136,15 @@ a img.aligncenter {
     gap: 0.5em;
     display: flex;
     flex-flow: row wrap;
+	flex-grow: 1;
     align-items: center;
     justify-content: center;
-    padding: 0.5em;
-	padding: 16px 0;
+	padding: 0;
     width: 100%;
 }
 	.mainMenu_link {
 		overflow-wrap: break-word;
-		padding: 0 16px;
+		padding: 8px;
 		text-transform: uppercase;
 		text-decoration: none;
 		letter-spacing: 0.143em;
@@ -1142,7 +1155,15 @@ a img.aligncenter {
 	.dropdown > .mainMenu_link {
 		padding-right: 0;
 	}
+	.dropdown > .dropdown_toggle.mainMenu_link {
+		padding-right: 16px;
+	}
 
+@media (min-width: 768px) {
+	.mainMenu_link {
+		padding: 16px;
+	}
+}
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.7 DROPDOWN - - */
 

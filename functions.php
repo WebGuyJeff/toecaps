@@ -7,6 +7,9 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
+use BigupWeb\Toecaps\Helpers;
+use BigupWeb\Toecaps\Hooks;
+
 /**
  * Load the PHP autoloader from it's own file
  */
@@ -16,9 +19,6 @@ require_once get_template_directory() . '/classes/autoload.php';
 /**
  * WordPress hooks for this theme.
  */
-
-use BigupWeb\Toecaps\Hooks;
-
 $hooks = new Hooks();
 
 
@@ -34,22 +34,15 @@ function enqueue_scripts_and_styles() {
 		'all'
 	);
 	wp_enqueue_style(
-		'joinery_css',
-		get_template_directory_uri() . '/css/joinery.css',
+		'toecaps_css',
+		get_template_directory_uri() . '/css/toecaps.css',
 		array( 'style_css' ),
-		filemtime( get_template_directory() . '/css/joinery.css' ),
-		'all'
-	);
-	wp_enqueue_style(
-		'godaddy_css',
-		get_template_directory_uri() . '/css/godaddy.css',
-		array( 'style_css' ),
-		filemtime( get_template_directory() . '/css/godaddy.css' ),
+		filemtime( get_template_directory() . '/css/toecaps.css' ),
 		'all'
 	);
 	// If not in admin area.
 	if ( 'wp-login.php' !== $GLOBALS['pagenow'] && ! is_admin() ) {
-		wp_register_style( 'category_css', get_template_directory_uri() . '/css/category-css.css', array( 'joinery_css' ), filemtime( get_template_directory() . '/css/category-css.css' ), 'all' );
+		wp_register_style( 'category_css', get_template_directory_uri() . '/css/category-css.css', array( 'toecaps_css' ), filemtime( get_template_directory() . '/css/category-css.css' ), 'all' );
 		// wp_register_style( 'hb_landingdev_css', get_template_directory_uri() . '/css/landing-dev.css', array( 'category_css' ), filemtime( get_template_directory() . '/css/landing-dev.css' ), 'all' );
 
 		wp_enqueue_script( 'hb_screenclass_js', get_template_directory_uri() . '/js/hb_screenclass.js', array(), '0.1', true );
@@ -334,6 +327,7 @@ function theme_settings_page() {
 		</h1>
 		<form method="post" action="options.php">
 			<?php
+			settings_fields( 'section-contact' );
 			settings_fields( 'section' );
 			do_settings_sections( 'theme-options' );
 			submit_button();
@@ -394,23 +388,28 @@ function setting_pinterest() {
 
 /**
  * Tell WordPress to build the admin page
+ * 
+ * Function arguments:
+ * add_settings_section( $id, $title, $callback, $page );
+ * add_settings_field( $id, $title, $callback, $page, $section, $args );
+ * register_setting( $option_group, $option_name, $sanitize_callback );
  */
 function theme_settings_page_setup() {
 
-	add_settings_section( 'section', 'Contact Info', null, 'theme-options' );
-		add_settings_field( 'phone', 'Phone Number', 'setting_phone', 'theme-options', 'section' );
-		add_settings_field( 'email', 'Email Address', 'setting_email', 'theme-options', 'section' );
-		register_setting( 'section', 'phone' );
-		register_setting( 'section', 'email' );
+	add_settings_section( 'section-contact', 'Contact Info', null, 'theme-options' );
+		add_settings_field( 'phone', 'Phone Number', 'setting_phone', 'theme-options', 'section-contact' );
+		add_settings_field( 'email', 'Email Address', 'setting_email', 'theme-options', 'section-contact' );
+		register_setting( 'section-contact', 'phone', array( new Helpers(), 'sanitize_phone_number' ) );
+		register_setting( 'section-contact', 'email', 'sanitize_email' );
 
 	add_settings_section( 'section', 'Social Links', null, 'theme-options' );
 		add_settings_field( 'linkedin', 'LinkedIn URL', 'setting_linkedin', 'theme-options', 'section' );
 		add_settings_field( 'instagram', 'Instagram URL', 'setting_instagram', 'theme-options', 'section' );
 		add_settings_field( 'facebook', 'Facebook URL', 'setting_facebook', 'theme-options', 'section' );
 		add_settings_field( 'pinterest', 'Pinterest URL', 'setting_pinterest', 'theme-options', 'section' );
-		register_setting( 'section', 'linkedin' );
-		register_setting( 'section', 'instagram' );
-		register_setting( 'section', 'facebook' );
-		register_setting( 'section', 'pinterest' );
+		register_setting( 'section', 'linkedin', 'esc_url_raw' );
+		register_setting( 'section', 'instagram', 'esc_url_raw' );
+		register_setting( 'section', 'facebook', 'esc_url_raw' );
+		register_setting( 'section', 'pinterest', 'esc_url_raw' );
 }
 add_action( 'admin_init', 'theme_settings_page_setup' );
