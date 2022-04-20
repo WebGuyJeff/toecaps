@@ -30,7 +30,7 @@ use BigupWeb\Toecaps\Helpers;
 
 	<header class="header">
 		<div class="container">
-			<a class="siteTitle" href="<?php echo get_bloginfo( 'wpurl' ); ?>" aria-label="Home">
+			<a class="siteTitle" href="<?php echo esc_url( get_bloginfo( 'wpurl' ) ); ?>" aria-label="Home">
 				<?php
 				if ( has_custom_logo() ) {
 					$logo_id  = get_theme_mod( 'custom_logo' );
@@ -82,10 +82,10 @@ use BigupWeb\Toecaps\Helpers;
 			<div class="header_cta">
 				<div class="siteTitle_text">
 					<h1 class="siteTitle_sitename">
-						<?php echo get_bloginfo( 'name' ); ?>
+						<?php echo esc_html( get_bloginfo( 'name' ) ); ?>
 					</h1>
 					<span class="siteTitle_tagline">
-						<?php echo get_bloginfo( 'description' ); ?>
+						<?php echo esc_html( get_bloginfo( 'description' ) ); ?>
 					</span>
 					<?php
 					$phone = get_option( 'phone' );

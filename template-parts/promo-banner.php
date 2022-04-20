@@ -7,13 +7,12 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-use BigupWeb\Toecaps\Helpers;
+namespace BigupWeb\Toecaps;
 
 ?>
 
 <div role="banner" class="promoBanner">
 	<div class="container">
-
 
 		<div class="promoBanner_contact">
 			<?php

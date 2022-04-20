@@ -342,7 +342,7 @@ function theme_settings_page() {
  */
 function setting_phone() {
 	?>
-	<input type="text" name="phone" id="phone" value="<?php echo get_option( 'phone' ); ?>" />
+	<input type="tel" name="phone" id="phone" value="<?php echo get_option( 'phone' ); ?>" />
 	<?php
 }
 /**
@@ -350,15 +350,24 @@ function setting_phone() {
  */
 function setting_email() {
 	?>
-	<input type="text" name="email" id="email" value="<?php echo get_option( 'email' ); ?>" />
+	<input type="email" name="email" id="email" value="<?php echo get_option( 'email' ); ?>" />
 	<?php
 }
+/**
+ * Add postal address option field to the admin page.
+ */
+function setting_address() {
+	?>
+	<textarea name="address" id="address" value="<?php echo get_option( 'address' ); ?>" rows="7" cols="50" ></textarea>
+	<?php
+}
+
 /**
  * Add LinkedIn option field to the admin page
  */
 function setting_linkedin() {
 	?>
-	<input type="text" name="linkedin" id="linkedin" value="<?php echo get_option( 'linkedin' ); ?>" />
+	<input type="url" name="linkedin" id="linkedin" value="<?php echo get_option( 'linkedin' ); ?>" />
 	<?php
 }
 /**
@@ -366,7 +375,7 @@ function setting_linkedin() {
  */
 function setting_instagram() {
 	?>
-	<input type="text" name="instagram" id="instagram" value="<?php echo get_option( 'instagram' ); ?>" />
+	<input type="url" name="instagram" id="instagram" value="<?php echo get_option( 'instagram' ); ?>" />
 	<?php
 }
 /**
@@ -374,7 +383,7 @@ function setting_instagram() {
  */
 function setting_facebook() {
 	?>
-	<input type="text" name="facebook" id="facebook" value="<?php echo get_option( 'facebook' ); ?>" />
+	<input type="url" name="facebook" id="facebook" value="<?php echo get_option( 'facebook' ); ?>" />
 	<?php
 }
 /**
@@ -382,7 +391,7 @@ function setting_facebook() {
  */
 function setting_pinterest() {
 	?>
-	<input type="text" name="pinterest" id="pinterest" value="<?php echo get_option( 'pinterest' ); ?>" />
+	<input type="url" name="pinterest" id="pinterest" value="<?php echo get_option( 'pinterest' ); ?>" />
 	<?php
 }
 
@@ -399,8 +408,10 @@ function theme_settings_page_setup() {
 	add_settings_section( 'section-contact', 'Contact Info', null, 'theme-options' );
 		add_settings_field( 'phone', 'Phone Number', 'setting_phone', 'theme-options', 'section-contact' );
 		add_settings_field( 'email', 'Email Address', 'setting_email', 'theme-options', 'section-contact' );
+		add_settings_field( 'address', 'Business Address', 'setting_address', 'theme-options', 'section-contact' );
 		register_setting( 'section-contact', 'phone', array( new Helpers(), 'sanitize_phone_number' ) );
 		register_setting( 'section-contact', 'email', 'sanitize_email' );
+		register_setting( 'section-contact', 'address', 'sanitize_textarea_field' );
 
 	add_settings_section( 'section', 'Social Links', null, 'theme-options' );
 		add_settings_field( 'linkedin', 'LinkedIn URL', 'setting_linkedin', 'theme-options', 'section' );
