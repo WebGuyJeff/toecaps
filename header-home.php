@@ -24,7 +24,7 @@ namespace BigupWeb\Toecaps;
 
 <body <?php body_class(); ?> >
 
-<?php get_template_part( 'template-parts/promo-banner', 'contact' ); ?>
+<?php get_template_part( 'template-parts/promo-banner', '' ); ?>
 
 	<header class="header">
 		<div class="container">
@@ -40,19 +40,31 @@ namespace BigupWeb\Toecaps;
 		</div>
 
 		<div class="header_menu">
-			<div class="container">
-				<?php
-					Menu_Walker::output_theme_location_menu(
-						array(
-							'theme_location'   => 'global-primary-menu',
-							'menu_class'       => 'mainMenu',
-							'nav_or_div'       => 'nav',
-							'nav_aria_label'   => 'Main Menu',
-							'html_tab_indents' => 3,
-							'button_class'     => 'mainMenu_link',
-						)
-					);
-				?>
+			<label class="fullscreenMenu_open" for="fullscreenMenu_toggle">
+				<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
+			</label>
+			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox" data-com.bitwarden.browser.user-edited="yes">
+			<div class="fullscreenMenu">
+				<div class="container">
+					<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').checked = false;">
+						<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
+					</button>
+					<?php
+						Menu_Walker::output_theme_location_menu(
+							array(
+								'theme_location'   => 'global-primary-menu',
+								'menu_class'       => 'mainMenu',
+								'nav_or_div'       => 'nav',
+								'nav_aria_label'   => 'Main Menu',
+								'html_tab_indents' => 3,
+								'button_class'     => 'mainMenu_link',
+							)
+						);
+						echo "<div class=\"fullscreenMenu_social\">\n";
+							get_template_part( 'template-parts/social-links' );
+						echo "</div>\n";
+					?>
+				</div>
 			</div>
 		</div>
 
