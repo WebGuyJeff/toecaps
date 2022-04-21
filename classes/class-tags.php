@@ -143,8 +143,8 @@ class Tags {
 			?>
 
 			<div class="post-thumbnail">
-			<?php the_post_thumbnail(); ?>
-			</div><!-- .post-thumbnail -->
+				<?php the_post_thumbnail(); ?>
+			</div>
 
 		<?php else : ?>
 

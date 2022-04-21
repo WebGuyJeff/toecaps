@@ -23,7 +23,7 @@ get_header(); ?>
 <main class="main">
 	<div class="base">
 
-		<section class="sauce">
+		<section class="container">
 			<div >
 				<a id="page_not_found">
 					<h1 class="title">Clang! 🤕</h1>

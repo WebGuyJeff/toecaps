@@ -11,7 +11,7 @@ namespace BigupWeb\Toecaps;
 
 ?>
 
-<section class="sauce">
+<section class="container">
 	<article  id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header class="entry-header">
 			<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
@@ -22,18 +22,18 @@ namespace BigupWeb\Toecaps;
 				Tags::print_html_posted_on();
 				Tags::print_html_posted_by();
 				?>
-			</div><!-- .entry-meta -->
+			</div>
 			<?php endif; ?>
-		</header><!-- .entry-header -->
+		</header>
 
 		<?php Tags::print_html_post_thumbnail_wrapper(); ?>
 
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>
-		</div><!-- .entry-summary -->
+		</div>
 
 		<footer class="entry-footer">
 			<?php Tags::print_html_entry_footer(); ?>
-		</footer><!-- .entry-footer -->
-	</article><!-- #post-<?php the_ID(); ?> -->
+		</footer>
+	</article>
 </section>

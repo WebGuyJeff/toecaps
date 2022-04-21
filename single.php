@@ -30,7 +30,7 @@ get_header();
 
 	<div class="base"> <?php // MAIN CONTENT COLUMN ?>
 		
-		<section class="sauce">
+		<section class="container">
 			<div >
 
 

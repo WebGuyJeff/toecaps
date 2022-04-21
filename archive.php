@@ -25,7 +25,7 @@ get_header();
 
 	<div class="base"> <?php // MAIN CONTENT COLUMN ?>
 
-		<section class="sauce">
+		<section class="container">
 			<div >
 
 				<h1 id="title" >
@@ -35,7 +35,7 @@ get_header();
 			</div>
 		</section>
 
-		<section class="sauce">
+		<section class="container">
 			<div >
 
 				<?php

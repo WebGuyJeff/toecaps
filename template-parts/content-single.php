@@ -12,14 +12,14 @@ namespace BigupWeb\Toecaps;
 ?>
 
 
-<article class="sauce">
+<article class="container">
 	<div class="blog-post ">
 
 		<h1 id="title" >
 		Content-single.php
 		</h1>
 
-		<!-- If the post has a featured image, display it -->
+		
 		<?php
 		if ( has_post_thumbnail() ) {
 			the_post_thumbnail();
@@ -36,5 +36,5 @@ namespace BigupWeb\Toecaps;
 
 		<?php the_content(); ?>
 
-	</div><!-- /.blog-post -->
+	</div>
 </article>

@@ -9,22 +9,22 @@
  */
 
 wp_enqueue_style( 'category_css' );
-wp_enqueue_style( 'godaddy_css' );
 
 get_header( 'home' ); ?>
 
-<main class="main-landing">
+<main>
 
-	<section class="welcome">
-		<?php get_template_part( 'template-parts/page-sections/welcome' ); ?>
-	</section>
+	<?php the_content(); ?>
 
-	<section class="example" id="section-example">
-		<?php get_template_part( 'template-parts/page-sections/example' ); ?>
-	</section>
-
-	<section class="contact" id="section-contact">
-		<?php get_template_part( 'template-parts/page-sections/contact' ); ?>
+	<section class="follow">
+		<div="container">
+			<div class="follow_contents">
+				<h3>Follow</h3>
+				<div class="follow_social">
+					<?php get_template_part( 'template-parts/social-links-colour' ); ?>
+				</div>
+			</div>
+		</div>
 	</section>
 
 </main>

@@ -189,7 +189,7 @@ class Seo_Meta {
 			$jt_canon   = $this->enforce_forward_slash( $jt_permalink );
 			$jt_ogimage = $this->first_not_empty( array( $jt_postimage, $jt_thumbnail, $jt_sitelogo ) );
 		} else {
-			echo '<!-- META FALLBACK - CHECK HB-SEO TEMPLATE FUNCTIONS -->';
+			echo '<!-- META FALLBACK - CHECK THEME-SEO TEMPLATE FUNCTIONS -->';
 			$jt_title   = ucwords( $this->first_not_empty( array( $jt_posttitle, $jt_archivetitle, $jt_sitetitle ) ) );
 			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_postexcerpt, $jt_catexcerpt, $jt_sitedesc ) ) );
 			$jt_author  = ucwords( $this->first_not_empty( array( $jt_postauthor, $jt_siteauthor ) ) );

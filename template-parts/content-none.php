@@ -15,7 +15,7 @@ namespace BigupWeb\Toecaps;
 	<div >
 		<header class="page-header">
 			<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'toecaps' ); ?></h1>
-		</header><!-- .page-header -->
+		</header>
 
 		<div class="page-content">
 			<?php
@@ -50,6 +50,6 @@ namespace BigupWeb\Toecaps;
 
 			endif;
 			?>
-		</div><!-- .page-content -->
+		</div>
 	</div>    
-</section><!-- .no-results -->
+</section>

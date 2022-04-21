@@ -10,11 +10,11 @@
 namespace BigupWeb\Toecaps;
 
 ?>
-<section class="sauce">
+<section class="container">
 	<article  id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header class="entry-header">
 			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-		</header><!-- .entry-header -->
+		</header>
 
 		<?php Tags::print_html_post_thumbnail_wrapper(); ?>
 
@@ -29,7 +29,7 @@ namespace BigupWeb\Toecaps;
 				)
 			);
 			?>
-		</div><!-- .entry-content -->
+		</div>
 
 		<?php if ( get_edit_post_link() ) : ?>
 			<footer class="entry-footer">
@@ -51,9 +51,9 @@ namespace BigupWeb\Toecaps;
 				'</span>'
 			);
 			?>
-			</footer><!-- .entry-footer -->
+			</footer>
 		<?php endif; ?>
 
 
-	</article><!-- #post-<?php the_ID(); ?> -->
+	</article>
 </section>
