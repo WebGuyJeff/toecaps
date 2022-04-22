@@ -713,6 +713,17 @@ a img.aligncenter {
     /* Above WP toolbar. */
 }
 
+/* The following support $content_width in functions.php */
+
+.size-auto, 
+.size-full,
+.size-large,
+.size-medium,
+.size-thumbnail {
+	max-width: 100%;
+	height: auto;
+}
+
 
 /*=========================================================== 2. ELEMENTS ====*/
 /*--------------------------------------------------- 2.1 LAYOUT ELEMENTS ----*/

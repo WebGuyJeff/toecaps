@@ -60,10 +60,23 @@ function enqueue_scripts_and_styles() {
 		wp_register_script( 'hb_modal_js', get_template_directory_uri() . '/js/hb_modal.js', array(), '0.1', true );
 		wp_register_script( 'hb_hideheader_js', get_template_directory_uri() . '/js/hb_hideheader.js', array( 'gsap_cssrule' ), '0.2', true );
 		wp_register_script( 'hb_usp_js', get_template_directory_uri() . '/js/hb_usp.js', array(), '0.1', true );
-		// wp_enqueue_style( 'jetbrains', 'https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap', array(), time() , 'all');
 	}
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_scripts_and_styles' );
+
+
+/**
+ * Enqueue admin scripts and styles
+ */
+function toecaps_load_admin_scripts_and_styles() {
+	if ( ! wp_script_is( 'custom-script', 'registered' ) ) {
+		wp_register_style( 'toecaps-icons', get_template_directory_uri() . '/dashicons/css/toecaps-icons.css', array(), filemtime( get_template_directory() . '/dashicons/css/toecaps-icons.css' ), 'all' );
+	}
+	if ( ! wp_script_is( 'custom-script', 'enqueued' ) ) {
+		wp_enqueue_style( 'toecaps-icons' );
+	}
+}
+add_action( 'admin_enqueue_scripts', 'toecaps_load_admin_scripts_and_styles' );
 
 
 // ======================================================= Basic WordPress setup
@@ -141,11 +154,11 @@ if ( ! function_exists( 'toecaps_setup' ) ) :
 
 		register_nav_menus(
 			array(
-				'mobile-popup-menu'           => esc_html__( 'Mobile Popup Menu', 'toecaps' ),
-				'global-primary-menu'         => esc_html__( 'Global Header Menu', 'toecaps' ),
-				'global-secondary-menu'       => esc_html__( 'Global Footer Menu', 'toecaps' ),
-				'global-legal-links'          => esc_html__( 'Global Legal Links', 'toecaps' ),
-				'home-primary-menu'   => esc_html__( 'Landing Page Header Menu', 'toecaps' )
+				'mobile-popup-menu'     => esc_html__( 'Mobile Popup Menu', 'toecaps' ),
+				'global-primary-menu'   => esc_html__( 'Global Header Menu', 'toecaps' ),
+				'global-secondary-menu' => esc_html__( 'Global Footer Menu', 'toecaps' ),
+				'global-legal-links'    => esc_html__( 'Global Legal Links', 'toecaps' ),
+				'home-primary-menu'     => esc_html__( 'Landing Page Header Menu', 'toecaps' ),
 			)
 		);
 
@@ -186,6 +199,31 @@ if ( ! function_exists( 'toecaps_setup' ) ) :
 	}
 endif;
 add_action( 'after_setup_theme', 'toecaps_setup' );
+
+
+/**
+ * Set the max content width sitewide.
+ * 
+ * @see https://codex.wordpress.org/Content_Width
+ */
+if ( ! isset( $content_width ) ) {
+	$content_width = 1920;
+}
+
+/**
+ * Allow full width editor.
+ */
+function hsc_editor_width_page() {
+	echo '<style>
+		body.page-editor-page .editor-post-title__block, body.page-editor-page .editor-default-block-appender, body.page-editor-page .editor-block-list__block {
+			max-width: none !important;
+		}
+		.block-editor__container .wp-block {
+			max-width: none !important;
+		}
+	</style>';
+}
+add_action( 'admin_head', 'hsc_editor_width_page' );
 
 
 // ================================================================= SEO Cleanup
@@ -284,16 +322,13 @@ add_filter(
  */
 function theme_settings_add_menu() {
 
-	$jt__icon = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIiB2aWV3Qm94PSIwIDAgMjY1IDI2NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik02MSAyMzVjLTEwLTItMzctOS00Ni0xMy0xMC0zLTEwLTQtMTAtOWwxLTcgMTUgNGMyMyA4IDM4IDEwIDYyIDEwIDI1IDAgMzMtMSA2NS05bDIxLTYgMTggMmExNzIgMTcyIDAgMCAwIDcyLTZsLTEgMTItMSAxMi0xMSAzYy0xMiAzLTQ4IDYtNjAgNC03LTEtOC0yLTgtNi0xLTUtMS02LTctNmwtMjIgNC0yOSA4Yy0xMiAyLTQ5IDQtNTkgM3ptMi0yMmMtMTUtMi0zMS02LTQ0LTExLTEyLTQtMTItNC0xMi05IDYtMjIgOC0zNCAzMy0zOSAyNi01IDQzIDMgNjAtOCAyNS0xNyA1NC0zNCA0Ni03Ni00LTE0LTYtMjYtNS00MCAyOC00IDM0IDE0IDM0IDE0IDUxLTE0IDY4IDMgNjkgMTYtNCAyNi00IDUxIDEgNjUgMTEgMzAgMTMgMzUgMTQgNTIgMSAxOSAzIDE3LTE3IDIxLTE4IDQtMzMgNS01NCAyaC0yNmwtMjMgNmMtMjkgOC01MyAxMC03NiA3eiIvPjwvc3ZnPgo=';
-
-
 	add_menu_page(
 		'Toecaps Settings',   // page_title.
 		'Toecaps',            // menu_title.
 		'manage_options',           // capability.
 		'toecaps-settings',   // menu_slug.
 		'',                         // function.
-		$jt__icon,                  // icon_url.
+		'dashicons-toecaps-boot',                  // icon_url.
 		4                           // position.
 	);
 
@@ -314,14 +349,11 @@ add_action( 'admin_menu', 'theme_settings_add_menu' );
  */
 function theme_settings_page() {
 
-	$jt__icon = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIiB2aWV3Qm94PSIwIDAgMjY1IDI2NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik02MSAyMzVjLTEwLTItMzctOS00Ni0xMy0xMC0zLTEwLTQtMTAtOWwxLTcgMTUgNGMyMyA4IDM4IDEwIDYyIDEwIDI1IDAgMzMtMSA2NS05bDIxLTYgMTggMmExNzIgMTcyIDAgMCAwIDcyLTZsLTEgMTItMSAxMi0xMSAzYy0xMiAzLTQ4IDYtNjAgNC03LTEtOC0yLTgtNi0xLTUtMS02LTctNmwtMjIgNC0yOSA4Yy0xMiAyLTQ5IDQtNTkgM3ptMi0yMmMtMTUtMi0zMS02LTQ0LTExLTEyLTQtMTItNC0xMi05IDYtMjIgOC0zNCAzMy0zOSAyNi01IDQzIDMgNjAtOCAyNS0xNyA1NC0zNCA0Ni03Ni00LTE0LTYtMjYtNS00MCAyOC00IDM0IDE0IDM0IDE0IDUxLTE0IDY4IDMgNjkgMTYtNCAyNi00IDUxIDEgNjUgMTEgMzAgMTMgMzUgMTQgNTIgMSAxOSAzIDE3LTE3IDIxLTE4IDQtMzMgNS01NCAyaC0yNmwtMjMgNmMtMjkgOC01MyAxMC03NiA3eiIvPjwvc3ZnPgo=';
-
 	?>
 	<div class="wrap">
 		<h1>
 			<span>
-				<img style="max-height: 1em;margin-right: 0.5em;vertical-align: middle;" src="
-					<?php echo $jt__icon; ?>" />
+				<span class="dashicons-toecaps-boot"></span>
 			</span>
 			Toecaps Settings
 		</h1>
