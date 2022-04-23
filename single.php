@@ -3,13 +3,12 @@
 /**
  * Toecaps Template - Single.php
  *
- * This template is used for single post types.
+ * This template is used for single posts (not pages).
  *
  * @package   Toecaps
  * @author    Jefferson Real <me@jeffersonreal.uk>
  * @copyright Copyright (c) 2022, Jefferson Real
  */
-
 
 wp_enqueue_style( 'category_css' );
 get_header();
@@ -18,7 +17,6 @@ get_header();
 
 <main>
 	<div class="container">
-		
 		<?php
 		if ( have_posts() ) :
 			while ( have_posts() ) :
@@ -27,7 +25,6 @@ get_header();
 			endwhile;
 		endif;
 		?>
-
 	</div>
 </main>
 

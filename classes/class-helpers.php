@@ -69,21 +69,14 @@ class Helpers {
 
 		self::enqueue_assets( 'jetbrains' );
 
-		echo '<div style="font:1rem\'JetBrains Mono\',monospace;position:fixed;top:0;left:0;width:480px;max-width:100vw;max-height:calc(100vh - 16px);border:2px solid;resize:both;overflow:auto;white-space:pre;background:#fff;color:#000;filter: drop-shadow(2px 4px 6px #3339);">';
+		echo '<div style="font: 0.7rem \'JetBrains Mono\', monospace; position: fixed; bottom: 0px; left: 0px; right: 0px;  width: 100%; resize: both; overflow: auto; white-space: pre; background: rgb(255, 255, 255); color: rgb(0, 0, 0); box-shadow: rgb(0, 0, 0) 0px -1px 7px 0px; z-index: 999; height: 20%;">';
 		echo '<pre style="font:inherit;">';
-		echo '<b style="background:#333;color:#fff;"># Your output is served  👨‍🍳</b>';
-		echo '<br><br><br>';
+		echo '<b style="background:#333;color:#fff;"> # Your output is served  👨‍🍳 </b>';
+		echo '<br><br>';
 
 		foreach ( $stuff_to_output as $key => $value ) {
 			var_dump( $value );
 		}
-
-		/*
-		 backtrace useful for some debugging
-		echo '<br><span>==== debug_backtrace =====//</span><br><br>';
-		var_dump(debug_backtrace());
-		echo '<br></pre></div>';
-		*/
 	}
 
 
@@ -93,6 +86,8 @@ class Helpers {
 	 * Unregister all unused nav menu locations that were registered by a theme and not currently
 	 * in use. Any menu locations which are actively being registered e.g. in functions.php will remain
 	 * so. Output displayed on front end. Warning: this function is destructive.
+	 * 
+	 * @param {Boolean} update_db: True = writes changes to DB, False = dry run with output.
 	 */
 	public static function unregister_unused_nav_menu_locations( $update_db = false ) {
 

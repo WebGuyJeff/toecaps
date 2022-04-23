@@ -21,7 +21,11 @@ require_once get_template_directory() . '/classes/autoload.php';
 function log_which_template_is_loaded() {
 	if ( is_super_admin() ) {
 		global $template;
+		if ( is_admin() ) {
+			$template = 'Admin Page';
+		}
 		echo '<script>console.log("WP template file in use: ' . $template . '")</script>';
+		//Helpers::output_to_front_end( $template );
 	}
 }
 add_action( 'admin_bar_menu', 'log_which_template_is_loaded' );

@@ -68,7 +68,7 @@ class Tags {
 
 
 	/**
-	 * Prints HTML with meta information for the categories, tags and comments.
+	 * Prints HTML with an edit link for the current post.
 	 */
 	public static function print_edit_post_link() {
 
