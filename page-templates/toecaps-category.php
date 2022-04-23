@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template Name: Landing Page Category
+ * Template Name: Toecaps Parent Page
  *
  * @package   Toecaps
  * @author    Jefferson Real <me@jeffersonreal.uk>
@@ -10,34 +10,30 @@
 
 wp_enqueue_style( 'category_css' );
 get_header( 'home' );
-
-
 ?>
 
-<main class="main-landing">
+<main>
 
-	<section class="welcome">
-		<?php get_template_part( 'template-parts/page-sections/welcome' ); ?>
-	</section>
+	<div class="container">
 
-	<section class="services" id="section-services">
-		<?php get_template_part( 'template-parts/page-sections/services' ); ?>
-	</section>
+		<h1 id="title" >Index.php</h1>
 
-	<section class="usp" id="working-with-me">
-		<?php get_template_part( 'template-parts/page-sections/usp' ); ?>
-	</section>
+		<div>
+			<?php
+			if ( have_posts() ) :
+				while ( have_posts() ) :
+					the_post();
+					get_template_part( 'template-parts/content', get_post_format() );
+				endwhile;
+			endif;
+			?>
+		</div>
 
-	<section class="contact" id="section-contact">
-		<?php get_template_part( 'template-parts/page-sections/contact' ); ?>
-	</section>
+	</div>
 
 </main>
 
 <?php
-
 get_template_part( 'template-parts/modal', 'contact' );
-
 get_footer();
-
 ?>

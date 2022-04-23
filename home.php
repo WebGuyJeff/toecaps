@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Toecaps Template - Home.php
  *
@@ -12,49 +11,54 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-get_header();
+namespace BigupWeb\Toecaps;
+
+get_header( 'home' );
+
 ?>
 
-<main class="main">
+<main>
 
-	<div class="base"> <?php // MAIN CONTENT COLUMN. ?>
+	<div class="entry-content">
+		<?php
+		the_content(
+			sprintf(
+				wp_kses(
+					/* translators: %s: Name of current post. Only visible to screen readers */
+					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'toecaps' ),
+					array(
+						'span' => array(
+							'class' => array(),
+						),
+					)
+				),
+				wp_kses_post( get_bloginfo( 'name' ) )
+			)
+		);
+		?>
+	</div>
 
-		<section class="container">
-			<div >
-
-				<h1 id="title" >
-				Home.php
-				</h1>
-
+	<section class="follow">
+		<div="container">
+			<div class="follow_contents">
+				<h3>Follow</h3>
+				<div class="follow_social">
+					<?php get_template_part( 'template-parts/social-links-colour' ); ?>
+				</div>
 			</div>
-		</section>
+		</div>
+	</section>
 
-		<section class="container">
-			<div >
-				<?php
-				if ( have_posts() ) :
-					while ( have_posts() ) :
-						the_post();
-						get_template_part( 'template-parts/content', get_post_format() );
-					endwhile;
-					?>
-				<nav>
-					<ul class="pager">
-						<li><?php next_posts_link( 'Previous' ); ?></li>
-						<li><?php previous_posts_link( 'Next' ); ?></li>
-					</ul>
-				</nav>
-					<?php
-				endif;
-				?>
+	<?php if ( get_edit_post_link() ) : ?>
+		<footer class="entry-footer">
+			<div class="container">
+				<?php Tags::print_edit_post_link(); ?>
 			</div>
-		</section>
-
-	</div> <?php // MAIN CONTENT COLUMN END. ?>
+		</footer>
+	<?php endif; ?>
 
 </main>
 
-
 <?php
-get_sidebar();
+
 get_footer();

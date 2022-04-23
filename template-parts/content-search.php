@@ -15,18 +15,7 @@ namespace BigupWeb\Toecaps;
 	<article  id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header class="entry-header">
 			<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
-
-			<?php if ( 'post' === get_post_type() ) : ?>
-			<div class="entry-meta">
-				<?php
-				Tags::print_html_posted_on();
-				Tags::print_html_posted_by();
-				?>
-			</div>
-			<?php endif; ?>
 		</header>
-
-		<?php Tags::print_html_post_thumbnail_wrapper(); ?>
 
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>

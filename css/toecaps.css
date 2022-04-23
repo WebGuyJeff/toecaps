@@ -282,14 +282,8 @@ input[type="button"] {
 
 /*-------------------------------------------------------- 1.4 TYPOGRAPHY ----*/
 
-.copy,
 .hentry {
-    width: 96%;
-    max-width: 30em;
-    margin: 0 auto;
     text-align: start;
-    margin-block-start: 2em;
-    margin-block-end: 2em;
 }
     .copy img {
         max-width: 100%;
@@ -882,6 +876,7 @@ a img.aligncenter {
 		display: none;
 		position: absolute;
 		right: 0;
+		top: 0;
 		flex-flow: row wrap;
 		justify-content: flex-start;
 		margin-right: 2em;

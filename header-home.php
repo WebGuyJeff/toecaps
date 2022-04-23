@@ -1,6 +1,6 @@
 <?php
 /**
- * Toecaps Template - Header Variant for Landing Pages.
+ * Toecaps Template - Header Variant for home page.
  *
  * @package   Toecaps
  * @author    Jefferson Real <me@jeffersonreal.uk>
