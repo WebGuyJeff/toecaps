@@ -10,11 +10,6 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-<<<<<<< HEAD
-
-=======
-wp_enqueue_style( 'category_css' );
->>>>>>> a58d6b62f1c9e9f2d0a0ae18073fab621b594639
 get_header();
 
 ?>

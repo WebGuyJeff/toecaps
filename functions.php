@@ -15,6 +15,7 @@ use BigupWeb\Toecaps\Hooks;
  */
 require_once get_template_directory() . '/classes/autoload.php';
 
+
 /**
  * Show template slug in browser console - for debugging only!
  */
@@ -25,7 +26,7 @@ function log_which_template_is_loaded() {
 			$template = 'Admin Page';
 		}
 		echo '<script>console.log("WP template file in use: ' . $template . '")</script>';
-		//Helpers::output_to_front_end( $template );
+		Helpers::output_to_front_end( $template );
 	}
 }
 add_action( 'admin_bar_menu', 'log_which_template_is_loaded' );

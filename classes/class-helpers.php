@@ -58,42 +58,57 @@ class Helpers {
 		}
 	}
 
-
 	/**
 	 * Public method: output_to_front_end(  )
 	 *
 	 * Print anything to the front end. Useful for quickly outputting variables or function
-	 * results when debugging/experimenting 🧪
+	 * results when debugging/experimenting. 🧪
+	 * 
+	 * Front end handled in js to account for mutlple calls to this function trying to create the
+	 * same element. Further outputs will be appended to the existing #toecaps_debug_console.
 	 */
-	public static function output_to_front_end( $stuff_to_output ) {
+	public static function output_to_front_end( $dump ) {
 
 		self::enqueue_assets( 'jetbrains' );
 
-<<<<<<< HEAD
-		echo '<div style="z-index: 999; position: fixed; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 20%; border: 1px solid; resize: both; overflow: auto; white-space: pre; background: rgb(255, 255, 255); color: rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.4) 0px -1px 6px 2px;">';
-		echo '<pre style="font: 0.7rem \'JetBrains Mono\', monospace; white-space: pre-wrap;">';
-		echo '<b style="background:#333;color:#fff;"># Your output is served  👨‍🍳</b>';
-		echo '<br><br><br>';
-=======
-		echo '<div style="font: 0.7rem \'JetBrains Mono\', monospace; position: fixed; bottom: 0px; left: 0px; right: 0px;  width: 100%; resize: both; overflow: auto; white-space: pre; background: rgb(255, 255, 255); color: rgb(0, 0, 0); box-shadow: rgb(0, 0, 0) 0px -1px 7px 0px; z-index: 999; height: 20%;">';
-		echo '<pre style="font:inherit;">';
-		echo '<b style="background:#333;color:#fff;"> # Your output is served  👨‍🍳 </b>';
-		echo '<br><br>';
->>>>>>> a58d6b62f1c9e9f2d0a0ae18073fab621b594639
+		$parent  = '<div id="toecaps_debug_console" style="z-index: 999; position: fixed; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 20%; border: 1px solid; resize: both; overflow: auto; white-space: pre; background: rgb(255, 255, 255); color: rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.4) 0px -1px 6px 2px;">';
+		$parent .= '<b style="font-size:0.85em;background:#333;color:#fff;margin: 0;display: block;width: fit-content;border-bottom-right-radius: 0.4em;"> Your output is served 👨‍🍳 </b>';
+		$parent .= '<button onclick="this.parentElement.remove()" style="border:none;outline:none;font-size:0.85em;font-weight:700;background:#333;color:#fff;margin: 0;padding: 0;display: block;position:absolute;top:0;right:0;margin-left:auto;width: fit-content;border-bottom-left-radius: 0.4em;"> Close ❌ </button>';
+		$parent .= '</div>';
+		$parent .= $parent;
 
-		foreach ( $stuff_to_output as $key => $value ) {
-			htmlspecialchars( var_dump( $value ) );
+		$el_open = '<pre style="margin: 0; font: 0.7rem \\\'JetBrains Mono\\\', monospace; white-space: pre-wrap; border-bottom: dashed 1px #999;">';
+
+		if ( is_null( $dump ) ) {
+			$el_content = 'NULL';
+		} elseif ( is_array( $dump ) || is_object( $dump ) ) {
+			$el_content = htmlspecialchars( print_r( $dump, true ) );
+		} else {
+			$el_content = $dump;
 		}
-<<<<<<< HEAD
 
-		/*
-			backtrace useful for some debugging
-			echo '<br><span>==== debug_backtrace =====//</span><br><br>';
-			var_dump(debug_backtrace());
-		*/
-		echo '<br></pre></div>';
-=======
->>>>>>> a58d6b62f1c9e9f2d0a0ae18073fab621b594639
+		//foreach ( $dump as $key => $value ) {
+		//	htmlspecialchars( var_dump( $value ) );
+		//}
+
+		$el_close = '</pre>';
+		$output   = $el_open . $el_content . $el_close;
+
+		echo $output;
+
+/*
+		echo <<<HTML
+<script>
+console.log('{$output}');
+document.addEventListener('DOMContentLoaded', ( event ) => {
+	if ( ! document.getElementById("toecaps_debug_console") ) {
+		document.body.insertAdjacentHTML( "beforeend", '{$parent}' );
+	}
+	document.getElementById("toecaps_debug_console").insertAdjacentHTML( "beforeend", '{$output}' );
+} )
+</script>
+HTML;
+*/
 	}
 
 
