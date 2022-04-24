@@ -65,18 +65,35 @@ class Helpers {
 	 * Print anything to the front end. Useful for quickly outputting variables or function
 	 * results when debugging/experimenting 🧪
 	 */
-	public static function output_to_front_end( ...$stuff_to_output ) {
+	public static function output_to_front_end( $stuff_to_output ) {
 
 		self::enqueue_assets( 'jetbrains' );
 
+<<<<<<< HEAD
+		echo '<div style="z-index: 999; position: fixed; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 20%; border: 1px solid; resize: both; overflow: auto; white-space: pre; background: rgb(255, 255, 255); color: rgb(0, 0, 0); box-shadow: rgba(0, 0, 0, 0.4) 0px -1px 6px 2px;">';
+		echo '<pre style="font: 0.7rem \'JetBrains Mono\', monospace; white-space: pre-wrap;">';
+		echo '<b style="background:#333;color:#fff;"># Your output is served  👨‍🍳</b>';
+		echo '<br><br><br>';
+=======
 		echo '<div style="font: 0.7rem \'JetBrains Mono\', monospace; position: fixed; bottom: 0px; left: 0px; right: 0px;  width: 100%; resize: both; overflow: auto; white-space: pre; background: rgb(255, 255, 255); color: rgb(0, 0, 0); box-shadow: rgb(0, 0, 0) 0px -1px 7px 0px; z-index: 999; height: 20%;">';
 		echo '<pre style="font:inherit;">';
 		echo '<b style="background:#333;color:#fff;"> # Your output is served  👨‍🍳 </b>';
 		echo '<br><br>';
+>>>>>>> a58d6b62f1c9e9f2d0a0ae18073fab621b594639
 
 		foreach ( $stuff_to_output as $key => $value ) {
-			var_dump( $value );
+			htmlspecialchars( var_dump( $value ) );
 		}
+<<<<<<< HEAD
+
+		/*
+			backtrace useful for some debugging
+			echo '<br><span>==== debug_backtrace =====//</span><br><br>';
+			var_dump(debug_backtrace());
+		*/
+		echo '<br></pre></div>';
+=======
+>>>>>>> a58d6b62f1c9e9f2d0a0ae18073fab621b594639
 	}
 
 
@@ -266,7 +283,22 @@ class Helpers {
 	 * 
 	 */
 	public static function sanitize_phone_number( $phone ) {
+
 		return preg_replace( '/[^\d+]/', '', $phone );
 	}
+
+
+	/**
+	 * Get the first sentence of a string
+	 * 
+	 * @param {string} $string The string of text to get the first sentence from.
+	 * @return {string} The first setence of the string.
+	 */
+	public static function get_first_sentence( $string ) {
+
+		$sentence = preg_split( '/(\.|!|\?)\s/', $string, 2, PREG_SPLIT_DELIM_CAPTURE );
+		return $sentence['0'];
+	}
+
 
 }//end class

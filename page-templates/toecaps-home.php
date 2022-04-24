@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-get_header( 'home' );
+get_header();
 
 ?>
 

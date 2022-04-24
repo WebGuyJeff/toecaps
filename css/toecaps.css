@@ -943,6 +943,9 @@ a img.aligncenter {
 			min-width: 100vw;
 			max-height: 100%;
 		}
+		.header_image-fade {
+			filter: contrast(0.8) brightness(0.8);
+		}
 		.header_cta {
 			margin: 7em auto;
 			background: var(--tc_colour-accent-opaque);
@@ -950,6 +953,9 @@ a img.aligncenter {
 			width: fit-content;
 			max-width: 100vw;
 			text-align: center;
+		}
+		.header_ctaButton {
+			margin: 1em 0.5em;
 		}
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - -  3.1.3 FOOTER - - */
@@ -984,38 +990,30 @@ a img.aligncenter {
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.4 SITE TITLE - - */
 
 
-.siteTitle {
-	display: flex;
-	text-decoration: none;
-	width: fit-content;
-	margin: 0 auto;
-	color: var(--tc_colour-black);
-}
-    .siteTitle_logo {
-		margin: 1em auto;
-        height: 8em;
-    }
-	
-.siteTitle_text {
+.identity {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	margin: 0 auto;
+	width: fit-content;
+	text-decoration: none;
 	color: var(--tc_colour-white);
 }
-	.siteTitle_sitename {
+    .identity_logo {
+		margin: 1em auto;
+        height: 8em;
+    }
+	.identity_title {
 		margin: 0;
 		font-size: var(--tc_h1);
 		line-height: 1.3;
 	}
-	.siteTitle_tagline {
+	.identity_tagline {
 		padding-bottom: 0.5em;
 		white-space: normal;
 		font-family: var(--tc_font-secondary);
 		font-size: var(--tc_h4);
-	}
-	.siteTitle_button {
-		margin: 1em 0.5em;
 	}
 
 

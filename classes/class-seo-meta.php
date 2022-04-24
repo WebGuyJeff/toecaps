@@ -120,7 +120,7 @@ class Seo_Meta {
 		$jt_robots     = 'index, follow, nocache, noarchive';
 
 		/* Sitewide */
-		$jt_sitetitle = wp_strip_all_tags( get_bloginfo( 'name', 'display' ) );
+		$jt_identity = wp_strip_all_tags( get_bloginfo( 'name', 'display' ) );
 		$jt_blogtitle = wp_strip_all_tags( get_the_title( get_option( 'page_for_posts', true ) ) );
 		$jt_sitedesc  = wp_strip_all_tags( get_bloginfo( 'description', 'display' ) );
 		$jt_siteurl   = esc_url( home_url( $path = '/', $scheme = 'https' ) );
@@ -159,13 +159,13 @@ class Seo_Meta {
 
 		/* choose the most suitable scraped value with preference order by page type */
 		if ( is_front_page() ) { // Homepage
-			$jt_title   = ucwords( $jt_sitetitle );
+			$jt_title   = ucwords( $jt_identity );
 			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_sitedesc, $jt_postexcerpt ) ) );
 			$jt_author  = ucwords( $this->first_not_empty( array( $jt_siteauthor, $jt_postauthor ) ) );
 			$jt_canon   = $this->enforce_forward_slash( $jt_siteurl );
 			$jt_ogimage = $this->first_not_empty( array( $jt_sitelogo, $jt_thumbnail, $jt_postimage ) );
 		} elseif ( is_home() ) { // Posts Page
-			$jt_title   = ucwords( $this->first_not_empty( array( $jt_blogtitle, $jt_sitetitle ) ) );
+			$jt_title   = ucwords( $this->first_not_empty( array( $jt_blogtitle, $jt_identity ) ) );
 			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_postexcerpt, $jt_sitedesc ) ) );
 			$jt_author  = ucwords( $jt_siteauthor );
 			$jt_canon   = $this->enforce_forward_slash( $jt_permalink );
@@ -190,7 +190,7 @@ class Seo_Meta {
 			$jt_ogimage = $this->first_not_empty( array( $jt_postimage, $jt_thumbnail, $jt_sitelogo ) );
 		} else {
 			echo '<!-- META FALLBACK - CHECK THEME-SEO TEMPLATE FUNCTIONS -->';
-			$jt_title   = ucwords( $this->first_not_empty( array( $jt_posttitle, $jt_archivetitle, $jt_sitetitle ) ) );
+			$jt_title   = ucwords( $this->first_not_empty( array( $jt_posttitle, $jt_archivetitle, $jt_identity ) ) );
 			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_postexcerpt, $jt_catexcerpt, $jt_sitedesc ) ) );
 			$jt_author  = ucwords( $this->first_not_empty( array( $jt_postauthor, $jt_siteauthor ) ) );
 			$jt_canon   = $this->enforce_forward_slash( $jt_permalink );
@@ -210,7 +210,7 @@ class Seo_Meta {
 			'oglocale'    => $jt_locale,
 			'oglocalealt' => $jt_localealt,
 			'ogdesc'      => $jt_desc,
-			'ogsitename'  => $jt_sitetitle,
+			'ogsitename'  => $jt_identity,
 			'charset'     => $jt_charset,
 			'themeuri'    => $jt_themeuri,
 		);

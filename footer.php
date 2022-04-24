@@ -18,7 +18,7 @@ namespace BigupWeb\Toecaps;
 				<?php
 				Menu_Walker::output_theme_location_menu(
 					array(
-						'theme_location'   => 'global-secondary-menu',
+						'theme_location'   => 'footer-menu',
 						'menu_class'       => 'mainMenu',
 						'nav_or_div'       => 'nav',
 						'nav_aria_label'   => 'Main Menu',
@@ -32,7 +32,7 @@ namespace BigupWeb\Toecaps;
 				<?php get_template_part( 'template-parts/social-links' ); ?>
 			</div>
 
-			<div class="footer_siteTitle">
+			<div class="footer_identity">
 				<span><?php echo esc_html( get_bloginfo( 'name' ) ); ?></span>
 				<span>&#124;</span>
 				<span><?php echo esc_html( get_bloginfo( 'description' ) ); ?></span>

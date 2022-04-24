@@ -40,24 +40,11 @@ $hooks = new Hooks();
  * Enqueue scripts and styles
  */
 function enqueue_scripts_and_styles() {
-	wp_enqueue_style(
-		'style_css',
-		get_template_directory_uri() . '/style.css',
-		array(),
-		filemtime( get_template_directory() . '/style.css' ),
-		'all'
-	);
-	wp_enqueue_style(
-		'toecaps_css',
-		get_template_directory_uri() . '/css/toecaps.css',
-		array( 'style_css' ),
-		filemtime( get_template_directory() . '/css/toecaps.css' ),
-		'all'
-	);
+	wp_enqueue_style( 'style_css', get_template_directory_uri() . '/style.css', array(), filemtime( get_template_directory() . '/style.css' ), 'all' );
+	wp_enqueue_style( 'toecaps_css', get_template_directory_uri() . '/css/toecaps.css', array( 'style_css' ), filemtime( get_template_directory() . '/css/toecaps.css' ), 'all' );
 	// If not in admin area.
 	if ( 'wp-login.php' !== $GLOBALS['pagenow'] && ! is_admin() ) {
-		wp_register_style( 'category_css', get_template_directory_uri() . '/css/category-css.css', array( 'toecaps_css' ), filemtime( get_template_directory() . '/css/category-css.css' ), 'all' );
-		// wp_register_style( 'hb_landingdev_css', get_template_directory_uri() . '/css/landing-dev.css', array( 'category_css' ), filemtime( get_template_directory() . '/css/landing-dev.css' ), 'all' );
+		wp_register_style( 'parent_css', get_template_directory_uri() . '/css/parent-page.css', array( 'toecaps_css' ), filemtime( get_template_directory() . '/css/parent-page.css' ), 'all' );
 		wp_enqueue_script( 'hb_screenclass_js', get_template_directory_uri() . '/js/hb_screenclass.js', array(), '0.1', true );
 		// De-register wp jquery and use CDN.
 		wp_deregister_script( 'jquery' );
@@ -163,11 +150,13 @@ if ( ! function_exists( 'toecaps_setup' ) ) :
 
 		register_nav_menus(
 			array(
-				'mobile-popup-menu'     => esc_html__( 'Mobile Popup Menu', 'toecaps' ),
-				'global-primary-menu'   => esc_html__( 'Global Header Menu', 'toecaps' ),
-				'global-secondary-menu' => esc_html__( 'Global Footer Menu', 'toecaps' ),
-				'global-legal-links'    => esc_html__( 'Global Legal Links', 'toecaps' ),
-				'home-primary-menu'     => esc_html__( 'Landing Page Header Menu', 'toecaps' ),
+				'homepage-menu' => esc_html__( 'Homepage Menu', 'toecaps' ),
+				'footer-menu'   => esc_html__( 'Footer Menu', 'toecaps' ),
+				'gates-menu'    => esc_html__( 'Gates Menu', 'toecaps' ),
+				'bedrooms-menu' => esc_html__( 'Bedrooms Menu', 'toecaps' ),
+				'cnc-menu'      => esc_html__( 'CNC Menu', 'toecaps' ),
+				'spray-menu'    => esc_html__( 'Spray Menu', 'toecaps' ),
+				'camper-menu'   => esc_html__( 'Camper Menu', 'toecaps' ),
 			)
 		);
 
