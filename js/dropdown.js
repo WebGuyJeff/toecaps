@@ -12,8 +12,7 @@
 
 var dropdownPlugin = (function() {
 
-    /* Private Functions */
-
+    // Private Functions.
 
     /**
      * Attach event listener to buttons in the loaded doc.
@@ -24,10 +23,10 @@ var dropdownPlugin = (function() {
 
         [ ...buttons ].forEach( button => {
             button.addEventListener( 'click', buttonClicked = function(){
-                dropdownPlugin.toggle( this.id );
+
+				dropdownPlugin.toggle( this );
             });
         });
-
     }
 
     /**
@@ -74,29 +73,59 @@ var dropdownPlugin = (function() {
 
     return {
 
-        /* Public functions */
+        // Public functions.
 
         /**
          * Toggle the dropdown menu.
          */
-        toggle: function( id ) {
-
-            let button = document.getElementById( id );
+		toggle: function( button ) {
 
             /*  Get current state of button */
             let aria_exp = button.getAttribute( "aria-expanded" );
 
+
+
+
+// I'm unsure about this code. The scope has confused me. Watch this space.
+// #############################################################################
+
+const checkMyClick = ( e, dropdown ) => {
+
+	return ( e, scopedDropdown = dropdown ) => {
+
+		const button = dropdown.querySelector( '.dropdown_toggle' );
+
+		console.log('dropdown');
+		console.log(dropdown);
+		console.log('e.target');
+		console.log(e.target);
+		console.log('scopedDropdown');
+		console.log(scopedDropdown);
+
+		if ( scopedDropdown !== e.target && ! scopedDropdown.contains( e.target ) ) {
+
+			dropdownPlugin.close( button );
+			document.removeEventListener( 'click', checkMyClick( event, dropdown ) );
+
+		}
+	};
+};
+
+// #############################################################################
+
+
+
+
+
+
             /*  If inactive, make it active */
             if ( aria_exp == "false" ) {
 
-                //set dropdown popop vertical position
-                let height = window.getComputedStyle( button ).height;
-                let menu = document.querySelector('#' + id + ' + ' + '.dropdown_contents');
-                menu.style.transform = 'translateY(' + height + ')';
-
                 //set dropdown swing direction
-                container = button.parentElement;
-                let shouldDropRight = isInLeftHalf( container );
+                const dropdown = button.parentElement;
+                let menu = dropdown.lastElementChild;
+				let shouldDropRight = isInLeftHalf( dropdown );
+
                 if ( shouldDropRight ) {
                     menu.style.right = '';
                     menu.style.left = '0';
@@ -105,21 +134,26 @@ var dropdownPlugin = (function() {
                     menu.style.right = '0';
                 }
 
+                //set dropdown popop vertical position
+                let height = window.getComputedStyle( button ).height;
+
+                menu.style.transform = 'translateY(' + height + ')';
+
                 //set attributes
                 button.classList.add( "dropdown_toggle-active" );
                 button.setAttribute( "aria-expanded", true );
                 button.setAttribute( "aria-pressed", true );
 
-                //now browser has calc'd layout, see if y-scroll req'd
-                let shouldScroll = isOverflowingViewportBottom( menu )
-                if ( shouldScroll.bool ) {
-                    window.scrollBy( 0, shouldScroll.distance ); // x,y
-                }
+				//now browser has calc'd layout, see if y-scroll req'd
+				let shouldScroll = isOverflowingViewportBottom( menu )
+				if ( shouldScroll.bool ) {
+					window.scrollBy( 0, shouldScroll.distance ); // x,y
+				}
 
-                /* listen for page clicks */
-                document.addEventListener( 'click', dropdownPlugin.pageClick( id ) );
+				// listen for page clicks.
+				document.addEventListener( 'click', checkMyClick( event, dropdown ) );
 
-            /*  Else, make it inactive */
+            // Else, make it inactive.
             } else {
                 dropdownPlugin.close( button );
             }
@@ -143,22 +177,36 @@ var dropdownPlugin = (function() {
          * access the function scope at time of event, capturing the wrong
          * values, or none at all.
          */
-        pageClick: function( id ) {
-            /* Var values not passed to event listener */
+		pageClick: function( e, dropdown ) {
+            // Vars here are NOT passed to event listener.
 
-            return function scopePreserver() {
-                /* Var values passed to event listener */
+console.log('e1');
+console.log(e);
+console.log('dropdown1');
+console.log(dropdown);
 
-                let button = document.getElementById( id );
-                let menu = button.parentElement;
+            return scopePreserver = ( e ) => {
+                // Vars here ARE passed to event listener.
 
-                /* If click was not on menu element */
-                if ( menu !== !event.target && !menu.contains( event.target ) ) {
+console.log('e2');
+console.log(e);
+console.log('dropdown2');
+console.log(dropdown);
 
-                    dropdownPlugin.close( button );
-                    document.removeEventListener( 'click', scopePreserver );
-                }
-            };
+const scopedDropdown = dropdown;
+const scopedButton = dropdown.querySelector( '.dropdown_toggle' );
+
+				// If click was not on menu element.
+				if ( undefined !== e.target ) {
+					if ( scopedDropdown !== e.target && ! scopedDropdown.contains( e.target ) ) {
+
+						dropdownPlugin.close( scopedButton );
+						document.removeEventListener( 'click', scopePreserver() );
+
+					}
+				}
+
+			};
         }
 
 

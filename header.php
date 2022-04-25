@@ -49,19 +49,21 @@ get_template_part( 'template-parts/css-loader' );
 			</label>
 			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox">
 			<div class="fullscreenMenu">
-				<div class="container">
-					<div class="fullscreenMenu_contents">
-						<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').click()">
-							<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
-						</button>
-
+				<div class="fullscreenMenu_contents">
+					<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').click()">
+						<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
+					</button>
+					<div class="fullscreenMenu_scroll">
 						<?php get_template_part( 'template-parts/menu' ); ?>
-
-						<div class="fullscreenMenu_social">
-							<?php get_template_part( 'template-parts/social-links' ); ?>
-						</div>
-
 					</div>
+					<div class="fullscreenMenu_social">
+						<?php get_template_part( 'template-parts/social-links' ); ?>
+					</div>
+				</div>
+			</div>
+			<div class="navBar">
+				<div class="container">
+					<?php get_template_part( 'template-parts/menu' ); ?>
 				</div>
 			</div>
 		</div>
