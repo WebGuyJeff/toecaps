@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-wp_enqueue_script( 'hb_modal_js' );
+wp_enqueue_script( 'modal_js' );
 
 ?>
 

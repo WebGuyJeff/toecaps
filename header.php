@@ -47,11 +47,11 @@ get_template_part( 'template-parts/css-loader' );
 			<label class="fullscreenMenu_open" for="fullscreenMenu_toggle">
 				<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
 			</label>
-			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox" data-com.bitwarden.browser.user-edited="yes">
+			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox">
 			<div class="fullscreenMenu">
 				<div class="container">
 					<div class="fullscreenMenu_contents">
-						<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').checked = false;">
+						<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').click()">
 							<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
 						</button>
 

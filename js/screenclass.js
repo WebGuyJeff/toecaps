@@ -96,7 +96,7 @@
 
 
     // Poll for resize settle to throttle updates
-    var resizeTimeout;
+    let resizeTimeout;
     window.onresize = function () {
         if (resizeTimeout) {
             clearTimeout(resizeTimeout);
@@ -106,8 +106,9 @@
                 /* Start the reactor */
                 getScreen();
                 set_scrollbar_custom_property();
-            }, 10
-        );  //Lessen this value for faster response at performance cost
+            },
+			10 // Poll interval.
+        );
     };
 
 

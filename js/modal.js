@@ -9,7 +9,7 @@
  */
 
 
- const hb_modalPlugin = (function() {
+ const modalPlugin = (function() {
 
 
 	/**

@@ -10,7 +10,7 @@
  */
 
 
-var hb_dropdownToggle = (function() {
+var dropdownPlugin = (function() {
 
     /* Private Functions */
 
@@ -24,7 +24,7 @@ var hb_dropdownToggle = (function() {
 
         [ ...buttons ].forEach( button => {
             button.addEventListener( 'click', buttonClicked = function(){
-                hb_dropdownToggle.toggle( this.id );
+                dropdownPlugin.toggle( this.id );
             });
         });
 
@@ -117,11 +117,11 @@ var hb_dropdownToggle = (function() {
                 }
 
                 /* listen for page clicks */
-                document.addEventListener( 'click', hb_dropdownToggle.pageClick( id ) );
+                document.addEventListener( 'click', dropdownPlugin.pageClick( id ) );
 
             /*  Else, make it inactive */
             } else {
-                hb_dropdownToggle.close( button );
+                dropdownPlugin.close( button );
             }
         },
 
@@ -155,7 +155,7 @@ var hb_dropdownToggle = (function() {
                 /* If click was not on menu element */
                 if ( menu !== !event.target && !menu.contains( event.target ) ) {
 
-                    hb_dropdownToggle.close( button );
+                    dropdownPlugin.close( button );
                     document.removeEventListener( 'click', scopePreserver );
                 }
             };
