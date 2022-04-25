@@ -2,7 +2,24 @@
 /**
  * Toecaps Custom Menu_Walker Class.
  *
- * This class build a custom nav menu html structure and CSS classes as an
+ * @package   Toecaps
+ * @author    Jefferson Real <me@jeffersonreal.uk>
+ * @copyright Copyright (c) 2022, Jefferson Real
+ */
+
+namespace BigupWeb\Toecaps;
+
+// WordPress Dependencies.
+use Walker_Nav_Menu;
+use function is_search;
+use function esc_attr;
+use function has_nav_menu;
+use function wp_nav_menu;
+
+/**
+ * Class Menu_Walker.
+ * 
+ * This class builds a custom nav menu html structure and CSS classes as an
  * extension of the built-in WordPress Walker_Nav_Menu class.
  *
  * The methods in this walker are used somewhat differently to the built-in WP
@@ -14,22 +31,7 @@
  * Walker_Nav_Menu::start_el - Build a complete anchor menu item using $item vars.
  * Walker_Nav_Menu::end_el - Open tags for a new dropdown_contents div for child menu items.
  * Walker_Nav_Menu::end_lvl - Close tags for a dropdown component and menu branch.
- *
- * @package   Toecaps
- * @author    Jefferson Real <me@jeffersonreal.uk>
- * @copyright Copyright (c) 2022, Jefferson Real
  */
-
-namespace BigupWeb\Toecaps;
-
-// WordPress Dependencies
-use Walker_Nav_Menu;
-use function is_search;
-use function esc_attr;
-use function has_nav_menu;
-use function wp_nav_menu;
-
-
 class Menu_Walker extends Walker_Nav_Menu {
 
 
@@ -64,6 +66,17 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 * @var string: CSS class(es) string
 	 */
 	private $button_class;
+
+	/**
+	 * Button Class Array.
+	 *
+	 * This array is processed from $button_class with all whitespace removed and separate class
+	 * strings as array values. This array can be used to build a final class string that includes
+	 * modifier variations of all passed classes.
+	 *
+	 * @var string: CSS class(es) string
+	 */
+	private $button_class_array;
 
 	/**
 	 * Keeps track of markup nesting.
@@ -101,17 +114,16 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 *
 	 * Init the class variables.
 	 *
-	 * @param bool:   $is_search   is page a search page?
-	 * @param int:    $t_offset    contstant offset to account for indent level in surrounding markup.
-	 * @param int:    $t_nest_step variable offset which accounts for nesting elements up and down.
-	 * @param string: $t           indent string.
-	 * @param string: $n           newline string.
+	 * @param {bool}   is_search        Is page a search page.
+	 * @param {string} t                Indent string.
+	 * @param {string} n                Newline string.
+	 * @param {bool}   this->first_call Is this the first call to the function.
 	 */
 	public function __construct() {
-		$this->is_search  = is_search();
-		$this->t          = "\t";
-		$this->n          = "\n";
-		$this->first_call = true;
+		$this->is_search          = is_search();
+		$this->t                  = "\t";
+		$this->n                  = "\n";
+		$this->first_call         = true;
 	}
 
 
@@ -123,14 +135,10 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 * menu branches. It is the 'composer' to the Walker_Nav_Menu 'orchestra'.
 	 *
 	 * default wp display_element uses this order: start_el, start_lvl, end_lvl, end_el.
-	 *
-	 * @param bool: $item->hb__is_parent
-	 * @param bool: $item->hb__has_active
-	 * @param bool: $item->hb__is_active
 	 */
 	public function display_element( $item, &$children_elements, $max_depth, $depth, $args, &$output ) {
 
-		// Grab 'html_tab_indents' passed by output_theme_location_menu
+		// Grab 'html_tab_indents' passed by output_theme_location_menu.
 		if ( $this->first_call ) {
 			$this->first_call = false;
 
@@ -141,7 +149,9 @@ class Menu_Walker extends Walker_Nav_Menu {
 			}
 
 			if ( isset( $args[0]->button_class ) ) {
-				$this->button_class = $args[0]->button_class;
+				// Trim any excess whitespace.
+				$trimmed_button_class = trim( $args[0]->button_class );
+				$this->button_class   = preg_replace( '/\s+/', ' ', $trimmed_button_class );
 			} else {
 				$this->button_class = 'button';
 			}
@@ -231,9 +241,13 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 * @param stdClass $args   An object of wp_nav_menu() arguments.
 	 * @param int      $id     Current item ID.
 	 */
-	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
-		$css_block    = 'dropdown';
+		// Button classes.
+		$button_classes = $this->button_class;
+
+		$item_class_array = explode( ' ', $button_classes );
+
 		$css_element  = '_item';
 		$css_modifier = array(
 			'parent'     => '-parent',
@@ -241,32 +255,43 @@ class Menu_Walker extends Walker_Nav_Menu {
 			'has_active' => '-parent-hasActive',
 		);
 
-		// Passed from display_element:
+		// Passed from display_element.
 		$is_parent  = $item->hb__is_parent;
 		$is_active  = $item->hb__is_active;
 		$has_active = $item->hb__has_active;
 
-		// Button classes
-		$button_classes = $this->button_class;
+		if ( $is_parent || 0 < $depth ) {
+			array_push( $item_class_array, 'dropdown' );
+		}
 
-		// Menu classes
-		$class_string = $css_block . $css_element;
-		$class_string = ( $is_parent ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['parent'] : $class_string;
-		$class_string = ( $is_active ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['active'] : $class_string;
-		$class_string = ( $has_active ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['has_active'] : $class_string;
-		$class_string = ( $depth === 0 ) ? $button_classes : $class_string;
-		$class_string = 'class="' . $class_string . '"';
+		$class_string = '';
 
-		// Aria attributes
+		/**
+		 * For each class in the array, create relevant modifier classes for the menu item. This
+		 * allows the caller to use as many dynamic classes as desired.
+		 */
+		foreach ( $item_class_array as $css_block ) {
+
+			// Start with ' ' to ensure classes are separated from last loop - trim excess later.
+			$class_string = $class_string . ' ' . $css_block . $css_element;
+			$class_string = ( $is_parent ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['parent'] : $class_string;
+			$class_string = ( $is_active ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['active'] : $class_string;
+			$class_string = ( $has_active ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['has_active'] : $class_string;
+		}
+
+		// Wrap classes and trim that extra whitespace.
+		$class_string = 'class="' . trim( $class_string ) . '"';
+
+		// Aria attributes.
 		$aria_attributes = ' aria-label="' . $item->title . '"';
 
-		// Anchor attributes
+		// Anchor attributes.
 		$anchor_attributes  = ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) . '"' : '';
 		$anchor_attributes .= ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
 		$anchor_attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';
 		$anchor_attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) . '"' : '';
 
-		// Build markup
+		// Build markup.
 		$item_output  = "{$this->n}{$this->i(0)}<a {$class_string} {$anchor_attributes} {$aria_attributes}>";
 		$item_output .= "{$this->n}{$this->i(1)}<span>";
 		$item_output .= "{$this->n}{$this->i(2)}{$item->title}";
@@ -312,20 +337,20 @@ class Menu_Walker extends Walker_Nav_Menu {
 	public function end_el( &$output, $item, $depth = 0, $args = null ) {
 
 		$item = $this->item;
-		$icon = file_get_contents( get_theme_file_path( 'imagery/icons_nav/button-dropdown.svg' ) );
+		$icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>';
 
-		// Passed from display_element:
+		// Passed from display_element.
 		$is_parent = $item->hb__is_parent;
 		$title     = $item->title;
 		$id        = $item->ID;
 		$location  = $args->theme_location;
 
-		// Button Classes
+		// Button Classes.
 		$button_classes = $this->button_class;
 		$button_classes = ( $depth === 0 ) ? 'dropdown_toggle ' . $button_classes : 'dropdown_toggle';
 		$button_classes = 'class="' . $button_classes . '"';
 
-		// Button aria attributes
+		// Button aria attributes.
 		$aria_attributes = ( $is_parent ) ? 'aria-pressed="false" aria-expanded="false" aria-haspopup="menu"' : '';
 
 		$output .= "{$this->n}{$this->i(0)}<button {$button_classes} id=\"{$location}{$id}\" {$aria_attributes}>";

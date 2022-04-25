@@ -26,6 +26,10 @@ var dropdownPlugin = (function() {
 
 				dropdownPlugin.toggle( this );
             });
+			button.addEventListener( 'hover', buttonClicked = function(){
+
+				dropdownPlugin.toggle( this );
+            });
         });
     }
 
@@ -105,7 +109,7 @@ const checkMyClick = ( e, dropdown ) => {
 		if ( scopedDropdown !== e.target && ! scopedDropdown.contains( e.target ) ) {
 
 			dropdownPlugin.close( button );
-			document.removeEventListener( 'click', checkMyClick( event, dropdown ) );
+			document.removeEventListener( 'click', checkMyClick() );
 
 		}
 	};

@@ -23,7 +23,7 @@ namespace BigupWeb\Toecaps;
 						'nav_or_div'       => 'nav',
 						'nav_aria_label'   => 'Main Menu',
 						'html_tab_indents' => 3,
-						'button_class'     => 'mainMenu_link',
+						'button_class'     => 'mainMenu',
 					)
 				);
 				?>

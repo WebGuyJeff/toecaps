@@ -25,7 +25,7 @@ if ( is_front_page() || is_home() ) {
 			'nav_or_div'       => 'nav',
 			'nav_aria_label'   => 'Main Menu',
 			'html_tab_indents' => 5,
-			'button_class'     => 'mainMenu_link menu_item',
+			'button_class'     => 'mainMenu',
 		)
 	);
 
@@ -46,7 +46,7 @@ if ( is_front_page() || is_home() ) {
 			'nav_or_div'       => 'nav',
 			'nav_aria_label'   => 'Main Menu',
 			'html_tab_indents' => 5,
-			'button_class'     => 'mainMenu_link menu_item',
+			'button_class'     => 'mainMenu',
 		)
 	);
 }

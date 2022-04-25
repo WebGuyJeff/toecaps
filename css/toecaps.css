@@ -103,7 +103,7 @@ RANGE
 
   --tc_colour-accent: #29a367;
   --tc_colour-accent-opaque: #29a367e6;
-  --tc_colour-menuHover: #6e6e6e;
+  --tc_colour-menuHover: #ddd5;
   --tc_colour-menuActive: #1b1b1b;
 
 
@@ -1158,7 +1158,7 @@ a img.aligncenter {
 				padding-right: 24px;
 				max-width: fit-content;
 			}
-				.fullscreenMenu .mainMenu_link, .fullscreenMenu .dropdown_item {
+				.fullscreenMenu .mainMenu_item, .fullscreenMenu .dropdown_item {
 					overflow-wrap: break-word;
 					margin: 0.4em 0;
 					padding: 8px;
@@ -1190,7 +1190,7 @@ a img.aligncenter {
 		padding: 0;
 		width: 100%;
 	}
-		.mainMenu_link {
+		.mainMenu_item {
 			overflow-wrap: break-word;
 			padding: 8px;
 			text-align: center;
@@ -1201,10 +1201,10 @@ a img.aligncenter {
 			color: inherit;
 			font-size: var(--tc_small);
 		}
-		.dropdown > .mainMenu_link {
+		.dropdown > .mainMenu_item {
 			padding-right: 0;
 		}
-		.dropdown > .dropdown_toggle.mainMenu_link {
+		.dropdown > .dropdown_toggle.mainMenu_item {
 			padding-right: 16px;
 		}
 
@@ -1222,7 +1222,7 @@ a img.aligncenter {
 	.navBar {
 		display: block;
 	}
-	.mainMenu_link {
+	.mainMenu_item {
 		padding: 16px;
 	}
 }
@@ -1231,7 +1231,6 @@ a img.aligncenter {
 
 
 .dropdown {
-    gap: 0.2em; /* This should match button hover border size */
     display: inline-flex;
     position: relative;
     flex-flow: row nowrap;
@@ -1271,7 +1270,7 @@ a img.aligncenter {
 			}
 				.dropdown_toggleIcon > svg {
 					transition: transform 0.15s ease-in-out;
-					height: 1ex;
+					height: 0.8em;
 					font-size: inherit;
 				}
 					.dropdown_contents {
@@ -1279,13 +1278,10 @@ a img.aligncenter {
 						position: absolute;
 						top: 0;
 						z-index: 1;
-						margin: 2px 0;
-						margin-left: 0.5em;
-						border-radius: var(--tc_radius-small);
-						box-shadow: 1px 3px 6px 1px #000a;
+						box-shadow: 5px 5px 0 rgb(0 0 0 / 20%);
 						background-color: #fff;
-						padding: 0.75em 0;
 						width: 20em;
+						min-width: fit-content;
 						max-width: 100%;
 						text-align: left;
 						font-size: inherit;
@@ -1293,7 +1289,6 @@ a img.aligncenter {
 						.dropdown_item {
 							display: inline-flex;
 							background-color: transparent;
-							padding: 0.4rem 1.5rem;
 							width: 100%;
 							text-decoration: none;
 							color: var(--tc_colour-black);
@@ -1344,9 +1339,6 @@ a img.aligncenter {
         display: flex;
         flex-flow: column nowrap;
     }
-        .dropdown_item-active {
-            border-left: solid 0.5em var(--tc_colour-menuActive);
-        }
 
 .dropdown-inMenu {
     gap: 0;
@@ -1359,10 +1351,8 @@ a img.aligncenter {
         align-self: stretch;
         justify-content: center;
         border: none;
-        border-left: solid 1px var(--tc_colour-grey);
         background-color: transparent;
         cursor: pointer;
-        padding: .36em 1.5em;
         font: inherit;
     }
 
@@ -1372,12 +1362,22 @@ a img.aligncenter {
 .dropdown_item + button:hover,
 .dropdown_item + button:focus,
 .dropdown_item + button:hover,
-.mainMenu_link:focus,
-.mainMenu_link:focus-visible,
-.mainMenu_link:hover {
+.mainMenu_item:focus,
+.mainMenu_item:focus-visible,
+.mainMenu_item:hover {
     outline: 0;
     background-color: var(--tc_colour-menuHover);
-	color: var(--tc_colour-white);
+	/* color: var(--tc_colour-white); */
+}
+
+
+.mainMenu_item:active,
+.dropdown_item-active,
+.dropdown_item:active {
+	background: linear-gradient(
+				0deg,
+				var(--tc_colour-menuActive) 10%,
+				var(--tc_colour-menuHover) 10%);
 }
 
 
