@@ -9,7 +9,6 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-
 var dropdownPlugin = (function() {
 
     // Private Functions.
@@ -22,14 +21,25 @@ var dropdownPlugin = (function() {
         let buttons = document.getElementsByClassName( 'dropdown_toggle' );
 
         [ ...buttons ].forEach( button => {
-            button.addEventListener( 'click', buttonClicked = function(){
 
+            button.addEventListener( 'click', buttonClicked = function() {
 				dropdownPlugin.toggle( this );
-            });
-			button.addEventListener( 'hover', buttonClicked = function(){
+            } );
 
-				dropdownPlugin.toggle( this );
-            });
+			button.parentElement.addEventListener( 'mouseenter', dropdownHoverOn = function() {
+				// If dropdown is already active, do nothing.
+				if ( 'true' === button.getAttribute( "aria-expanded" ) ) return;
+				// Otherwise, show the dropdown.
+				dropdownPlugin.toggle( this.querySelector('button') );
+			} );
+
+			button.parentElement.addEventListener( 'mouseleave', dropdownHoverOff = function() {
+				// If dropdown is already inactive, do nothing.
+				if ( 'false' === button.getAttribute( "aria-expanded" ) ) return;
+				// Otherwise, close the dropdown.
+				dropdownPlugin.close( this.querySelector('button') );
+
+			} );
         });
     }
 
@@ -80,53 +90,39 @@ var dropdownPlugin = (function() {
         // Public functions.
 
         /**
+         * Handle off-element click events.
+         */
+		clickHandler: function( event ) {
+
+			return function checkMyClick( event ) {
+				let buttons = document.getElementsByClassName( 'dropdown_toggle' );
+		
+				[ ...buttons ].forEach( button => {
+					if ( button.parentElement !== event.target
+						&& ! button.parentElement.contains( event.target ) ) {
+
+						dropdownPlugin.close( button );
+						document.removeEventListener( 'click', checkMyClick );
+					}
+				} );
+			}
+		},
+
+        /**
          * Toggle the dropdown menu.
          */
 		toggle: function( button ) {
 
-            /*  Get current state of button */
-            let aria_exp = button.getAttribute( "aria-expanded" );
+            // Get current state of button.
+            let aria_exp   = button.getAttribute( "aria-expanded" );
 
-
-
-
-// I'm unsure about this code. The scope has confused me. Watch this space.
-// #############################################################################
-
-const checkMyClick = ( e, dropdown ) => {
-
-	return ( e, scopedDropdown = dropdown ) => {
-
-		const button = dropdown.querySelector( '.dropdown_toggle' );
-
-		console.log('dropdown');
-		console.log(dropdown);
-		console.log('e.target');
-		console.log(e.target);
-		console.log('scopedDropdown');
-		console.log(scopedDropdown);
-
-		if ( scopedDropdown !== e.target && ! scopedDropdown.contains( e.target ) ) {
-
-			dropdownPlugin.close( button );
-			document.removeEventListener( 'click', checkMyClick() );
-
-		}
-	};
-};
-
-// #############################################################################
-
-
-
-
-
+			// Get dropdown element.
+			const dropdown = button.parentElement;
 
             /*  If inactive, make it active */
-            if ( aria_exp == "false" ) {
+            if ( 'false' === aria_exp ) {
 
                 //set dropdown swing direction
-                const dropdown = button.parentElement;
                 let menu = dropdown.lastElementChild;
 				let shouldDropRight = isInLeftHalf( dropdown );
 
@@ -155,11 +151,16 @@ const checkMyClick = ( e, dropdown ) => {
 				}
 
 				// listen for page clicks.
-				document.addEventListener( 'click', checkMyClick( event, dropdown ) );
+				document.addEventListener( 'click', dropdownPlugin.clickHandler( event ) );
 
-            // Else, make it inactive.
             } else {
+
+				// Close the dropdown.
                 dropdownPlugin.close( button );
+
+				// remove event here fails silently?
+				// Issue could be with hovering over child elems?
+				//document.removeEventListener( 'click', checkMyClick );
             }
         },
 
@@ -171,47 +172,11 @@ const checkMyClick = ( e, dropdown ) => {
             button.classList.remove( "dropdown_toggle-active" );
             button.setAttribute( "aria-expanded", false );
             button.setAttribute( "aria-pressed", false );
+
+			// remove event here doesn't work
+			// 'ReferenceError: checkMyClick is not defined'
+			//document.removeEventListener( 'click', checkMyClick );
         },
-
-        /**
-         * Check if the click event was outside of the menu element.
-         * 
-         * Preserves the variable values for event listeners. If vars are
-         * not passed with the returned function, the event listeners
-         * access the function scope at time of event, capturing the wrong
-         * values, or none at all.
-         */
-		pageClick: function( e, dropdown ) {
-            // Vars here are NOT passed to event listener.
-
-console.log('e1');
-console.log(e);
-console.log('dropdown1');
-console.log(dropdown);
-
-            return scopePreserver = ( e ) => {
-                // Vars here ARE passed to event listener.
-
-console.log('e2');
-console.log(e);
-console.log('dropdown2');
-console.log(dropdown);
-
-const scopedDropdown = dropdown;
-const scopedButton = dropdown.querySelector( '.dropdown_toggle' );
-
-				// If click was not on menu element.
-				if ( undefined !== e.target ) {
-					if ( scopedDropdown !== e.target && ! scopedDropdown.contains( e.target ) ) {
-
-						dropdownPlugin.close( scopedButton );
-						document.removeEventListener( 'click', scopePreserver() );
-
-					}
-				}
-
-			};
-        }
 
 
     };/* public functions */

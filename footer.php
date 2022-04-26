@@ -18,12 +18,12 @@ namespace BigupWeb\Toecaps;
 				<?php
 				Menu_Walker::output_theme_location_menu(
 					array(
-						'theme_location'   => 'footer-menu',
-						'menu_class'       => 'mainMenu',
-						'nav_or_div'       => 'nav',
-						'nav_aria_label'   => 'Main Menu',
-						'html_tab_indents' => 3,
-						'button_class'     => 'mainMenu',
+						'theme_location'    => 'footer-menu',
+						'menu_class'        => 'mainMenu',
+						'nav_or_div'        => 'nav',
+						'nav_aria_label'    => 'Site Navigation',
+						'html_tab_indents'  => 4,
+						'top_level_classes' => '',
 					)
 				);
 				?>

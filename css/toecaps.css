@@ -1158,14 +1158,8 @@ a img.aligncenter {
 				padding-right: 24px;
 				max-width: fit-content;
 			}
-				.fullscreenMenu .mainMenu_item, .fullscreenMenu .dropdown_item {
-					overflow-wrap: break-word;
+				.fullscreenMenu .mainMenu_item {
 					margin: 0.4em 0;
-					padding: 8px;
-					text-align: center;
-					text-transform: uppercase;
-					text-decoration: none;
-					letter-spacing: 0.143em;
 					white-space: normal;
 					color: var(--tc_colour-white);
 					font-size: clamp(var(--tc_small), 5vw, var(--tc_h5) );
@@ -1238,32 +1232,20 @@ a img.aligncenter {
     width: max-content;
     max-width: 100%;
     min-height: fit-content;
-    font-size: inherit;
+	padding: 0;
 }
-    .dropdown > .button:nth-child(1) {
-        margin-right: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        padding-right: 0;
-    }
-        .dropdown > .button:nth-child(1) > *:nth-child(1) {
-            padding-right: 0.4em;
-        }
-    .dropdown > .button:nth-child(2) {
-        margin-left: 0;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        padding-left: 0;
-    }
-        .dropdown > .button:nth-child(2) > *:nth-child(1) {
-            padding-left: 0.4em;
-        }
-		.dropdown_toggle {
-			border: none;
-			background: none;
-			padding-right: 16px;
-			padding-left: 8px;
-		}
+	.dropdown_primary {
+		padding: 16px 8px 16px 16px;
+		text-decoration: none;
+		color: inherit;
+	}
+	.dropdown_toggle {
+		border: none;
+		background: none;
+		padding-right: 16px;
+		padding-left: 8px;
+		cursor: pointer;
+	}
 			.dropdown_toggleIcon {
 				display: block;
 				font-size: inherit;
@@ -1295,19 +1277,14 @@ a img.aligncenter {
 						}
 
 .fullscreenMenu .dropdown {
-	gap: 0.2em;
 	display: inline-grid;
 	grid-template-areas:
 		"a b"
 		"c c";
-	position: relative;
-	flex-flow: row nowrap;
-	align-items: stretch;
-	width: max-content;
-	max-width: 100%;
-	min-height: fit-content;
-	font-size: inherit;
 }
+	.fullscreenMenu .dropdown_primary {
+		padding: 8px;
+	}
 	.fullscreenMenu .dropdown_contents {
 		grid-area: c;
 		position: static;
@@ -1344,16 +1321,14 @@ a img.aligncenter {
     gap: 0;
     align-items: center;
     line-height: 1.4;
+	justify-content: space-between;
 }
     .dropdown-inMenu > .dropdown_toggle {
         display: flex;
-        align-items: center;
-        align-self: stretch;
-        justify-content: center;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        font: inherit;
+		align-items: center;
+		align-self: stretch;
+		justify-content: center;
+		background-color: transparent;
     }
 
 .dropdown_item:focus,

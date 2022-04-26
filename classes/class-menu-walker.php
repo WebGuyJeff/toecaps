@@ -34,15 +34,12 @@ use function wp_nav_menu;
  */
 class Menu_Walker extends Walker_Nav_Menu {
 
-
-
 	/**
 	 * Used to pass item between methods without modifying args.
 	 *
 	 * @var object: The menu item object
 	 */
 	private $item;
-
 
 	/**
 	 * Holds the markup indentation offset integer.
@@ -58,25 +55,26 @@ class Menu_Walker extends Walker_Nav_Menu {
 	private $t_offset;
 
 	/**
-	 * Button Class.
+	 * Menu Class.
 	 *
-	 * This string is also passed from output_theme_location_menu to provide the ability
-	 * to set the desired button classes directly in the template markup.
+	 * This string is passed from output_theme_location_menu and holds the single classname that
+	 * forms the 'Block' of the BEM class structure. This is the only classname that will be set
+	 * on the top container <nav> or <div> element.
 	 *
 	 * @var string: CSS class(es) string
 	 */
-	private $button_class;
+	private $menu_class;
 
 	/**
-	 * Button Class Array.
+	 * Top-level Item Class.
 	 *
-	 * This array is processed from $button_class with all whitespace removed and separate class
-	 * strings as array values. This array can be used to build a final class string that includes
-	 * modifier variations of all passed classes.
+	 * This string is passed from output_theme_location_menu to provide the ability to set unique
+	 * classes on the top level menu items only. This is useful for styling the top level menu items
+	 * as a bar or buttons for example.
 	 *
 	 * @var string: CSS class(es) string
 	 */
-	private $button_class_array;
+	private $top_level_classes;
 
 	/**
 	 * Keeps track of markup nesting.
@@ -88,7 +86,6 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 * @var int: Holds a value by which to offset the markup indentation.
 	 */
 	private $t_nest_step = 0;
-
 
 	/**
 	 * Update the markup indent size variable.
@@ -108,7 +105,6 @@ class Menu_Walker extends Walker_Nav_Menu {
 		return $indent;
 	}
 
-
 	/**
 	 * __construct
 	 *
@@ -120,12 +116,12 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 * @param {bool}   this->first_call Is this the first call to the function.
 	 */
 	public function __construct() {
-		$this->is_search          = is_search();
-		$this->t                  = "\t";
-		$this->n                  = "\n";
-		$this->first_call         = true;
+		// Globalise the args.
+		$this->is_search  = is_search();
+		$this->t          = "\t";
+		$this->n          = "\n";
+		$this->first_call = true;
 	}
-
 
 	/**
 	 * display_element
@@ -138,6 +134,9 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 */
 	public function display_element( $item, &$children_elements, $max_depth, $depth, $args, &$output ) {
 
+		// Store the item object class-wide.
+		$this->item = $item;
+
 		// Grab 'html_tab_indents' passed by output_theme_location_menu.
 		if ( $this->first_call ) {
 			$this->first_call = false;
@@ -148,12 +147,16 @@ class Menu_Walker extends Walker_Nav_Menu {
 				$this->t_offset = 1;
 			}
 
-			if ( isset( $args[0]->button_class ) ) {
-				// Trim any excess whitespace.
-				$trimmed_button_class = trim( $args[0]->button_class );
-				$this->button_class   = preg_replace( '/\s+/', ' ', $trimmed_button_class );
+			if ( isset( $args[0]->top_level_classes ) && '' !== $args[0]->top_level_classes ) {
+				$this->top_level_classes = $args[0]->top_level_classes;
 			} else {
-				$this->button_class = 'button';
+				$this->top_level_classes = '';
+			}
+
+			if ( isset( $args[0]->menu_class ) && '' !== $args[0]->menu_class ) {
+				$this->menu_class = $args[0]->menu_class;
+			} else {
+				$this->menu_class = '';
 			}
 		}
 
@@ -203,7 +206,6 @@ class Menu_Walker extends Walker_Nav_Menu {
 			$this->start_el( $output, $item, $depth, ...array_values( $args ) );
 
 			// Output dropdown contents element with toggle button.
-			$this->item = $item; // store item vars class-wide
 			$this->end_el( $output, $item, $depth, ...array_values( $args ) );
 
 			// For each child of this item.
@@ -243,44 +245,17 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
-		// Button classes.
-		$button_classes = $this->button_class;
-
-		$item_class_array = explode( ' ', $button_classes );
-
-		$css_element  = '_item';
-		$css_modifier = array(
-			'parent'     => '-parent',
-			'active'     => '-active',
-			'has_active' => '-parent-hasActive',
-		);
-
-		// Passed from display_element.
 		$is_parent  = $item->hb__is_parent;
-		$is_active  = $item->hb__is_active;
-		$has_active = $item->hb__has_active;
 
-		if ( $is_parent || 0 < $depth ) {
-			array_push( $item_class_array, 'dropdown' );
+		// Get CSS Classes.
+		if ( $is_parent ) {
+			$item_classes = 'dropdown_primary';
+		} else {
+			$item_classes = $this->build_class_string( $item, $depth, $args );
 		}
 
-		$class_string = '';
-
-		/**
-		 * For each class in the array, create relevant modifier classes for the menu item. This
-		 * allows the caller to use as many dynamic classes as desired.
-		 */
-		foreach ( $item_class_array as $css_block ) {
-
-			// Start with ' ' to ensure classes are separated from last loop - trim excess later.
-			$class_string = $class_string . ' ' . $css_block . $css_element;
-			$class_string = ( $is_parent ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['parent'] : $class_string;
-			$class_string = ( $is_active ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['active'] : $class_string;
-			$class_string = ( $has_active ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['has_active'] : $class_string;
-		}
-
-		// Wrap classes and trim that extra whitespace.
-		$class_string = 'class="' . trim( $class_string ) . '"';
+		// Wrap CSS classes.
+		$class_string = 'class="' . trim( $item_classes ) . '"';
 
 		// Aria attributes.
 		$aria_attributes = ' aria-label="' . $item->title . '"';
@@ -313,14 +288,20 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = null ) {
 
-		// Dropdown Class
-		if ( $depth === 0 ) {
-			$dropdown_class = 'dropdown';
+		// Get the $item.
+		$item = $this->item;
+
+		// Get CSS classes.
+		$dropdown_classes = $this->build_class_string( $item, $depth, $args );
+
+		// Append dropdown classes.
+		if ( 0 === $depth ) {
+			$dropdown_classes = 'dropdown ' . $dropdown_classes;
 		} else {
-			$dropdown_class = 'dropdown dropdown-inMenu';
+			$dropdown_classes = 'dropdown dropdown-inMenu ' . $dropdown_classes;
 		}
 
-		$output .= "{$this->n}{$this->i(0)}<div class=\"{$dropdown_class}\">";
+		$output .= "{$this->n}{$this->i(0)}<div class=\"{$dropdown_classes}\">";
 	}
 
 
@@ -342,18 +323,11 @@ class Menu_Walker extends Walker_Nav_Menu {
 		// Passed from display_element.
 		$is_parent = $item->hb__is_parent;
 		$title     = $item->title;
-		$id        = $item->ID;
-		$location  = $args->theme_location;
-
-		// Button Classes.
-		$button_classes = $this->button_class;
-		$button_classes = ( $depth === 0 ) ? 'dropdown_toggle ' . $button_classes : 'dropdown_toggle';
-		$button_classes = 'class="' . $button_classes . '"';
 
 		// Button aria attributes.
 		$aria_attributes = ( $is_parent ) ? 'aria-pressed="false" aria-expanded="false" aria-haspopup="menu"' : '';
 
-		$output .= "{$this->n}{$this->i(0)}<button {$button_classes} id=\"{$location}{$id}\" {$aria_attributes}>";
+		$output .= "{$this->n}{$this->i(0)}<button class=\"dropdown_toggle\" {$aria_attributes}>";
 		$output .= "{$this->n}{$this->i(1)}<span class=\"dropdown_toggleIcon\">{$icon}</span>";
 		$output .= "{$this->n}{$this->i(1)}<span class=\"screen-reader-text\">{$title}</span>";
 		$output .= "{$this->n}{$this->i(0)}</button>";
@@ -439,25 +413,22 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 *     'nav_aria_label'    => '',
 	 * ) );
 	 *
-	 * @param stdClass $args An object of wp_nav_menu() arguments.
+	 * @param array $menu_args An object of wp_nav_menu() arguments.
 	 */
-	public static function output_theme_location_menu( array $jt__args ) {
+	public static function output_theme_location_menu( array $menu_args ) {
 
-		// Test if args are valid
+		// Test if args are valid.
 		$pass      = true;
-		$test_args = array( 'nav_or_div', 'menu_class', 'nav_aria_label', 'theme_location', 'html_tab_indents', 'button_class' );
 
-		if ( ! isset( $jt__args['theme_location'] ) ) {
-			$pass = false;
-		}
+		$test_args = array( 'nav_or_div', 'menu_class', 'nav_aria_label', 'theme_location', 'html_tab_indents', 'top_level_classes' );
 
-		if ( $pass && count( $jt__args ) > 6 ) {
+		if ( $pass && count( $menu_args ) > 6 ) {
 			$pass = false;
 		} else {
 
-			foreach ( $jt__args as $key => $value ) {
+			foreach ( $menu_args as $key => $value ) {
 
-				if ( in_array( $key, $test_args ) ) {
+				if ( in_array( $key, $test_args, true ) ) {
 					$passed_args[ $key ] = $value;
 
 				} else {
@@ -466,16 +437,74 @@ class Menu_Walker extends Walker_Nav_Menu {
 			}
 		}
 
+		if ( $pass && ! isset( $menu_args['theme_location'] ) || '' === $menu_args['theme_location'] ) {
+			$pass = false;
+
+			echo '<pre style="text-align: left;">';
+			echo "\n# Menu_Walker ERROR 🤕";
+			echo "\n# 'theme_location' is required. Example:";
+			echo "\n#";
+			echo "\n# Menu_Walker::output_theme_location_menu( array(";
+			echo "\n#     'theme_location'   => 'main-menu',";
+			echo "\n# ) );";
+			echo "\n#";
+			echo "\n# Please correct the method call at this point in your template file";
+			echo '</pre>';
+
+			return;
+		}
+
+		// Check theme_location exists.
+		$locations = get_registered_nav_menus();
+
+		if ( $pass && ! array_key_exists( $menu_args['theme_location'], $locations ) ) {
+
+			$pass = false;
+
+			echo '<pre style="text-align: left;">';
+			echo "\n# Menu_Walker ERROR 🤕";
+			echo "\n# theme_location '{$menu_args['theme_location']}' not found in registered menu locations.";
+			echo "\n#";
+			echo "\n# These are the current registered menu locations:";
+			foreach ( $locations as $key => $value ) {
+				echo "\n# '{$key}'";
+			}
+			echo "\n#";
+			echo "\n# Please correct the method call at this point in your template file";
+			echo '</pre>';
+
+			return;
+		}
+
+		if ( $pass
+			&& isset( $menu_args['nav_or_div'] )
+			&& 'nav' !== $menu_args['nav_or_div']
+			&& 'div' !== $menu_args['nav_or_div'] ) {
+
+			$pass = false;
+
+			echo '<pre style="text-align: left;">';
+			echo "\n# Menu_Walker ERROR 🤕";
+			echo "\n# 'nav_or_div' must be value either 'nav' or 'div'";
+			echo "\n#";
+			echo "\n# Please correct the method call at this point in your template file";
+			echo '</pre>';
+
+			return;
+		}
+
 		if ( $pass && isset( $passed_args['html_tab_indents'] ) ) {
 
 			if ( ! is_int( $passed_args['html_tab_indents'] )
 				|| strlen( $passed_args['html_tab_indents'] ) > 1
-				|| strlen( $passed_args['html_tab_indents'] ) == 0
+				|| strlen( $passed_args['html_tab_indents'] ) === 0
 				|| $passed_args['html_tab_indents'] > 9
 				|| $passed_args['html_tab_indents'] < 0
 			) {
 
-				echo '<pre>';
+				$pass = false;
+
+				echo '<pre style="text-align: left;">';
 				echo "\n# Menu_Walker ERROR 🤕";
 				echo "\n# 'html_tab_indents' must be an integer from 0-9";
 				echo "\n#";
@@ -488,17 +517,18 @@ class Menu_Walker extends Walker_Nav_Menu {
 
 		if ( ! $pass ) {
 
-			echo '<pre>';
+			echo '<pre style="text-align: left;">';
 			echo "\n# Menu_Walker ERROR 🤕";
-			echo "\n# output_theme_location_menu accepts up to 5 arguments with 'theme_location'";
+			echo "\n# output_theme_location_menu accepts up to 6 arguments with 'theme_location'";
 			echo "\n# being the only required parameter. Example:";
 			echo "\n#";
 			echo "\n# Menu_Walker::output_theme_location_menu( array(";
-			echo "\n#     'theme_location'   => 'main-menu',";
-			echo "\n#     'menu_class'       => 'mainMenu',";
-			echo "\n#     'nav_or_div'       => 'nav',";
-			echo "\n#     'nav_aria_label'   => 'Menu',";
-			echo "\n#     'html_tab_indents' => 3,";
+			echo "\n#     'theme_location'     => 'main-menu',";
+			echo "\n#     'menu_class'         => 'mainMenu',";
+			echo "\n#     'nav_or_div'         => 'nav',";
+			echo "\n#     'nav_aria_label'     => 'Menu',";
+			echo "\n#     'html_tab_indents'   => 3,";
+			echo "\n#     'top_level_classes'  => 'button',";
 			echo "\n# ) );";
 			echo "\n#";
 			echo "\n# Please correct the method call at this point in your template file";
@@ -519,28 +549,121 @@ class Menu_Walker extends Walker_Nav_Menu {
 			'fallback_cb'          => array( new Menu_Walker(), 'fallback' ),
 			'walker'               => new Menu_Walker(),
 			'html_tab_indents'     => 3,
-			'nav_or_div'           => 'div',
+			'nav_or_div'           => 'nav',
 			'nav_aria_label'       => 'Menu',
-			'button_class'         => 'button',
+			'top_level_classes'    => '', // Applied to only top-level menu items.
 		);
 
-		// Merge passed args with defaults array
+		// Merge passed args with defaults array.
 		$args = array_merge( $defaults, $passed_args );
 
-		// WordPress-ify the args
+		// We only want one menu class.
+		$menu_class_string  = self::sanitise_classes( $args['menu_class'] );
+		$args['menu_class'] = explode( ' ', $menu_class_string )[0];
+
+		// WordPress-ify the args in case used outside this class.
 		$args['container_class']      = $args['menu_class'];
 		$args['container']            = $args['nav_or_div'];
 		$args['container_aria_label'] = $args['nav_aria_label'];
 
+		// Clean the class strings.
+		$args['menu_class']        = self::sanitise_classes( $args['menu_class'] );
+		$args['container_class']   = self::sanitise_classes( $args['container_class'] );
+		$args['top_level_classes'] = self::sanitise_classes( $args['top_level_classes'] );
+		
 		// If menu is registered at location, pass to wp_nav_menu.
 		if ( has_nav_menu( $args['theme_location'] ) ) {
 			wp_nav_menu( $args );
 
 			// Otherwise, use fallback method.
 		} else {
+
 			self::fallback( $args );
 		}
 	}
 
 
+	/**
+	 * Clean a string for CSS class use or similar.
+	 *
+	 * Removes excess whitespace and invalid characters.
+	 *
+	 * @param {string} $string A string to be cleaned.
+	 * @return {string} A cleaned string.
+	 */
+	public static function sanitise_classes( $string ) {
+
+		$trimmed_string = trim( $string );
+		$safe_string    = preg_replace( '/[^A-Za-z0-9 \-_]/', '', $trimmed_string );
+
+		return $safe_string;
+	}
+
+
+	/**
+	 * Build Class String
+	 *
+	 * Builds and returns a string of classes for the passed menu item.
+	 *
+	 * @param WP_Post  $item   Menu item data object.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   An object of wp_nav_menu() arguments.
+	 * @param int      $id     Current item ID.
+	 */
+	public function build_class_string( $item, $depth, $args ) {
+
+
+		// Passed from display_element.
+		$is_parent  = $item->hb__is_parent;
+		$is_active  = $item->hb__is_active;
+		$has_active = $item->hb__has_active;
+
+		// BEM Structure.
+		$css_element  = '_item';
+		$css_modifier = array(
+			'parent'     => '-parent',
+			'active'     => '-active',
+			'has_active' => '-parent-hasActive',
+		);
+
+		// Classes.
+		$class_array     = array();
+		$menu_class      = $this->menu_class;
+		$top_class_array = explode( ' ', $this->top_level_classes );
+
+		array_push( $class_array, $menu_class );
+
+		// Adds top level item classes if provded.
+		if ( 0 === $depth && ! empty( $top_class_array ) ) {
+			foreach ( $top_class_array as $top_class ) {
+				array_push( $class_array, $top_class );
+			}
+		}
+
+		// Adds a dropdown class to dropdown children.
+		if ( 0 < $depth ) {
+			array_push( $class_array, 'dropdown_item' );
+		}
+
+		$class_string = '';
+
+		/**
+		 * For each class in the array, create relevant modifier classes for the menu item. This
+		 * allows the caller to use as many dynamic classes as desired.
+		 */
+		foreach ( $class_array as $css_block ) {
+
+			// Only append BEM '_item' for menu_class. For all other classes, just use modifier.
+			$css_element = ( $css_block === $menu_class ) ? $css_element : '';
+
+			// Start with ' ' to ensure classes are separated from last loop - trim excess later.
+			$class_string = $class_string . ' ' . $css_block . $css_element;
+			$class_string = ( $is_parent ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['parent'] : $class_string;
+			$class_string = ( $is_active ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['active'] : $class_string;
+			$class_string = ( $has_active ) ? $class_string . ' ' . $css_block . $css_element . $css_modifier['has_active'] : $class_string;
+		}
+
+		return trim( $class_string );
+
+	}
 }//end class
