@@ -27,7 +27,7 @@ var dropdownPlugin = (function() {
 
 			dropdown.addEventListener( 'mouseenter', dropdownHoverOn = function() {
 				// If dropdown is already active, do nothing.
-				if ( 'true' === dropdown.querySelector('.dropdown_toggle').getAttribute( "aria-expanded" ) ) return;
+				if ( 'true' === dropdown.querySelector( '.dropdown_toggle:not( .fullscreenMenu .dropdown_toggle )' ).getAttribute( "aria-expanded" ) ) return;
 				// Otherwise, show the dropdown.
 				dropdownPlugin.toggle( this.querySelector('.dropdown_toggle') );
 			} );
@@ -130,13 +130,13 @@ var dropdownPlugin = (function() {
                 let menu = dropdown.lastElementChild;
 				let shouldDropRight = isInLeftHalf( dropdown );
 
-                if ( shouldDropRight ) {
-                    menu.style.right = '';
-                    menu.style.left = '0';
-                } else {
+                //if ( shouldDropRight ) {
+                //    menu.style.right = '';
+                //    menu.style.left = '0';
+                //} else {
                     menu.style.left = '';
                     menu.style.right = '0';
-                }
+                //}
 
 				if ( ! dropdown.classList.contains( 'dropdown-inMenu' ) ) {
 					//set dropdown popop vertical position

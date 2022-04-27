@@ -46,7 +46,6 @@ function enqueue_scripts_and_styles() {
 	// If not in admin area.
 	if ( 'wp-login.php' !== $GLOBALS['pagenow'] && ! is_admin() ) {
 		wp_register_style( 'parent_css', get_template_directory_uri() . '/css/parent-page.css', array( 'toecaps_css' ), filemtime( get_template_directory() . '/css/parent-page.css' ), 'all' );
-		wp_enqueue_script( 'screenclass_js', get_template_directory_uri() . '/js/screenclass.js', array(), '0.1', true );
 		// De-register wp jquery and use CDN.
 		wp_deregister_script( 'jquery' );
 		wp_enqueue_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', array(), '3.6.0', true );

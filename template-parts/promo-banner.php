@@ -25,6 +25,7 @@ namespace BigupWeb\Toecaps;
 					aria-label="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
 					title="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
 				>
+					<i class="fa-solid fa-envelope"></i>
 					<?php echo esc_html( get_option( 'email' ) ); ?>
 				</a>
 				<?php
@@ -39,6 +40,7 @@ namespace BigupWeb\Toecaps;
 					aria-label="<?php esc_html_e( 'Phone us', 'toecaps' ); ?>"
 					title="<?php esc_html_e( 'Phone us', 'toecaps' ); ?>"
 				>
+					<i class="fa-solid fa-phone"></i>
 					<?php echo esc_attr( get_option( 'phone' ) ); ?>
 				</a>
 				<?php
