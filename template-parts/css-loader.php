@@ -2,13 +2,16 @@
 /**
  * Toecaps Template - CSS-Loader.
  *
- * This template will dynamicallay load styles depending on the page being built.
+ * Enqueue any theme-conditional scripts and styles here. This template is called from header.php.
  *
  * @package   Toecaps
  * @author    Jefferson Real <me@jeffersonreal.uk>
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
+return;
+
+/*
 if ( is_front_page() || is_home() ) {
 
 	return;
@@ -27,3 +30,4 @@ if ( is_front_page() || is_home() ) {
 
 	}
 }
+*/

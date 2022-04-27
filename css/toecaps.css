@@ -7,76 +7,43 @@
  */
 
 /*
-~o~~~~oOo~~~~o~
-~o CSS INDEX o~
 
-1. [BASE]
-    1.1 DEFAULTS AND THEME VARIABLES
-    1.2 BROWSER SCROLLBAR
-    1.3 ELEMENT BASE
-        1.3.1 DOCUMENT SETUP
-        1.3.2 ELEMENT RESETS
-        1.3.3 INPUT PLACEHOLDER
-    1.4 TYPOGRAPHY
-    1.5 WIDGETS
-    1.6 WORDPRESS CORE CLASSES
-    1.7 ACCESSIBILITY
+~o~~oOo~~o~
+~o INDEX o~
 
-2. [ELEMENTS]
-    2.1 LAYOUT
-        2.1.1 LAYOUT - GLOBAL GRID
-        2.1.2 LAYOUT - BLOG POST 
-        2.1.3 LAYOUT - ARTICLE
-    2.2 CONTAINERS
-        2.2.1 CONTAINERS - GLOBAL CONTENT CONTAINER (SAUCE)
-        2.2.2 CONTAINERS - SQUARES
-        2.2.3 CONTAINERS - VANILLA
-    2.3 IMAGES
-    2.4 FORMS
-    2.5 BUTTONS
-        2.5.1 BASE BUTTON
-        2.5.2 BUTTON - BORDER
-        2.5.3 BUTTON - NOBACK
-        2.5.4 BUTTON - FLAPPY
-        2.5.5 BUTTON - SPINNY
-        2.5.6 WIDGET BUTTON
-        2.5.7 MODAL CLOSE BUTTON
-        2.5.8 MENU TOGGLE
-
-3. [BLOCKS]
-    3.1 COMMON
-        3.1.1 HEADER
-        3.1.2 HEADER DESKTOP
-        3.1.3 FOOTER
-        3.1.4 SITE TITLE
-        3.1.5 MODAL
-        3.1.6 MAIN MENU
-        3.1.7 DROPDOWN
-    3.2 MOBILE
-        3.2.1 THUMBNAV
-
-4. [ANIMATION]
-    4.1 CSS KEYFRAMES
-        4.1.1 PULSE
-    4.2 CONTAINERS
-        4.2.1 .animation_scrollSpace
-        4.2.2 .animation_wrap
-        4.2.3 .animation_title
-        4.2.4 .animation_wrap-wheel
-    4.3 SVG
-*/
+1. BASE
+	1.1 DEFAULTS AND THEME VARIABLES
+	1.2 PAGE TEMPLATE THEME COLOURS
+	1.3 BROWSER AND PSUEDO CLASSES
+	1.4 ELEMENT RESETS
+	1.5 WORDPRESS CORE CLASSES
+2. TYPOGRAPHY
+3. LAYOUT
+	3.1 BLOG-POST
+	3.2 CONTAINER
+4. COMPONENTS
+	4.1 PROMOBANNER
+	4.2 HEADER
+	4.3 FOOTER
+	4.4 SITE TITLE
+	4.5 MODAL
+	4.6 MAIN MENU
+	4.7 DROPDOWN
+	4.8 FOLLOW
+	4.9 SOCIAL_LINK
+	4.10 BUTTON
+	4.11 FORM
 
 
-/* Media queries
+~o~~~~~~oOo~~~~~~o~
+~o Media Queries o~
 
 MAX
-
 @media (max-width: 450px) {}
 @media (max-width: 599px) {}
 @media (max-width: 767px) {}
 
 MIN
-
 @media (min-width: 600px) {}
 @media (min-width: 768px) {}
 @media (min-width: 1024px) {}
@@ -85,15 +52,14 @@ MIN
 @media (min-width: 1921px) {}
 
 RANGE
-
 @media (min-width: 451px) and (max-width: 767px) {}
 @media (min-width: 768px) and (max-width: 1023px) {}
 @media (min-width: 1024px) and (max-width: 1279px) {}
 @media (min-width: 1280px) and (max-width: 1535px) {}
 @media (min-width: 1536px) and (max-width: 1920px) {}
 
-
 */
+
 
 /*=============================================================== 1. BASE ====*/
 /*-------------------------------------- 1.1 DEFAULTS AND THEME VARIABLES ----*/
@@ -101,37 +67,36 @@ RANGE
 
 :root {
 
-  --tc_colour-accent: #29a367;
-  --tc_colour-accent-opaque: #29a367e6;
-  --tc_colour-menuHover: #ddd5;
-  --tc_colour-menuActive: #1b1b1b;
+	--tc_colour-accent: #29a367;
+	--tc_colour-accent-opaque: #29a367e6;
+	--tc_colour-menuHover: #ddd5;
+	--tc_colour-menuActive: #1b1b1b;
 
+	--tc_colour-black: #1b1b1b;
+	--tc_colour-darkGrey: #888;
+	--tc_colour-grey: #bbb;
+	--tc_colour-lightGrey: #eee;
+	--tc_colour-white: #fff;
+	--tc_colour-green: #29a367;
+	--tc_colour-red: #ea4335;
+	--tc_colour-orange: #fbbc05;
+	--tc_colour-blue: #4285f4;
+	--tc_colour-pink: #e1306c;
+	--tc_colour-darkBlue: #2867b2;
 
-  --tc_colour-black: #1b1b1b;
-  --tc_colour-darkGrey: #888;
-  --tc_colour-grey: #bbb;
-  --tc_colour-lightGrey: #eee;
-  --tc_colour-white: #fff;
-  --tc_colour-green: #29a367;
-  --tc_colour-red: #ea4335;
-  --tc_colour-orange: #fbbc05;
-  --tc_colour-blue: #4285f4;
-  --tc_colour-pink: #e1306c;
-  --tc_colour-darkBlue: #2867b2;
+	--tc_shadow: 0 0.25em 0.5em 0.25em #0006,0 0.125em 0.25em 0.125em #0006;
 
-  --tc_shadow: 0 0.25em 0.5em 0.25em #0006,0 0.125em 0.25em 0.125em #0006;
+		/* layout variables */
+	--tc_radius-tiny: 0.15em;
+	--tc_radius-small: 0.6em;
+	--tc_radius: 1.2em;
+	--tc_background: var(--tc_colour-white);
+	--tc_border: solid 0.3em var(--tc_colour-lightGrey);
+	--tc_gutters: 0.5em;
 
-    /* layout variables */
-  --tc_radius-tiny: 0.15em;
-  --tc_radius-small: 0.6em;
-  --tc_radius: 1.2em;
-  --tc_background: var(--tc_colour-white);
-  --tc_border: solid 0.3em var(--tc_colour-lightGrey);
-  --tc_gutters: 0.5em;
-
-    /* font stacks */
-  --tc_font-secondary: 'Source Sans Pro', Georgia, Times, "Times New Roman", serif;
-  --tc_font-primary: 'Albertus Medium', Helvetica, 'Helvetica Neue', Frutiger, Arial, sans-serif;
+		/* font stacks */
+	--tc_font-secondary: 'Source Sans Pro', Georgia, Times, "Times New Roman", serif;
+	--tc_font-primary: 'Albertus Medium', Helvetica, 'Helvetica Neue', Frutiger, Arial, sans-serif;
 
     /* font sizes */
 	--tc_display-1: calc(1.625rem + 4.5vw);
@@ -183,9 +148,41 @@ RANGE
 }
 
 
+/*--------------------------------------- 1.2 PAGE TEMPLATE THEME COLOURS ----*/
 
 
-/*------------------------------------------------- 1.2 BROWSER SCROLLBAR ----*/
+.page-template-toecaps-tan {
+	--tc_colour-accent: #bb8866;
+	--tc_colour-accent-opaque: #bb8866e6;
+}
+
+.page-template-toecaps-yellow {
+	--tc_colour-accent: #fbff02;
+	--tc_colour-accent-opaque: #fbff02e6;
+}
+
+.page-template-toecaps-blue {
+	--tc_colour-accent: #2596db;
+	--tc_colour-accent-opaque: #2596dbe6;
+}
+
+.page-template-toecaps-red {
+	--tc_colour-accent: #ee0000;
+	--tc_colour-accent-opaque: #ee0000e6;
+}
+
+.page-template-toecaps-teal {
+	--tc_colour-accent: #29a2a3;
+	--tc_colour-accent-opaque: #29a2a3e6;
+}
+
+.page-template-toecaps-green {
+	--tc_colour-accent: #32c17b;
+	--tc_colour-accent-opaque: #32c17be6;
+}
+
+
+/*---------------------------------------- 1.3 BROWSER AND PSUEDO CLASSES ----*/
 
 
 /* browser scrollbar */
@@ -200,31 +197,39 @@ body::-webkit-scrollbar {
         background-color: #8d8d8d;
     }
 
+::-moz-placeholder {
+	opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
+	color: var(--tc_colour-grey);
+	}
 
-/*------------------------------------------------------ 1.3 ELEMENT BASE ----*/
-/*- - - - - - - - - - - - - - - - - - - - - - - - -  1.3.1 DOCUMENT SETUP ----*/
+:-ms-input-placeholder {
+	opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
+	color: var(--tc_colour-grey);
+	}
 
+::placeholder {
+	opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
+	color: var(--tc_colour-grey);
+	}
+		:-ms-input-placeholder {
+		color: var(--tc_colour-grey) /* Internet Explorer 10-11 */
+		}
+		::-ms-input-placeholder {
+		color: var(--tc_colour-grey); /* Microsoft Edge */
+		}
 
-html, body {
-    margin: 0;
-    min-height: 100vh;
-}
-
-.footer {
-    margin-top: auto;
-}
-
-
-/*- - - - - - - - - - - - - - - - - - - - - - - - -  1.3.2 ELEMENT RESETS - - */
-
-
-* { 
-    box-sizing: border-box;
-}
 :focus,
 :focus-visible {
 	z-index: 1;
 	outline: 0.2rem solid var(--tc_colour-black);
+}
+
+
+/*---------------------------------------------------- 1.4 ELEMENT RESETS ----*/
+
+
+* { 
+    box-sizing: border-box;
 }
 select {
     text-transform: none;
@@ -253,34 +258,133 @@ input[type="button"] {
 }
 
 
-/*- - - - - - - - - - - - - - - - - - - - - - - - 1.3.3 INPUT PLACEHOLDER - - */
+/*-------------------------------------------- 1.5 WORDPRESS CORE CLASSES ----*/
 
 
-::-moz-placeholder {
-    opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
-    color: var(--tc_colour-grey);
-  }
+/* These should be maintained to ensure support for WP core and 3rd party plugins */
+
+.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.aligncenter,
+div.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+.alignright {
+    float:right;
+    margin: 5px 0 20px 20px;
+}
+
+.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+a img.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wp-caption {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    max-width: 96%; /* Image does not overflow the content area */
+    padding: 5px 3px 10px;
+    text-align: center;
+}
+
+.wp-caption.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignleft {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignright {
+    margin: 5px 0 20px 20px;
+}
+
+.wp-caption img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 98.5%;
+    padding: 0;
+    width: auto;
+}
+
+.wp-caption p.wp-caption-text {
+    font-size: 11px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0 4px 5px;
+}
+
+/* Text meant only for screen readers. */
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    width: 1px;
+    word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
+}
+
+.screen-reader-text:focus {
+    background-color: #eee;
+    clip: auto !important;
+    clip-path: none;
+    color: #444;
+    display: block;
+    font-size: 1em;
+    height: auto;
+    left: 5px;
+    line-height: normal;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: 5px;
+    width: auto;
+    z-index: 100000;
+    /* Above WP toolbar. */
+}
+
+/* The following support $content_width in functions.php */
+
+.size-auto, 
+.size-full,
+.size-large,
+.size-medium,
+.size-thumbnail {
+	max-width: 100%;
+	height: auto;
+}
 
 
-:-ms-input-placeholder {
-    opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
-    color: var(--tc_colour-grey);
-  }
+/*========================================================= 2. TYPOGRAPHY ====*/
 
-
-::placeholder {
-    opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
-    color: var(--tc_colour-grey);
-  }
-      :-ms-input-placeholder {
-      color: var(--tc_colour-grey) /* Internet Explorer 10-11 */
-      }
-      ::-ms-input-placeholder {
-      color: var(--tc_colour-grey); /* Microsoft Edge */
-      }
-
-
-/*-------------------------------------------------------- 1.4 TYPOGRAPHY ----*/
 
 .hentry {
     text-align: start;
@@ -540,188 +644,30 @@ strong {
 }
 
 
-/*----------------------------------------------------------- 1.5 WIDGETS ----*/
+/*============================================================= 3. LAYOUT ====*/
+/*--------------------------------------------------------- 3.1 HTML/BODY ----*/
 
 
-.widget {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    padding: 2%;
-}
-
-    .widget h1,
-    .widget h2,
-    .widget h3,
-    .widget h4,
-    .widget h5,
-    .widget h6 {
-        text-align: center;
-    }
-
-    .widget ul {
-        margin: 0;
-        padding-left: 0;
-        list-style: none;
-    }
-        .widget ul li {
-            margin: 0.8em 0;
-            border-radius: 0.3em;
-            background: var(--tc_colour-lightGrey);
-            padding: 0 0.3em;
-        }
-            .widget ul li:hover {
-                cursor: pointer;
-                background: var(--tc_colour-green);
-                color: var(--tc_colour-white);
-            }
-
-    .widget a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-@media (min-width: 48em) {
-    .widget h3 {
-        font-size: var(--tc_h6);
-        line-height: 1.688;
-    }
-
-    .widget p,
-    .widget ul {
-        font-size: var(--tc_xsmall);
-    }
-}
-
-
-/*-------------------------------------------- 1.6 WORDPRESS CORE CLASSES ----*/
-
-
-/* These should be maintained to ensure support for WP core and 3rd party plugins */
-
-.alignnone {
-    margin: 5px 20px 20px 0;
-}
-
-.aligncenter,
-div.aligncenter {
-    display: block;
-    margin: 5px auto 5px auto;
-}
-
-.alignright {
-    float:right;
-    margin: 5px 0 20px 20px;
-}
-
-.alignleft {
-    float: left;
-    margin: 5px 20px 20px 0;
-}
-
-a img.alignright {
-    float: right;
-    margin: 5px 0 20px 20px;
-}
-
-a img.alignnone {
-    margin: 5px 20px 20px 0;
-}
-
-a img.alignleft {
-    float: left;
-    margin: 5px 20px 20px 0;
-}
-
-a img.aligncenter {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.wp-caption {
-    background: #fff;
-    border: 1px solid #f0f0f0;
-    max-width: 96%; /* Image does not overflow the content area */
-    padding: 5px 3px 10px;
-    text-align: center;
-}
-
-.wp-caption.alignnone {
-    margin: 5px 20px 20px 0;
-}
-
-.wp-caption.alignleft {
-    margin: 5px 20px 20px 0;
-}
-
-.wp-caption.alignright {
-    margin: 5px 0 20px 20px;
-}
-
-.wp-caption img {
-    border: 0 none;
-    height: auto;
+html, body {
     margin: 0;
-    max-width: 98.5%;
-    padding: 0;
-    width: auto;
+    min-height: 100vh;
 }
 
-.wp-caption p.wp-caption-text {
-    font-size: 11px;
-    line-height: 17px;
-    margin: 0;
-    padding: 0 4px 5px;
+body {
+	display: flex;
+	flex-flow: column;
 }
 
-/* Text meant only for screen readers. */
-.screen-reader-text {
-    border: 0;
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute !important;
-    width: 1px;
-    word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
+body > main {
+	flex-grow: 1;
 }
 
-.screen-reader-text:focus {
-    background-color: #eee;
-    clip: auto !important;
-    clip-path: none;
-    color: #444;
-    display: block;
-    font-size: 1em;
-    height: auto;
-    left: 5px;
-    line-height: normal;
-    padding: 15px 23px 14px;
-    text-decoration: none;
-    top: 5px;
-    width: auto;
-    z-index: 100000;
-    /* Above WP toolbar. */
-}
-
-/* The following support $content_width in functions.php */
-
-.size-auto, 
-.size-full,
-.size-large,
-.size-medium,
-.size-thumbnail {
-	max-width: 100%;
-	height: auto;
+.footer {
+    margin-top: auto;
 }
 
 
-/*=========================================================== 2. ELEMENTS ====*/
-/*--------------------------------------------------- 2.1 LAYOUT ELEMENTS ----*/
-/*- - - - - - - - - - - - - - - - - - - - - - -  2.1.2 LAYOUT - BLOG POST - - */
+/*--------------------------------------------------------- 3.2 BLOG-POST ----*/
 
 
 .blog-post {
@@ -736,8 +682,7 @@ a img.aligncenter {
     }
 
 
-/*-------------------------------------------------------- 2.2 CONTAINERS ----*/
-/*- - - - - - - - - - - - - - - -  2.2.1 CONTAINERS - MAIN CONTENT COLUMN - - */
+/*--------------------------------------------------------- 3.3 CONTAINER ----*/
 
 
 .container {
@@ -770,95 +715,8 @@ a img.aligncenter {
 }
 
 
-/*------------------------------------------------------------- 2.4 FORMS ----*/
-
-
-.form {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    width: 100%;
-}
-    .form_input {
-        outline: none;
-        border: none;
-        background: #0000;
-        padding: 0.5em;
-        width: 100%;
-        height: 100%;
-        color: var(--tc_colour-white);
-    }
-
-
-/*----------------------------------------------------------- 2.5 BUTTONS ----*/
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - 2.5.1 BASE BUTTON - - */
-
-
-.button {
-    display: inline-block;
-    position: relative;
-    border: none;
-    background-color: var(--tc_colour-white);
-    padding: 0;
-    width: max-content;
-    max-width: 100%;
-    height: fit-content;
-    overflow: visible;
-	text-transform: uppercase;
-    text-decoration: none;
-	color: var(--tc_colour-black);
-	font-family: inherit;
-    font-size: inherit;
-    transition: box-shadow .2s ease-in-out,
-				background-color .2s ease-in-out,
-				border-color .2s ease-in-out;
-	box-shadow: 5px 5px 0 rgb(0 0 0 / 20%);
-}
-    .button > *:first-child {
-        display: inline-flex;
-		align-items: center;
-        transition: inherit;
-        border-radius: inherit;
-        padding: 0.5em 2em;
-        width: max-content;
-        max-width: 100%;
-        height: 100%;
-        text-align: center;
-        text-decoration: none;
-        white-space: normal;
-        color: inherit;
-        font-weight: 700;
-		min-height: 3.5em;
-		letter-spacing: 0.143em;
-    }
-        .button:hover {
-            cursor: pointer;
-			box-shadow: 0 0 0 rgb(0 0 0 / 20%);
-        }
-        .button:hover > *:first-child {
-            color: var(--tc_colour-black);
-            background: #0000;
-        }
-
-
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.2 social_link - - */
-
-
-.social_link {
-	padding: 6px;
-	text-decoration: none;
-	color: inherit;
-}
-	i.fa {
-		color: currentColor;
-		font-size: inherit;
-	}
-
-
-/*============================================================= 3. BLOCKS ====*/
-/*------------------------------------------------------------ 3.1 COMMON ----*/
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.1 promoBanner - - */
+/*========================================================= 4. COMPONENTS ====*/
+/*------------------------------------------------------- 4.1 PROMOBANNER ----*/
 
 .promoBanner {
 	background: var(--tc_colour-black);
@@ -900,6 +758,10 @@ a img.aligncenter {
 			z-index: 1;
 			outline: 0.2rem solid var(--tc_colour-white);
 		}
+			.promoBanner_link i {
+				padding-right: 4px;
+				vertical-align: middle;
+			}
 
 @media (min-width: 768px) {
 	.promoBanner_social {
@@ -914,7 +776,7 @@ a img.aligncenter {
 }
 
 
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - -  3.1.3 HEADER - - */
+/*------------------------------------------------------------ 4.2 HEADER ----*/
 
 
 .header {
@@ -966,7 +828,8 @@ a img.aligncenter {
 			margin: 1em 0.5em;
 		}
 
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - -  3.1.3 FOOTER - - */
+
+/*------------------------------------------------------------ 4.3 FOOTER ----*/
 
 
 .footer {
@@ -994,8 +857,7 @@ a img.aligncenter {
 		}
 
 
-
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.4 SITE TITLE - - */
+/*-------------------------------------------------------- 4.4 SITE TITLE ----*/
 
 
 .identity {
@@ -1025,7 +887,7 @@ a img.aligncenter {
 	}
 
 
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - -  3.1.5 MODAL - - */
+/*------------------------------------------------------------- 4.5 MODAL ----*/
 
 
 .modal {
@@ -1101,7 +963,7 @@ a img.aligncenter {
 }
 
 
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - -  3.1.6 MAIN MENU - - */
+/*--------------------------------------------------------- 4.6 MAIN MENU ----*/
 
 
 .fullscreenMenu_open {
@@ -1246,7 +1108,8 @@ a img.aligncenter {
 	}
 }
 
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.7 DROPDOWN - - */
+
+/*---------------------------------------------------------- 4.7 DROPDOWN ----*/
 
 
 .dropdown {
@@ -1343,7 +1206,6 @@ a img.aligncenter {
 		justify-content: center;
 		background-color: transparent;
 		margin-left: 8px;
-		box-shadow: -20px -23px 4px -23px #0008;
 		border-left: solid 4px #0004;
 	}
 
@@ -1364,17 +1226,21 @@ a img.aligncenter {
 		max-width: 100%;
 		transform: none !important;
 	}
+	.fullscreenMenu .dropdown_toggle-active + .dropdown_contents {
+		border-left: solid 4px var(--tc_colour-white);
+	}
+	.dropdown-inMenu > .dropdown_toggle-active,
 	.fullscreenMenu .dropdown > .dropdown_toggle-active {
 		box-shadow: -3px -2px 4px -2px #0008;
 		border-top-left-radius: 0.5em;
 	}
+	.dropdown-inMenu > .dropdown_toggle-active + .dropdown_contents,
 	.fullscreenMenu .dropdown_toggle-active + .dropdown_contents {
-		border-left: solid 4px var(--tc_colour-white);
 		box-shadow: -20px -23px 4px -23px #0008;
 	}
+	
 
-
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - 3.1.8 FOLLOW - - */
+/*------------------------------------------------------------ 4.8 FOLLOW ----*/
 
 
 .follow {
@@ -1396,3 +1262,88 @@ a img.aligncenter {
 			.follow_social svg {
 				width: clamp(2em, 4vw, 3.5em);
 			}
+
+
+/*------------------------------------------------------- 4.9 SOCIAL_LINK ----*/
+
+
+.social_link {
+	padding: 6px;
+	text-decoration: none;
+	color: inherit;
+}
+	i.fa {
+		color: currentColor;
+		font-size: inherit;
+	}
+
+
+/*----------------------------------------------------------- 4.10 BUTTON ----*/
+
+
+.button {
+    display: inline-block;
+    position: relative;
+    border: none;
+    background-color: var(--tc_colour-white);
+    padding: 0;
+    width: max-content;
+    max-width: 100%;
+    height: fit-content;
+    overflow: visible;
+	text-transform: uppercase;
+    text-decoration: none;
+	color: var(--tc_colour-black);
+	font-family: inherit;
+    font-size: inherit;
+    transition: box-shadow .2s ease-in-out,
+				background-color .2s ease-in-out,
+				border-color .2s ease-in-out;
+	box-shadow: 5px 5px 0 rgb(0 0 0 / 20%);
+}
+    .button > *:first-child {
+        display: inline-flex;
+		align-items: center;
+        transition: inherit;
+        border-radius: inherit;
+        padding: 0.5em 2em;
+        width: max-content;
+        max-width: 100%;
+        height: 100%;
+        text-align: center;
+        text-decoration: none;
+        white-space: normal;
+        color: inherit;
+        font-weight: 700;
+		min-height: 3.5em;
+		letter-spacing: 0.143em;
+    }
+        .button:hover {
+            cursor: pointer;
+			box-shadow: 0 0 0 rgb(0 0 0 / 20%);
+        }
+        .button:hover > *:first-child {
+            color: var(--tc_colour-black);
+            background: #0000;
+        }
+
+
+/*------------------------------------------------------------- 4.11 FORM ----*/
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: 100%;
+}
+    .form_input {
+        outline: none;
+        border: none;
+        background: #0000;
+        padding: 0.5em;
+        width: 100%;
+        height: 100%;
+        color: var(--tc_colour-white);
+    }

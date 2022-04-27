@@ -1,9 +1,13 @@
 <?php
 /**
- * Template Name: Toecaps Home
+ * Toecaps Template File - Page Template.
  *
- * @package Toecaps
- * @author   Jefferson Real <me@jeffersonreal.uk>
+ * This is a special content template to act as a unified source for all themed page-templates.
+ * Note - this template calls the header and footer and most likely shouldn't be used for any other
+ * purpose than stated.
+ *
+ * @package   Toecaps
+ * @author    Jefferson Real <me@jeffersonreal.uk>
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 

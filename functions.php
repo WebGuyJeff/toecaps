@@ -202,7 +202,7 @@ add_action( 'after_setup_theme', 'toecaps_setup' );
 
 /**
  * Set the max content width sitewide.
- * 
+ *
  * @see https://codex.wordpress.org/Content_Width
  */
 if ( ! isset( $content_width ) ) {
