@@ -296,7 +296,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 
 		// Append dropdown classes.
 		if ( 0 === $depth ) {
-			$dropdown_classes = 'dropdown ' . $dropdown_classes;
+			$dropdown_classes = 'dropdown dropdown-hover ' . $dropdown_classes;
 		} else {
 			$dropdown_classes = 'dropdown dropdown-inMenu ' . $dropdown_classes;
 		}
