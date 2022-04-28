@@ -88,6 +88,15 @@ class Menu_Walker extends Walker_Nav_Menu {
 	private $t_nest_step = 0;
 
 	/**
+	 * Dropdown Toggle Icon.
+	 *
+	 * This is an SVG icon string which will be used on dropdown toggle buttons.
+	 *
+	 * @var string: An SVG icon.
+	 */
+	public static $icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>';
+
+	/**
 	 * Update the markup indent size variable.
 	 *
 	 * Allows for inline adjustment of indent size. It is called from within string
@@ -318,7 +327,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 	public function end_el( &$output, $item, $depth = 0, $args = null ) {
 
 		$item = $this->item;
-		$icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>';
+		$icon = self::$icon;
 
 		// Passed from display_element.
 		$is_parent = $item->hb__is_parent;
@@ -570,10 +579,31 @@ class Menu_Walker extends Walker_Nav_Menu {
 		$args['menu_class']        = self::sanitise_classes( $args['menu_class'] );
 		$args['container_class']   = self::sanitise_classes( $args['container_class'] );
 		$args['top_level_classes'] = self::sanitise_classes( $args['top_level_classes'] );
-		
+
 		// If menu is registered at location, pass to wp_nav_menu.
 		if ( has_nav_menu( $args['theme_location'] ) ) {
+
 			wp_nav_menu( $args );
+
+			// Insert the 'more items' template element (for cloning by js).
+			$icon = self::$icon;
+			echo <<<TEMPLATE
+<template class="autoMoreTemplate">
+	<div class="mainMenu_item autoMore dropdown">
+		<span class="dropdown_primary">
+			More
+		</span>
+		<button class="dropdown_toggle" aria-pressed="false" aria-expanded="false" aria-haspopup="menu">
+			<span class="dropdown_toggleIcon">
+				{$icon}
+			</span>
+		</button>
+		<div class="dropdown_contents">
+			<!-- MORE ITEMS ARE INSERTED HERE -->
+		</div>
+	</div>
+</template>
+TEMPLATE;
 
 			// Otherwise, use fallback method.
 		} else {

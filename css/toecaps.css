@@ -783,7 +783,6 @@ body > main {
     content-visibility: visible;
     position: relative;
     transition: transform 0.3s ease-in-out;
-    z-index: 10;
     background: var(--tc_colour-white);
 	background: var(--tc_colour-accent);
 	padding-bottom: 2em;
@@ -833,7 +832,6 @@ body > main {
 
 
 .footer {
-	z-index: 10;
 	background: var(--tc_colour-black);
 	padding-top: 2em;
 	color: var(--tc_colour-white);
@@ -847,6 +845,9 @@ body > main {
 		width: 100%;
 		text-align: center;
 	}
+		.footer_menu {
+			width: 100%;
+		}
 		.footer_social {
 			font-size: var(--tc_h5);
 		}
@@ -1045,12 +1046,10 @@ body > main {
 	.mainMenu {
 		gap: 0.5em;
 		display: flex;
-		flex-flow: row wrap;
-		flex-grow: 1;
-		align-items: center;
-		justify-content: center;
+		flex-flow: row nowrap;
 		padding: 0;
-		width: 100%;
+		margin: 0 auto;
+		width: fit-content;
 	}
 		.mainMenu_item {
 			overflow-wrap: break-word;

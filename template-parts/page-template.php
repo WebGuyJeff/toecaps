@@ -11,20 +11,43 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
+//use BigupWeb\Toecaps\Helpers;
+use BigupWeb\Toecaps\Tags;
+
 get_header();
 
 ?>
 
-<main>
+<main id="post-<?php the_ID(); ?>">
 
-	<?php
-	if ( have_posts() ) :
-		while ( have_posts() ) :
-			the_post();
-			get_template_part( 'template-parts/content', get_post_format() );
-		endwhile;
-	endif;
-	?>
+	<?php if ( get_edit_post_link() ) : ?>
+		<header class="entry-header">
+			<div class="container">
+				<?php
+				Tags::print_edit_post_link();
+				?>
+			</div>
+		</header>
+	<?php endif ?>
+
+	<div class="entry-content">
+		<?php
+		the_content(
+			sprintf(
+				wp_kses(
+					/* translators: %s: Name of current post. Only visible to screen readers */
+					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'toecaps' ),
+					array(
+						'span' => array(
+							'class' => array(),
+						),
+					)
+				),
+				wp_kses_post( get_the_title() )
+			)
+		);
+		?>
+	</div>
 
 	<section class="follow">
 		<div="container">
