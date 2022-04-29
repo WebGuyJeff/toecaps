@@ -566,7 +566,7 @@ blockquote {
     background: var(--tc_colour-lightGrey);
     padding: 0.1em 1.1em;
     font-style: italic;
-    quotes: "\201C""\201D""\2018""\2019";
+    quotes: "\201C" "\201D" "\2018" "\2019";
 }
     blockquote::before {
         margin-inline-end: 0.15em;
@@ -664,6 +664,7 @@ body > main {
 
 .footer {
     margin-top: auto;
+	flex-grow: 1;
 }
 
 
@@ -753,8 +754,11 @@ body > main {
 		.promoBanner_link:last-child {
 			padding-right: 0;
 		}
-		.promoBanner_link:focus,
-		.promoBanner_link:focus-visible {
+		.promoBanner_link:focus {
+			z-index: 1;
+			outline: none;
+		}
+		.promoBanner a:focus-visible {
 			z-index: 1;
 			outline: 0.2rem solid var(--tc_colour-white);
 		}
@@ -1117,7 +1121,7 @@ body > main {
     flex-flow: row nowrap;
     align-items: stretch;
 	padding: 0;
-    width: max-content;
+	width: 100%;
     max-width: 100%;
     min-height: fit-content;
 	grid-template-areas:
@@ -1126,6 +1130,7 @@ body > main {
 	grid-template-columns: 1fr auto;
 }
 	.dropdown_primary {
+		flex-grow: 1;
 		padding: 16px 8px 16px 16px;
 		text-decoration: none;
 		color: inherit;
@@ -1143,22 +1148,27 @@ body > main {
 				display: block;
 				font-size: inherit;
 			}
-				.dropdown_toggleIcon > svg {
+				.dropdown_toggleIcon {
 					transition: transform 0.15s ease-in-out;
 					height: 0.8em;
 					font-size: inherit;
 				}
 					.dropdown_contents {
-						display: none;
+						display: flex;
 						position: absolute;
-						top: 0;
+						top: 100%;
+						right: 0;
+						left: unset;
+						flex-flow: column nowrap;
 						grid-area: c;
+						visibility: hidden;
 						z-index: 1;
 						background-color: #fff;
 						width: calc( 100% - 8px );
 						min-width: fit-content;
 						height: 0;
 						text-align: left;
+						color: var(--tc_colour-black);
 						font-size: inherit;
 					}
 						.dropdown_item {
@@ -1169,17 +1179,28 @@ body > main {
 							color: var(--tc_colour-black);
 						}
 
-.dropdown_toggle-active svg {
+.dropdown_toggle-active > .dropdown_toggleIcon,
+.dropdown-hover:hover:not( .fullscreenMenu .dropdown ):not( .dropdown-inMenu ) > .dropdown_toggle > .dropdown_toggleIcon {
 	transform: rotateX( 180deg );
 }
-	.dropdown_toggle-active + .dropdown_contents {
-		display: flex;
-		flex-flow: column nowrap;
+	.dropdown_toggle-active + .dropdown_contents,
+	.dropdown-hover:hover:not( .fullscreenMenu .dropdown ):not( .dropdown-inMenu ) > .dropdown_contents {
+		visibility: visible;
 		height: unset;
 	}
-	.dropdown:not(.dropdown-inMenu):not(.fullscreenMenu .dropdown) > .dropdown_toggle-active + .dropdown_contents {
+	.dropdown:not( .dropdown-inMenu ):not( .fullscreenMenu .dropdown ) > .dropdown_toggle-active + .dropdown_contents,
+	.dropdown-hover:hover:not( .dropdown-inMenu ):not( .fullscreenMenu .dropdown ) > .dropdown_contents {
 		box-shadow: 0px 4px 4px 0px #0008;
 	}
+
+.dropdown-swingLeft > .dropdown_contents {
+	left: unset;
+	right: 0;
+}
+.dropdown-swingRight > .dropdown_contents {
+	left: 0;
+	right: unset;	
+}
 
 .dropdown-inMenu {
 	gap: 0;
@@ -1189,7 +1210,6 @@ body > main {
 	line-height: 1.4;
 }
 	.dropdown-inMenu > .dropdown_toggle {
-		display: flex;
 		align-items: center;
 		align-self: stretch;
 		justify-content: center;
@@ -1228,15 +1248,17 @@ body > main {
 	.fullscreenMenu .dropdown_toggle-active + .dropdown_contents {
 		border-left: solid 4px var(--tc_colour-white);
 	}
-	.dropdown-inMenu > .dropdown_toggle-active,
-	.fullscreenMenu .dropdown > .dropdown_toggle-active {
-		box-shadow: -3px -2px 4px -2px #0008;
-		border-top-left-radius: 0.5em;
-	}
-	.dropdown-inMenu > .dropdown_toggle-active + .dropdown_contents,
-	.fullscreenMenu .dropdown_toggle-active + .dropdown_contents {
-		box-shadow: -20px -23px 4px -23px #0008;
-	}
+
+/* 'Tab' shadows */
+.dropdown-inMenu > .dropdown_toggle-active,
+.fullscreenMenu .dropdown > .dropdown_toggle-active {
+	box-shadow: -3px -2px 4px -2px #0008;
+	border-top-left-radius: 0.5em;
+}
+.dropdown-inMenu > .dropdown_toggle-active + .dropdown_contents,
+.fullscreenMenu .dropdown_toggle-active + .dropdown_contents {
+	box-shadow: -20px -23px 4px -23px #0008;
+}
 	
 
 /*------------------------------------------------------------ 4.8 FOLLOW ----*/

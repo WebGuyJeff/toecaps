@@ -25,7 +25,6 @@ if ( is_front_page() || is_home() ) {
 			'nav_or_div'        => 'nav',
 			'nav_aria_label'    => 'Main Menu',
 			'html_tab_indents'  => 5,
-			'top_level_classes' => 'topLevel',
 		)
 	);
 
@@ -38,7 +37,7 @@ if ( is_front_page() || is_home() ) {
 	echo '<p>NO CHILD PAGE MENU CONFIGURED!</p>';
 
 } else {
-	// This is an orphaned page.
+	// This is an orphan page.
 	Menu_Walker::output_theme_location_menu(
 		array(
 			'theme_location'    => 'homepage-menu',
@@ -46,7 +45,6 @@ if ( is_front_page() || is_home() ) {
 			'nav_or_div'        => 'nav',
 			'nav_aria_label'    => 'Main Menu',
 			'html_tab_indents'  => 5,
-			'top_level_classes' => 'topLevel',
 		)
 	);
 }

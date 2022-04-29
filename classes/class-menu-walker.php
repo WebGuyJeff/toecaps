@@ -18,7 +18,7 @@ use function wp_nav_menu;
 
 /**
  * Class Menu_Walker.
- * 
+ *
  * This class builds a custom nav menu html structure and CSS classes as an
  * extension of the built-in WordPress Walker_Nav_Menu class.
  *
@@ -68,6 +68,10 @@ class Menu_Walker extends Walker_Nav_Menu {
 	/**
 	 * Top-level Item Class.
 	 *
+	 * [WARNING] This is currently a problem when used in conjunction with menu-more.js which moves
+	 * menu items into a 'more' dropdown when they overflow-x. The js has no knowledge of these
+	 * classes and therefore items may end up in that dropdown still bearing any top-level classes.
+	 *
 	 * This string is passed from output_theme_location_menu to provide the ability to set unique
 	 * classes on the top level menu items only. This is useful for styling the top level menu items
 	 * as a bar or buttons for example.
@@ -106,8 +110,8 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 *
 	 * Example indent(with 1 extra indent): $output .= "{$this->i(1)}<p>stuff"
 	 *
-	 * @param string: $indent Holds indent output string.
-	 * @param int:    $adjust The integer by which to adjust.
+	 * @param {int} $adjust Number of additional indents to return.
+	 * @var   {string} $indent The indent string.
 	 */
 	private function i( $adjust = 0 ) {
 		$indent = str_repeat( $this->t, $this->t_offset + $this->t_nest_step + $adjust );
@@ -118,11 +122,6 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 * __construct
 	 *
 	 * Init the class variables.
-	 *
-	 * @param {bool}   is_search        Is page a search page.
-	 * @param {string} t                Indent string.
-	 * @param {string} n                Newline string.
-	 * @param {bool}   this->first_call Is this the first call to the function.
 	 */
 	public function __construct() {
 		// Globalise the args.
@@ -133,13 +132,20 @@ class Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * display_element
+	 * Display_element.
 	 *
 	 * This method controls when and if the element output methods are fired. This is where
 	 * logic is set to determine the order and association of parent > child html
 	 * menu branches. It is the 'composer' to the Walker_Nav_Menu 'orchestra'.
 	 *
 	 * default wp display_element uses this order: start_el, start_lvl, end_lvl, end_el.
+	 *
+	 * @param {object} $item The menu item object.
+	 * @param {array}  $children_elements The child elements array (passed by reference).
+	 * @param {object} $max_depth The max depth of the menu.
+	 * @param {int}    $depth The depth of the menu item.
+	 * @param {array}  $args The menu arguments array.
+	 * @param {object} $output The menu output object (passed by reference).
 	 */
 	public function display_element( $item, &$children_elements, $max_depth, $depth, $args, &$output ) {
 
@@ -193,10 +199,10 @@ class Menu_Walker extends Walker_Nav_Menu {
 		}
 
 		if ( $item->current && ! $this->is_search ) {
-			// element is active and not on a search page
+			// Element is active and not on a search page.
 			$item->hb__is_active = true;
 		} else {
-			// explicit boolean
+			// Explicit boolean.
 			$item->hb__is_active = false;
 		}
 
@@ -205,7 +211,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 		//
 
 		// If item has children and args allow further depth.
-		if ( ( 0 == $max_depth || $max_depth > $depth + 1 ) && $item->hb__is_parent ) {
+		if ( ( 0 === $max_depth || $max_depth > $depth + 1 ) && $item->hb__is_parent ) {
 
 			// Open a new menu dropdown component.
 			$this->start_lvl( $output, $depth, $args );
@@ -235,14 +241,14 @@ class Menu_Walker extends Walker_Nav_Menu {
 			// Otherwise, item has no children.
 		} else {
 
-			// Output the menu item <a>
+			// Output the menu item.
 			$this->start_el( $output, $item, $depth, ...array_values( $args ) );
 		}
 	}
 
 
 	/**
-	 * start_el
+	 * Method start_el.
 	 *
 	 * Build an anchor element using $item vars and append to output.
 	 *
@@ -254,7 +260,8 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
-		$is_parent  = $item->hb__is_parent;
+		$is_parent = $item->hb__is_parent;
+		$is_active = $item->hb__is_active;
 
 		// Get CSS Classes.
 		if ( $is_parent ) {
@@ -268,6 +275,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 
 		// Aria attributes.
 		$aria_attributes = ' aria-label="' . $item->title . '"';
+		$aria_attributes = ( $is_active ) ? $aria_attributes . ' aria-current="page"' : $aria_attributes;
 
 		// Anchor attributes.
 		$anchor_attributes  = ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) . '"' : '';
@@ -287,7 +295,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 
 
 	/**
-	 * start_lvl
+	 * Method start_lvl.
 	 *
 	 * Start building a new dropdown for a menu branch.
 	 *
@@ -315,7 +323,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 
 
 	/**
-	 * end_el
+	 * Method end_el.
 	 *
 	 * Open a new dropdown_contents div ready for child menu items.
 	 *
@@ -345,7 +353,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 
 
 	/**
-	 * end_lvl
+	 * Method end_lvl.
 	 *
 	 * Close a dropdown component and menu branch.
 	 *
@@ -355,18 +363,18 @@ class Menu_Walker extends Walker_Nav_Menu {
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = null ) {
 
-		$output .= "{$this->n}{$this->i(1)}</div>"; // dropdown contents
-		$output .= "{$this->n}{$this->i(0)}</div>"; // dropdown
+		$output .= "{$this->n}{$this->i(1)}</div>"; // Dropdown contents.
+		$output .= "{$this->n}{$this->i(0)}</div>"; // Dropdown.
 	}
 
 
 	/**
-	 * fallback
+	 * Fallback.
 	 *
 	 * This method can be set as a callback in wp_nav_menu to display a fallback menu
 	 * before the user sets a menu in that location.
 	 *
-	 * @param stdClass $args An object of wp_nav_menu() arguments.
+	 * @param {array} $args An object of wp_nav_menu() arguments.
 	 */
 	public static function fallback( array $args ) {
 
@@ -374,30 +382,20 @@ class Menu_Walker extends Walker_Nav_Menu {
 			return;
 		}
 
-		if ( isset( $args ) ) {
-			extract( $args );
-		}
-
 		$link = '<li class="button"><a href="' . admin_url( 'customize.php' ) . '">Edit Menus</a></li>';
 
-		// Populate vars with any passed args
-		$wrap       = ! empty( $container ) ? esc_attr( $container ) : '';
-		$wrap_class = ! empty( $container_class ) ? 'class="' . esc_attr( $container_class ) . '"' : '';
-		$wrap_id    = ! empty( $container_id ) ? 'id="' . esc_attr( $container_id ) . '"' : '';
-		$aria       = ! empty( $container_aria_label ) ? 'aria-label="' . esc_attr( $container_aria_label ) . '"' : '';
-		$menu_class = ! empty( $menu_class ) ? 'class="' . esc_attr( $menu_class ) . '"' : '';
-		$menu_id    = ! empty( $menu_id ) ? 'id="' . esc_attr( $menu_id ) . '"' : '';
+		// Populate vars with any passed args.
+		$wrap       = ! empty( $args['container'] ) ? esc_attr( $args['container'] ) : 'nav';
+		$menu_class = ! empty( $args['menu_class'] ) ? 'class="' . esc_attr( $args['menu_class'] ) . '"' : 'class="menu"';
+		$menu_id    = ! empty( $args['menu_id'] ) ? 'id="' . esc_attr( $args['menu_id'] ) . '"' : '';
+		$aria       = 'aria-label="Fallback Menu"';
 
-		// Build fallback markup
+		// Build fallback markup.
 		$output = sprintf( $link );
-		if ( ! empty( $wrap ) ) {
-			$aria   = ( $wrap == 'nav' ) ? $aria : '';
-			$output = "<$wrap $wrap_class $wrap_id $aria><div $menu_class $menu_id>$output</div></$wrap>";
-		} else {
-			$output = "<div $menu_class $menu_id>$output</div>";
-		}
+		$aria   = ( 'nav' === $wrap ) ? $aria : '';
+		$output = "<$wrap $menu_class $menu_id $aria>$output</$wrap>";
 
-		if ( $echo ) {
+		if ( $args['echo'] ) {
 			echo $output;
 		} else {
 			return $output;
@@ -406,7 +404,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 
 
 	/**
-	 * output_theme_location_menu
+	 * Output Theme Location Menu.
 	 *
 	 * A wrapper for wp_nav_menu to simplify args template-side and
 	 * force use of limited arg options. The html structure is BEM so the
@@ -428,7 +426,6 @@ class Menu_Walker extends Walker_Nav_Menu {
 
 		// Test if args are valid.
 		$pass      = true;
-
 		$test_args = array( 'nav_or_div', 'menu_class', 'nav_aria_label', 'theme_location', 'html_tab_indents', 'top_level_classes' );
 
 		if ( $pass && count( $menu_args ) > 6 ) {
@@ -549,7 +546,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 		$defaults = array(
 			'theme_location'       => '',
 			'menu_class'           => 'menu',
-			'container'            => 'div',
+			'container'            => 'nav',
 			'container_class'      => '',
 			'container_aria_label' => 'Menu',
 			'items_wrap'           => '%3$s',
@@ -638,10 +635,8 @@ TEMPLATE;
 	 * @param WP_Post  $item   Menu item data object.
 	 * @param int      $depth  Depth of menu item. Used for padding.
 	 * @param stdClass $args   An object of wp_nav_menu() arguments.
-	 * @param int      $id     Current item ID.
 	 */
 	public function build_class_string( $item, $depth, $args ) {
-
 
 		// Passed from display_element.
 		$is_parent  = $item->hb__is_parent;
@@ -666,7 +661,9 @@ TEMPLATE;
 		// Adds top level item classes if provded.
 		if ( 0 === $depth && ! empty( $top_class_array ) ) {
 			foreach ( $top_class_array as $top_class ) {
-				array_push( $class_array, $top_class );
+				if ( ! empty( $top_class ) ) {
+					array_push( $class_array, $top_class );
+				}
 			}
 		}
 

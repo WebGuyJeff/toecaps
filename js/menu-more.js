@@ -9,9 +9,10 @@
 	
 	// Settings.
 	const navSelector     = '.mainMenu:not( .fullscreenMenu .mainMenu )';
-	const navItemSelector = '.mainMenu_item';
 	const moreTemplate    = document.querySelector( '.autoMoreTemplate' );
-	const minWindowLimit  = 320;
+	const minWindowLimit  = 768;
+	const classTopLevel   = 'dropdown-hover';
+	const classInMenu     = 'dropdown-inMenu';
 	
 	let initialised  = false;
 	let containers   = [];
@@ -25,6 +26,20 @@
 		containers.push( nav.parentElement );
 	} );
 
+	/**
+	 * Swap classes on an element.
+	 * 
+	 * The array must contain exactly two classes 
+	 */
+	const updateClasses = ( elem ) => {
+
+		if ( elem.classList.contains( classInMenu ) ) {
+			elem.classList.replace( classInMenu, classTopLevel );
+		} else if ( elem.classList.contains( classTopLevel ) ) {
+			elem.classList.replace( classTopLevel, classInMenu );
+		}
+	}
+		
 	/**
 	 * Get element inner width (without padding or borders).
 	 */
@@ -54,50 +69,63 @@
 	 */
 	const update = ( container, nav, more, moreContents ) => {
 		
-		let childNumber = 2;
-		const containerWidth = getInnerWidth( container );
-		let   navWidth       = nav.offsetWidth;
+		let containerWidth = getInnerWidth( container );
+		let navWidth       = nav.offsetWidth;
 
 		// Bail if the menu is empty/hidden.
 		if ( navWidth <= 0 ) return;
 
-		const navGap         = parseInt( window.getComputedStyle( nav ).getPropertyValue("gap"), 10); // Flex Gap.
-		const moreWidth      = more.offsetWidth + navGap;
+		const navGap       = parseInt( window.getComputedStyle( nav ).getPropertyValue("gap"), 10); // Flex Gap.
+		let moreWidth      = more.offsetWidth + navGap;
 
 		if ( window.innerWidth >= minWindowLimit ) {
-			
+
 			if ( navWidth > containerWidth - moreWidth ) {
 
 				// While the nav width is too big.
 				let n = 0;
-				let overflowItem;
-
+				let navLastItem;
 				while ( navWidth > containerWidth - moreWidth ) {
 					n++;
-					
 					// Move last menu item to 'more'.
-					overflowItem = nav.querySelector( `${navItemSelector}:nth-last-child(${childNumber})` );
-					moreContents.prepend( overflowItem );
+					let count = nav.children.length;
+					navLastItem = nav.children[ count - 2 ] // Don't select the 'more' item.
+					moreContents.prepend( navLastItem );
 					navWidth = nav.offsetWidth;
+
+					// Update classes if needed.
+					updateClasses( navLastItem );
+
+					// Deregister hover event listeners.
+					if ( navLastItem.classList.contains( classInMenu ) ) {
+						dropdownPlugin.deregisterHover( navLastItem );
+					}
 				}
 
 			} else if ( moreContents.children.length > 0 ) {
 
-				let moreFirstItem      = moreContents.querySelector( `${navItemSelector}:first-child` );
+				// While nav width is smaller than container.
+				let moreFirstItem      = moreContents.firstElementChild;
 				let moreFirstItemWidth = moreFirstItem.offsetWidth;
 				let newNavWidth        = navWidth + moreFirstItemWidth + navGap;
 				let n                  = 0;				
-				
-				// While nav width is smaller than container.
-				while ( newNavWidth < containerWidth - moreWidth ) {
+				while ( newNavWidth < containerWidth - moreWidth &&
+						moreContents.children.length > 0 ) {
 					n++;
-					
+
 					// Put a menu item back if it fits.
 					nav.insertBefore( moreFirstItem, more );
-					if ( moreContents.children.length === 0 ) break;
+
+					// Update classes if needed.
+					updateClasses( moreFirstItem );
+
+					// Register hover event listeners.
+					if ( moreFirstItem.classList.contains( classTopLevel ) ) {
+						dropdownPlugin.registerHover( moreFirstItem );
+					}
 					
 					// Calc the nav width with the next element.
-					moreFirstItem      = moreContents.querySelector( `${navItemSelector}:first-child` );
+					moreFirstItem      = moreContents.firstElementChild;
 					moreFirstItemWidth = moreFirstItem.offsetWidth;
 					navWidth           = nav.offsetWidth;
 					newNavWidth        = navWidth + moreFirstItemWidth + navGap;
@@ -107,11 +135,9 @@
 			if ( moreContents.childElementCount > 0 ) {
 				more.style.position = 'relative';
 				more.style.visibility = 'visible';
-				childNumber = 2;
 			} else {
 				more.style.position = 'absolute';
 				more.style.visibility = 'hidden';
-				childNumber = 1;
 			}
 		}
 	}
@@ -128,6 +154,8 @@
 			const moreClone = moreTemplate.content.cloneNode( true );
 			const nav       = container.querySelector( navSelector );
 			nav.appendChild( moreClone );
+			// Attach dropdown hover event listeners.
+			dropdownPlugin.registerHover( moreClone );
 		} );
 		// Process the nav items.
 

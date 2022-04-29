@@ -45,8 +45,6 @@
 	 */
 	const viewportSizeCheck = ( event ) => {
 
-		console.log('event fired!!!');
-
 		let viewportResizeSettle = window.setTimeout( () => {
 
 				let pageWidth = parseInt( document.querySelector("html").getBoundingClientRect().width, 10 );

@@ -17,21 +17,6 @@ require_once get_template_directory() . '/classes/autoload.php';
 
 
 /**
- * Show template slug in browser console - for debugging only!
- */
-function log_which_template_is_loaded() {
-	if ( is_super_admin() ) {
-		global $template;
-		if ( is_admin() ) {
-			$template = 'Admin Page';
-		}
-		echo '<script>console.log("WP template file in use: ' . $template . '")</script>';
-		Helpers::output_to_front_end( $template );
-	}
-}
-add_action( 'admin_bar_menu', 'log_which_template_is_loaded' );
-
-/**
  * WordPress hooks for this theme.
  */
 $hooks = new Hooks();
@@ -51,8 +36,8 @@ function enqueue_scripts_and_styles() {
 		wp_enqueue_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', array(), '3.6.0', true );
 		// Other front end resources.
 		wp_enqueue_script( 'menu_js', get_template_directory_uri() . '/js/menu.js', array(), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
-		wp_enqueue_script( 'menu_more_js', get_template_directory_uri() . '/js/menu-more.js', array(), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
 		wp_enqueue_script( 'dropdown_js', get_template_directory_uri() . '/js/dropdown.js', array(), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
+		wp_enqueue_script( 'menu_more_js', get_template_directory_uri() . '/js/menu-more.js', array( 'dropdown_js' ), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
 		wp_register_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js', array( 'jquery' ), '3.9.1', true );
 		// CSSRule this is part of core but there's a separate CDN?
 		wp_register_script( 'gsap_cssrule', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CSSRulePlugin.min.js', array( 'gsap' ), '3.9.1', true );
@@ -292,9 +277,6 @@ remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 );
 remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
-// rss feeds
-// remove_action( 'wp_head', 'feed_links', 2 );
-// remove_action( 'wp_head', 'feed_links_extra', 3 );
 remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
 
 /**
@@ -374,7 +356,7 @@ function theme_settings_page() {
  */
 function setting_phone() {
 	?>
-	<input type="tel" name="phone" id="phone" value="<?php echo get_option( 'phone' ); ?>" />
+	<input type="tel" name="phone" id="phone" value="<?php echo esc_attr( get_option( 'phone' ) ); ?>" />
 	<?php
 }
 /**
@@ -382,7 +364,7 @@ function setting_phone() {
  */
 function setting_email() {
 	?>
-	<input type="email" name="email" id="email" value="<?php echo get_option( 'email' ); ?>" />
+	<input type="email" name="email" id="email" value="<?php echo esc_html( get_option( 'email' ) ); ?>" />
 	<?php
 }
 /**
@@ -390,7 +372,7 @@ function setting_email() {
  */
 function setting_address() {
 	?>
-	<textarea name="address" id="address" value="<?php echo get_option( 'address' ); ?>" rows="7" cols="50" ></textarea>
+	<textarea name="address" id="address" value="<?php echo esc_textarea( get_option( 'address' ) ); ?>" rows="7" cols="50" ></textarea>
 	<?php
 }
 
@@ -399,7 +381,7 @@ function setting_address() {
  */
 function setting_linkedin() {
 	?>
-	<input type="url" name="linkedin" id="linkedin" value="<?php echo get_option( 'linkedin' ); ?>" />
+	<input type="url" name="linkedin" id="linkedin" value="<?php echo esc_url( get_option( 'linkedin' ) ); ?>" />
 	<?php
 }
 /**
@@ -407,7 +389,7 @@ function setting_linkedin() {
  */
 function setting_instagram() {
 	?>
-	<input type="url" name="instagram" id="instagram" value="<?php echo get_option( 'instagram' ); ?>" />
+	<input type="url" name="instagram" id="instagram" value="<?php echo esc_url( get_option( 'instagram' ) ); ?>" />
 	<?php
 }
 /**
@@ -415,7 +397,7 @@ function setting_instagram() {
  */
 function setting_facebook() {
 	?>
-	<input type="url" name="facebook" id="facebook" value="<?php echo get_option( 'facebook' ); ?>" />
+	<input type="url" name="facebook" id="facebook" value="<?php echo esc_url( get_option( 'facebook' ) ); ?>" />
 	<?php
 }
 /**
@@ -423,13 +405,13 @@ function setting_facebook() {
  */
 function setting_pinterest() {
 	?>
-	<input type="url" name="pinterest" id="pinterest" value="<?php echo get_option( 'pinterest' ); ?>" />
+	<input type="url" name="pinterest" id="pinterest" value="<?php echo esc_url( get_option( 'pinterest' ) ); ?>" />
 	<?php
 }
 
 /**
  * Tell WordPress to build the admin page
- * 
+ *
  * Function arguments:
  * add_settings_section( $id, $title, $callback, $page );
  * add_settings_field( $id, $title, $callback, $page, $section, $args );
