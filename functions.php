@@ -50,9 +50,9 @@ function enqueue_scripts_and_styles() {
 		wp_deregister_script( 'jquery' );
 		wp_enqueue_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', array(), '3.6.0', true );
 		// Other front end resources.
-		wp_enqueue_script( 'dropdown_js', get_template_directory_uri() . '/js/dropdown.js', array(), '1.0', true );
-		wp_enqueue_script( 'menu_js', get_template_directory_uri() . '/js/menu.js', array(), '1.0', true );
+		wp_enqueue_script( 'menu_js', get_template_directory_uri() . '/js/menu.js', array(), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
 		wp_enqueue_script( 'menu_more_js', get_template_directory_uri() . '/js/menu-more.js', array(), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
+		wp_enqueue_script( 'dropdown_js', get_template_directory_uri() . '/js/dropdown.js', array(), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
 		wp_register_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js', array( 'jquery' ), '3.9.1', true );
 		// CSSRule this is part of core but there's a separate CDN?
 		wp_register_script( 'gsap_cssrule', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CSSRulePlugin.min.js', array( 'gsap' ), '3.9.1', true );

@@ -8,7 +8,7 @@
 	'use strict';
 	
 	// Settings.
-	const navSelector     = '.mainMenu';
+	const navSelector     = '.mainMenu:not( .fullscreenMenu .mainMenu )';
 	const navItemSelector = '.mainMenu_item';
 	const moreTemplate    = document.querySelector( '.autoMoreTemplate' );
 	const minWindowLimit  = 320;
@@ -24,7 +24,7 @@
 	navBars.forEach( nav => {
 		containers.push( nav.parentElement );
 	} );
-	
+
 	/**
 	 * Get element inner width (without padding or borders).
 	 */
@@ -36,7 +36,7 @@
 		const innerWidth      = widthIncPadding - ( paddingLeft + paddingRight );
 		return innerWidth;
 	}
-	
+
 	/**
 	 * Update all Nav Bars.
 	 */
@@ -57,6 +57,10 @@
 		let childNumber = 2;
 		const containerWidth = getInnerWidth( container );
 		let   navWidth       = nav.offsetWidth;
+
+		// Bail if the menu is empty/hidden.
+		if ( navWidth <= 0 ) return;
+
 		const navGap         = parseInt( window.getComputedStyle( nav ).getPropertyValue("gap"), 10); // Flex Gap.
 		const moreWidth      = more.offsetWidth + navGap;
 
@@ -67,6 +71,7 @@
 				// While the nav width is too big.
 				let n = 0;
 				let overflowItem;
+
 				while ( navWidth > containerWidth - moreWidth ) {
 					n++;
 					
@@ -77,7 +82,7 @@
 				}
 
 			} else if ( moreContents.children.length > 0 ) {
-				
+
 				let moreFirstItem      = moreContents.querySelector( `${navItemSelector}:first-child` );
 				let moreFirstItemWidth = moreFirstItem.offsetWidth;
 				let newNavWidth        = navWidth + moreFirstItemWidth + navGap;
@@ -98,6 +103,7 @@
 					newNavWidth        = navWidth + moreFirstItemWidth + navGap;
 				}
 			}
+
 			if ( moreContents.childElementCount > 0 ) {
 				more.style.position = 'relative';
 				more.style.visibility = 'visible';
@@ -109,28 +115,6 @@
 			}
 		}
 	}
-	
-	/**
-	 * Initialise after page load.
-	 */
-	let docLoaded = setInterval( function() {
-		if( document.readyState === 'complete') {
-			clearInterval( docLoaded );
-			init();
-		}
-	}, 50);
-	
-	/**
-	 * Throttle resize event.
-	 */
-	let resizeTimout;
-	window.onresize = function() {
-		clearTimeout( resizeTimout );
-		
-		if ( initialised ) {
-			resizeTimout = setTimeout( updateAll, 10 );
-		}
-	};
 
 	/**
 	 * Initialise the plugin.
@@ -146,7 +130,30 @@
 			nav.appendChild( moreClone );
 		} );
 		// Process the nav items.
+
 		updateAll();
 	}
+	
+	/**
+	 * Throttled window resize trigger.
+	 */
+	let resizeTimout;
+	window.onresize = function() {
+		clearTimeout( resizeTimout );
+		if ( ! initialised ) return;
+
+		resizeTimout = setTimeout( updateAll, 30 );
+	};
+	
+	/**
+	 * Initialise after page load.
+	 */
+	let docLoaded = setInterval( function() {
+		if( document.readyState === 'complete') {
+			clearInterval( docLoaded );
+
+			init();
+		}
+	}, 50);
 
 })();

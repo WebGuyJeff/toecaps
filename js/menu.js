@@ -1,7 +1,8 @@
 /**
- * Toecaps Menu Javascript
+ * Toecaps Fullscreen Menu Javascript.
  *
- * Functions to handle UX menu features such as disabling body scroll while the menu is open.
+ * Functions to handle UX menu features such as disabling body scroll while the fullscreen menu is
+ * open. The fullscreen menu is enabled for smaller screens.
  *
  * @package Toecaps
  * @author Jefferson Real <me@jeffersonreal.uk>

@@ -589,7 +589,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 			$icon = self::$icon;
 			echo <<<TEMPLATE
 <template class="autoMoreTemplate">
-	<div class="mainMenu_item autoMore dropdown">
+	<div class="mainMenu_item autoMore dropdown dropdown-hover">
 		<span class="dropdown_primary">
 			More
 		</span>
