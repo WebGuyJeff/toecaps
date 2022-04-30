@@ -4,7 +4,7 @@
  * This plugin detects when a menu bar is outgrowing it's container, and moves as many
  * menu items as neccessary into an appended dropdown to make it fit.
  */
- const navAutoMore = (function() {
+const navAutoMore = (function() {
 	'use strict';
 	
 	// Settings.
@@ -154,11 +154,12 @@
 			const moreClone = moreTemplate.content.cloneNode( true );
 			const nav       = container.querySelector( navSelector );
 			nav.appendChild( moreClone );
-			// Attach dropdown hover event listeners.
-			dropdownPlugin.registerHover( moreClone );
-		} );
-		// Process the nav items.
 
+			// Attach dropdown hover event listeners.
+			dropdownPlugin.registerHover( nav.querySelector( '.autoMore' ) );
+		} );
+		
+		// Process the nav items.
 		updateAll();
 	}
 	

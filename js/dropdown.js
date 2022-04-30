@@ -94,8 +94,9 @@ const dropdownPlugin = (function() {
 
     return { // Public functions.
 
+
         /**
-         * Handle off-element click events.
+         * Handle non-element click events.
          */
 		clickHandler: function() {
 
@@ -106,7 +107,29 @@ const dropdownPlugin = (function() {
 					if ( button.parentElement !== event.target
 						&& ! button.parentElement.contains( event.target ) ) {
 
+						// If a hover listener was removed, attach a new one.
+						if ( button.parentElement.dataset.hoverListener === 'false'
+							&& button.parentElement.classList.contains( 'dropdown-hover' ) ) {
+
+console.log( '#### data attr false + dropdown-hover');
+console.log( button );
+
+
+							dropdownPlugin.registerHover( button.parentElement );
+						}
+
+						// This dropdown was not clicked, so close it.
 						dropdownPlugin.close( button );
+
+
+
+					} else if ( button.parentElement === event.target
+						|| button.parentElement.contains( event.target ) ) {
+
+						// This dropdown was clicked. Remove hover listeners, so the dropdown
+						// doesn't close until the user clicks off it.
+						dropdownPlugin.deregisterHover( button.parentElement );
+
 					}
 				} );
 			}
@@ -120,30 +143,20 @@ const dropdownPlugin = (function() {
 		 */
 		hoverHandler: function( event ) {
 
-			// event.target is a live object and cannot be assigned to a var. I have learned this
-			// the hard way - I don't fully understand why. 🙂
+			// event.target returns null when assigned to a var!
 
+			if ( event.type === 'mouseenter' ) {
 
-				if ( event.type === 'mouseenter' ) {
-
-
-					dropdownPlugin.open( event.target.querySelector( '.dropdown_toggle' ) );
+				dropdownPlugin.open( event.target.querySelector( '.dropdown_toggle' ) );
 console.log('mouseenter: open button');
-console.log(event.target);
+			} else if ( event.type === 'mouseleave' ) {
 
-
-				} else if ( event.type === 'mouseleave' ) {
-
-
-					let buttonHierarchy = event.target.getElementsByClassName( 'dropdown_toggle-active' );
-
-					[ ...buttonHierarchy ].forEach( button => {
+				let buttonHierarchy = event.target.getElementsByClassName( 'dropdown_toggle-active' );
+				[ ...buttonHierarchy ].forEach( button => {
 console.log('mouseleave: close button');
-console.log(button);
-
-						dropdownPlugin.close( button );
-					} );
-				}
+					dropdownPlugin.close( button );
+				} );
+			}
 		},
 
 
@@ -159,6 +172,7 @@ console.log(dropdown);
 
 			dropdown.addEventListener( 'mouseenter', dropdownPlugin.hoverHandler );
 			dropdown.addEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
+			dropdown.dataset.hoverListener = 'true';
 		},
 
 		/**
@@ -174,6 +188,7 @@ console.log(dropdown);
 
 			dropdown.removeEventListener( 'mouseenter', dropdownPlugin.hoverHandler );
 			dropdown.removeEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
+			dropdown.dataset.hoverListener = 'false';
 		},
 
         /**
