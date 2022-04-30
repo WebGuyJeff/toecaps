@@ -314,13 +314,11 @@ class Menu_Walker extends Walker_Nav_Menu {
 		// Append dropdown classes.
 		if ( 0 === $depth ) {
 			$dropdown_classes = 'dropdown dropdown-hover ' . $dropdown_classes;
-			$data_attributes  = 'data-hover-listener="false"';
 		} else {
 			$dropdown_classes = 'dropdown dropdown-inMenu ' . $dropdown_classes;
-			$data_attributes  = '';
 		}
 
-		$output .= "{$this->n}{$this->i(0)}<div class=\"{$dropdown_classes}\" {$data_attributes}>";
+		$output .= "{$this->n}{$this->i(0)}<div class=\"{$dropdown_classes}\">";
 	}
 
 
@@ -588,7 +586,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 			$icon = self::$icon;
 			echo <<<TEMPLATE
 <template class="autoMoreTemplate">
-	<div class="mainMenu_item autoMore dropdown dropdown-hover" data-hover-listener="false">
+	<div class="mainMenu_item autoMore dropdown dropdown-hover">
 		<span class="dropdown_primary">
 			More
 		</span>

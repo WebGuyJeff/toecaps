@@ -22,26 +22,35 @@ const dropdownPlugin = (function() {
      */
     function initDropdowns() {
 
-		// listen for page clicks.
+		// Attach click handler to document.
 		document.addEventListener(
 			'click',
-			dropdownPlugin.clickHandler(),
+			dropdownPlugin.pageClickHandler(),
 			{ signal: pageClickController.signal } // Nuke: pageClickController.abort();
 		);
 
+		// Attach hover handlers to dropdowns.
 		let hoverDropdowns = document.querySelectorAll( '.dropdown-hover:not( .fullscreenMenu .dropdown )' );
 		[ ...hoverDropdowns ].forEach( dropdown => {
 
 			dropdownPlugin.registerHover( dropdown );
         } );
 
+		// Attach click handlers to dropdown buttons.
         let buttons = document.getElementsByClassName( 'dropdown_toggle' );
-
         [ ...buttons ].forEach( button => {
             button.addEventListener( 'click', buttonClicked = function() {
-				dropdownPlugin.toggle( this );
+				dropdownPlugin.buttonClickHandler( this );
             } );
-        });
+        } );
+
+		// Attach click handlers to dropdowns.
+		let dropdowns = document.getElementsByClassName( 'dropdown' );
+		[ ...dropdowns ].forEach( dropdown => {
+			dropdown.addEventListener( 'click', buttonClicked = function() {
+				dropdownPlugin.dropdownClickHandler( this );
+			} );
+		} );
     }
 
     /**
@@ -98,39 +107,50 @@ const dropdownPlugin = (function() {
         /**
          * Handle non-element click events.
          */
-		clickHandler: function() {
+		pageClickHandler: function() {
 
 			return function checkMyClick( event ) {
-				let buttons = document.getElementsByClassName( 'dropdown_toggle' );
 
-				[ ...buttons ].forEach( button => {
-					if ( button.parentElement !== event.target
-						&& ! button.parentElement.contains( event.target ) ) {
+				// Button clicks should be handled exclusively by buttonClickHandler().
+				if ( event.target.classList.contains( 'dropdown_toggle' )
+					 || true === !! event.target.closest( '.dropdown_toggle' ) ) {
 
-						// If a hover listener was removed, attach a new one.
-						if ( button.parentElement.dataset.hoverListener === 'false'
-							&& button.parentElement.classList.contains( 'dropdown-hover' ) ) {
+					return;
+				}
 
-console.log( '#### data attr false + dropdown-hover');
-console.log( button );
+console.log( 'pageClickHandler');
+console.log( event.target );
 
 
-							dropdownPlugin.registerHover( button.parentElement );
+				let dropdowns = document.getElementsByClassName( 'dropdown' );
+				[ ...dropdowns ].forEach( dropdown => {
+
+					// It this dropdown or any child was not target.
+					if ( dropdown !== event.target
+						&& ! dropdown.contains( event.target ) ) {
+
+						// Close it.
+						dropdownPlugin.close( dropdown.querySelector( '.dropdown_toggle' ) );
+
+					/**
+					 * Check for locked ancestor.
+					 * 
+					 *  - This dropdown was the target.
+					 *  - This dropdown's button was NOT the target. 
+					 */
+					} else if ( dropdown === event.target ) {
+
+						// Lock this dropdown tree.
+						let ancestorToggle = dropdown.closest( '.dropdown-hover' ).querySelector( '.dropdown_toggle' );
+						if ( ! ancestorToggle.hasAttribute('data-click-lock')
+						     || ancestorToggle.dataset.clickLock === 'false' ) {
+
+							ancestorToggle.setAttribute( 'data-click-lock', 'true');
+
 						}
-
-						// This dropdown was not clicked, so close it.
-						dropdownPlugin.close( button );
-
-
-
-					} else if ( button.parentElement === event.target
-						|| button.parentElement.contains( event.target ) ) {
-
-						// This dropdown was clicked. Remove hover listeners, so the dropdown
-						// doesn't close until the user clicks off it.
-						dropdownPlugin.deregisterHover( button.parentElement );
-
 					}
+
+
 				} );
 			}
 		},
@@ -148,13 +168,26 @@ console.log( button );
 			if ( event.type === 'mouseenter' ) {
 
 				dropdownPlugin.open( event.target.querySelector( '.dropdown_toggle' ) );
-console.log('mouseenter: open button');
+
 			} else if ( event.type === 'mouseleave' ) {
 
 				let buttonHierarchy = event.target.getElementsByClassName( 'dropdown_toggle-active' );
 				[ ...buttonHierarchy ].forEach( button => {
-console.log('mouseleave: close button');
-					dropdownPlugin.close( button );
+
+					/**
+					 * If this and all ancestors are NOT locked.
+					 * 
+					 * First condition makes sure the top ancestor hover toggle isn't locked. If it
+					 * is, we don't want the children to close on mouseleave.
+					 */
+					if ( false === !! button.closest( '.dropdown-hover' ).querySelector( '[data-click-lock="true"]' ) 
+						&& ( ! button.hasAttribute('data-click-lock')
+						|| button.dataset.clickLock === 'false' ) ) {
+
+						// close it.
+						dropdownPlugin.close( button );
+					}
+
 				} );
 			}
 		},
@@ -167,12 +200,14 @@ console.log('mouseleave: close button');
 		 */
 		 registerHover: function( dropdown ) {
 
-console.log('hover listeners added');
-console.log(dropdown);
-
 			dropdown.addEventListener( 'mouseenter', dropdownPlugin.hoverHandler );
 			dropdown.addEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
-			dropdown.dataset.hoverListener = 'true';
+
+			if ( ! dropdown.hasAttribute('data-hover-listener') ) {
+				dropdown.setAttribute( 'data-hover-listener', 'true');
+			} else {
+				dropdown.dataset.hoverListener = 'true';
+			}
 		},
 
 		/**
@@ -183,18 +218,33 @@ console.log(dropdown);
 		 */
 		deregisterHover: function( dropdown ) {
 
-console.log('hover listeners removed');
-console.log(dropdown);
-
 			dropdown.removeEventListener( 'mouseenter', dropdownPlugin.hoverHandler );
 			dropdown.removeEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
 			dropdown.dataset.hoverListener = 'false';
 		},
 
+
+		/**
+		 * Handle clicks on the entire dropdown element.
+		 */
+		 dropdownClickHandler: function() {
+
+			return function checkMyDropdownClick( event ) {
+
+			}
+		 },
+
+
         /**
          * Toggle the dropdown menu.
          */
-		toggle: function( button ) {
+		buttonClickHandler: function( button ) {
+
+
+console.log( '#### buttonClickHandler: ' + button.innerText )
+
+
+
 
             // Get current state of button.
             let aria_exp = button.getAttribute( "aria-expanded" );
@@ -202,20 +252,49 @@ console.log(dropdown);
             // If inactive.
             if ( 'false' === aria_exp ) {
 
-				// Make it active.
-				dropdownPlugin.open( button );
+console.log('#### buttonClickHandler - inactive. ####');
 
+				// Open it.
+				dropdownPlugin.open( button );
+				//button.parentElement.addEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
+
+			// If active, hover-enabled and unlocked.
+            } else if ( button.parentElement.classList.contains( 'dropdown-hover' )
+				        && ( ! button.hasAttribute('data-click-lock')
+				        || button.dataset.clickLock === 'false' ) ) {
+
+console.log('#### buttonClickHandler - active, hover-enabled and unlocked. ####');
+
+				// Lock it open (until clicked again).
+				button.setAttribute( 'data-click-lock', 'true');
+
+			// If active, hover-enabled and locked.
+			// Only hover-enabled elem will have 'data-click-lock', so no need to check for class.
+			} else if ( button.parentElement.classList.contains( 'dropdown-hover' )
+				        && button.hasAttribute('data-click-lock')
+				        && button.dataset.clickLock === 'true' ) {
+
+console.log('#### buttonClickHandler - active, hover-enabled and locked. ####');
+
+				// Unlock and close it.
+				button.dataset.clickLock = 'false';
+                dropdownPlugin.close( button );
+
+			// This should leave active and not top-level (which should never be locked directly).
             } else {
 
-				// Else, make it inactive.
-                dropdownPlugin.close( button );
-            }
+console.log('#### buttonClickHandler - active and not hover-enabled. ####');
+
+				dropdownPlugin.close( button );
+			}
         },
 
         /**
          * Open the menu.
          */
 		 open: function( button ) {
+
+console.log( 'open: ' + button.parentElement.firstElementChild.innerText )
 
 			const dropdown = button.parentElement;
 			let menu       = dropdown.lastElementChild;
@@ -242,13 +321,23 @@ console.log(dropdown);
          */
         close: function( button ) {
 
-console.log( 'close' )
-console.log( button )
+console.log( 'close: ' + button.parentElement.firstElementChild.innerText );
 
+			// If the button's dropdown also has active children.
+			activeChildren = button.parentElement.querySelectorAll( '.dropdown_toggle-active' );
+			if ( activeChildren.length > 1 ) {
+				activeChildren.forEach( childButton => {
+					childButton.classList.remove( "dropdown_toggle-active" );
+					childButton.setAttribute( "aria-expanded", false );
+					childButton.setAttribute( "aria-pressed", false );
+				} );
 
-            button.classList.remove( "dropdown_toggle-active" );
-            button.setAttribute( "aria-expanded", false );
-            button.setAttribute( "aria-pressed", false );
+			} else {
+				button.classList.remove( "dropdown_toggle-active" );
+				button.setAttribute( "aria-expanded", false );
+				button.setAttribute( "aria-pressed", false );
+			}
+
         },
 
 
