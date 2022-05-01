@@ -193,8 +193,6 @@ const dropdownPlugin = (function() {
 		 */
 		menuClickHandler: function( event ) {
 
-			console.log( '#### menuClickHandler: ' + event.target.closest( '.dropdown' ).firstElementChild.innerText );
-
 			// If click is on a dropdown button (3-way toggle).
 			if ( true === !! event.target.closest( '.dropdown_toggle' ) ) {
 
@@ -238,8 +236,6 @@ const dropdownPlugin = (function() {
          */
 		open: function( button ) {
 
-			console.log( 'open: ' + button.parentElement.firstElementChild.innerText )
-
 			const dropdown = button.parentElement;
 			let menu       = dropdown.lastElementChild;
 
@@ -275,10 +271,6 @@ const dropdownPlugin = (function() {
 
 				ancestorToggle.setAttribute( 'data-hover-lock', 'false');
 
-				console.log( 'close & Unlock: ' + button.parentElement.firstElementChild.innerText );
-
-			} else {
-				console.log( 'close: ' + button.closest( '.dropdown' ).firstElementChild.innerText );
 			}
 
 			// If the button's dropdown also has active children.

@@ -83,10 +83,8 @@ const navAutoMore = (function() {
 			if ( navWidth > containerWidth - moreWidth ) {
 
 				// While the nav width is too big.
-				let n = 0;
 				let navLastItem;
 				while ( navWidth > containerWidth - moreWidth ) {
-					n++;
 					// Move last menu item to 'more'.
 					let count = nav.children.length;
 					navLastItem = nav.children[ count - 2 ] // Don't select the 'more' item.
@@ -107,11 +105,9 @@ const navAutoMore = (function() {
 				// While nav width is smaller than container.
 				let moreFirstItem      = moreContents.firstElementChild;
 				let moreFirstItemWidth = moreFirstItem.offsetWidth;
-				let newNavWidth        = navWidth + moreFirstItemWidth + navGap;
-				let n                  = 0;				
+				let newNavWidth        = navWidth + moreFirstItemWidth + navGap;		
 				while ( newNavWidth < containerWidth - moreWidth &&
 						moreContents.children.length > 0 ) {
-					n++;
 
 					// Put a menu item back if it fits.
 					nav.insertBefore( moreFirstItem, more );
