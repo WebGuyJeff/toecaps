@@ -23,11 +23,11 @@ const dropdownPlugin = (function() {
     function initDropdowns() {
 
 		// Attach click handler to document.
-		document.addEventListener(
-			'click',
-			dropdownPlugin.pageClickHandler(),
-			{ signal: pageClickController.signal } // Nuke: pageClickController.abort();
-		);
+//		document.addEventListener(
+//			'click',
+//			dropdownPlugin.pageClickHandler(),
+//			{ signal: pageClickController.signal } // Nuke: pageClickController.abort();
+//		);
 
 		// Attach hover handlers to dropdowns.
 		let hoverDropdowns = document.querySelectorAll( '.dropdown-hover:not( .fullscreenMenu .dropdown )' );
@@ -44,13 +44,22 @@ const dropdownPlugin = (function() {
             } );
         } );
 
-		// Attach click handlers to dropdowns.
 		let dropdowns = document.getElementsByClassName( 'dropdown' );
 		[ ...dropdowns ].forEach( dropdown => {
-			dropdown.addEventListener( 'click', buttonClicked = function() {
+
+			// Attach click handlers to dropdowns.
+			dropdown.addEventListener( 'click', dropdownClicked = function() {
 				dropdownPlugin.dropdownClickHandler( this );
+
 			} );
+
+			// Attach focusout handlers to dropdowns.
+			dropdown.addEventListener( 'focusout', dropdownFocusout = function() {
+				dropdownPlugin.focusOutHandler( this );
+			} );
+
 		} );
+
     }
 
     /**
@@ -105,22 +114,26 @@ const dropdownPlugin = (function() {
 
 
         /**
-         * Handle non-element click events.
+         * Handle dropdown losing focus events.
          */
-		pageClickHandler: function() {
+		focusOutHandler: function( dropdown ) {
 
-			return function checkMyClick( event ) {
 
+console.log( dropdown );
+console.log( 'focusOutHandler: ' + dropdown.firstElementChild.innerText);
+
+
+dropdownPlugin.close( dropdown.querySelector( '.dropdown_toggle' ) );
+
+
+
+/*
 				// Button clicks should be handled exclusively by buttonClickHandler().
 				if ( event.target.classList.contains( 'dropdown_toggle' )
 					 || true === !! event.target.closest( '.dropdown_toggle' ) ) {
 
 					return;
 				}
-
-console.log( 'pageClickHandler');
-console.log( event.target );
-
 
 				let dropdowns = document.getElementsByClassName( 'dropdown' );
 				[ ...dropdowns ].forEach( dropdown => {
@@ -132,12 +145,7 @@ console.log( event.target );
 						// Close it.
 						dropdownPlugin.close( dropdown.querySelector( '.dropdown_toggle' ) );
 
-					/**
-					 * Check for locked ancestor.
-					 * 
-					 *  - This dropdown was the target.
-					 *  - This dropdown's button was NOT the target. 
-					 */
+					// Check for locked ancestor.
 					} else if ( dropdown === event.target ) {
 
 						// Lock this dropdown tree.
@@ -149,10 +157,10 @@ console.log( event.target );
 
 						}
 					}
-
-
 				} );
-			}
+
+*/
+
 		},
 
 
@@ -321,7 +329,27 @@ console.log( 'open: ' + button.parentElement.firstElementChild.innerText )
          */
         close: function( button ) {
 
-console.log( 'close: ' + button.parentElement.firstElementChild.innerText );
+
+
+
+
+
+			// Unlock this dropdown tree.
+			let ancestorToggle = button.parentElement.closest( '.dropdown-hover' ).querySelector( '.dropdown_toggle' );
+			if ( ancestorToggle.hasAttribute('data-click-lock')
+				 && ancestorToggle.dataset.clickLock === 'true' ) {
+
+				ancestorToggle.setAttribute( 'data-click-lock', 'false');
+
+				console.log( 'close & Unlock: ' + button.parentElement.firstElementChild.innerText );
+
+			} else {
+				console.log( 'close: ' + button.parentElement.firstElementChild.innerText );
+			}
+
+
+
+
 
 			// If the button's dropdown also has active children.
 			activeChildren = button.parentElement.querySelectorAll( '.dropdown_toggle-active' );
