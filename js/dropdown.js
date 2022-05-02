@@ -91,22 +91,23 @@ const dropdownPlugin = (function() {
          */
 		pageClickHandler: function( event ) {
 
-
-console.log(document.activeElement);
-
-
-
 			// Bail if the click is on a menu.
 			if ( true === !! event.target.closest( '.' + classNameMenu ) ) return;
 
-			// Close all active dropdowns.
-			const buttonsToClose = document.querySelectorAll( '.dropdown_toggle-active' );
-			[ ...buttonsToClose ].forEach( button => {
-
-				if ( true === !! button.closest( '[data-hover-lock="true"]' ) ) {
-					button.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'false');
+			// Get all active top-level dropdowns.
+			const activeDropdowns = [];
+			document.querySelectorAll( '.dropdown-hover' ).forEach( dropdown => {
+				if ( dropdown.contains( dropdown.querySelector( '.dropdown_toggle-active' ) ) ) {
+					activeDropdowns.push( dropdown );
 				}
-				dropdownPlugin.close( button );
+			} );
+
+			// Close all active top-level dropdowns.
+			[ ...activeDropdowns ].forEach( dropdown => {
+				if ( true === !! dropdown.closest( '[data-hover-lock="true"]' ) ) {
+					dropdown.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'false');
+				}
+				dropdownPlugin.close( dropdown.querySelector( '.dropdown_toggle' ) );
 			} );
 		},
 
@@ -120,51 +121,32 @@ console.log(document.activeElement);
 
 			// event.target returns null when assigned to a var!
 
+			const button = event.target.querySelector( '.dropdown_toggle' );
 			if ( event.type === 'mouseenter' ) {
 
-
 /*
-
 When hover enter is disabled, the first close problem goes away.
-
-
 */
 
-
-
-
 				// Set focus on the dropdown and open it.
-				const button = event.target.querySelector( '.dropdown_toggle' );
 				button.focus();
 				dropdownPlugin.open( button );
 
-				// Close all other dropdowns.
-				const activeButtons = document.querySelectorAll( '.dropdown_toggle-active' );
-
-				[ ...activeButtons ].forEach( button => {
-
-					// Check if event target matches the active dropdown.
-					const activeAncestorDropdown = button.closest( '.dropdown-hover' );
-					if ( activeAncestorDropdown !== event.target ) {
-
-						// Remove lock and close.
-						activeAncestorDropdown.setAttribute( 'data-hover-lock', 'false');
-						dropdownPlugin.close( activeAncestorDropdown.querySelector( '.dropdown_toggle' ) );
-					}
-				} );
-
 			} else if ( event.type === 'mouseleave' ) {
 
-				const branchButtons = event.target.getElementsByClassName( 'dropdown_toggle-active' );
-				[ ...branchButtons ].forEach( button => {
 
-					// If this menu branch isn't hover-locked.
-					if ( false === !! button.closest( '[data-hover-lock="true"]' ) ) {
-						// close it.
-						dropdownPlugin.close( button );
-					}
-				} );
+				const elemUnderCursor = document.elementFromPoint( event.clientX, event.clientY);
+console.log( 'TRUTH ' + ( elemUnderCursor.parentElement.contains( button ) ) );
+				if ( elemUnderCursor.parentElement.contains( button ) ) return;
+
+				// If this menu branch isn't hover-locked.
+//				if ( false === !! button.closest( '[data-hover-lock="true"]' ) ) {
+//					// close it.
+//					dropdownPlugin.close( button );
+//				}
+
 			}
+
 		},
 
 
@@ -204,14 +186,15 @@ When hover enter is disabled, the first close problem goes away.
 		 */
 		menuClickHandler: function( event ) {
 
+console.log( 'menuClickHandler' );
+
 			// If click is on a dropdown button (3-way toggle).
 			if ( true === !! event.target.closest( '.dropdown_toggle' ) ) {
-
 				const button = event.target.closest( '.dropdown_toggle' );
 
 				// If active and unlocked.
 				if ( button.classList.contains('dropdown_toggle-active')
-					 && false === !! button.closest( '[data-hover-lock="true"]' ) ) {
+					&& false === !! button.closest( '[data-hover-lock="true"]' ) ) {
 
 					// Lock it.
 					button.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'true' );
@@ -262,7 +245,6 @@ When hover enter is disabled, the first close problem goes away.
 		open: function( button ) {
 
 				const dropdown = button.parentElement;
-				let menu       = dropdown.lastElementChild;
 
 				// Set dropdown swing direction on smaller screens.
 				if ( window.innerWidth <= 1024
@@ -274,24 +256,32 @@ When hover enter is disabled, the first close problem goes away.
 					dropdown.classList.remove( 'dropdown-swingRight' );
 				}
 
-				//set attributes
+				// Get and close all top-level dropdowns that do not contain this dropdown.
+				const activeDropdowns = [];
+				document.querySelectorAll( '.dropdown-hover:not( .fullscreenMenu .dropdown )' ).forEach( hoverDropdown => {
+					if ( hoverDropdown.contains( hoverDropdown.querySelector( '.dropdown_toggle-active' ) ) ) {
+						activeDropdowns.push( hoverDropdown );
+					}
+				} );
+				[ ...activeDropdowns ].forEach( activeDropdown => {
 
+					// If dropdown isn't the target, but is active, close it.
+					if ( ! activeDropdown.contains( dropdown ) ) {
 
-/*
-When hover handler calls this function, then the click handler calls
-this function and the class below is added,
-it causes a close() on the menu item on first doc click - but only
-if chrome does not already have focus in the OS. wtf.
+						// Remove lock and close.
+						activeDropdown.setAttribute( 'data-hover-lock', 'false');
+						dropdownPlugin.close( activeDropdown.querySelector( '.dropdown_toggle' ) );
+					}
+				} );
 
-*/
-
+				// Set attributes.
 				button.classList.add( "dropdown_toggle-active" );
 				button.setAttribute( "aria-expanded", true );
 				button.setAttribute( "aria-pressed", true );
 
 				// Now browser has calculcated layout, adjust y-scroll if required,
+				let menu = dropdown.lastElementChild;
 				scrollIntoView( menu );
-
         },
 
         /**
@@ -299,23 +289,26 @@ if chrome does not already have focus in the OS. wtf.
          */
         close: function( button ) {
 
-
-console.log( 'close: ' + button.parentElement.firstElementChild.innerText );
-
-
 			// If the button's dropdown also has active children.
-			const activeChildren = button.parentElement.querySelectorAll( '.dropdown_toggle-active' );
-			if ( activeChildren.length > 1 ) {
-				activeChildren.forEach( childButton => {
-					childButton.classList.remove( "dropdown_toggle-active" );
-					childButton.setAttribute( "aria-expanded", false );
-					childButton.setAttribute( "aria-pressed", false );
-				} );
+			let activeBranch = button.parentElement.querySelectorAll( '.dropdown_toggle-active' );
+			if ( activeBranch.length > 1 ) {
+				// Iterate through innermost to outer closing all open in branch.
+				for (let i = activeBranch.length -1; i >= 0; i--) {
+					activeBranch[ i ].classList.remove( "dropdown_toggle-active" );
+					activeBranch[ i ].setAttribute( "aria-expanded", false );
+					activeBranch[ i ].setAttribute( "aria-pressed", false );
+
+console.log( 'close child: ' + activeBranch[ i ].parentElement.querySelector( '.dropdown_primary' ).innerText );
+				} //);
 
 			} else {
 				button.classList.remove( "dropdown_toggle-active" );
 				button.setAttribute( "aria-expanded", false );
 				button.setAttribute( "aria-pressed", false );
+
+
+console.log( 'close-single: ' + button.parentElement.querySelector( '.dropdown_primary' ).innerText );
+
 			}
 
 
