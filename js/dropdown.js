@@ -14,7 +14,6 @@ const dropdownPlugin = (function() {
 	// Settings.
 	const classNameMenu = 'mainMenu';
 
-
     /**
      * Initialise the dropdowns with event listeners.
      */
@@ -36,6 +35,7 @@ const dropdownPlugin = (function() {
         } );
     }
 
+
     /**
      * Call init function on document ready.
      */
@@ -52,7 +52,6 @@ const dropdownPlugin = (function() {
      * Check if passed elem is in left half of viewport.
      */
     function isInLeftHalf( button ) {
-
         const dims = button.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
 
@@ -84,13 +83,18 @@ const dropdownPlugin = (function() {
     }
 
 
-    return { // Public functions.
+    return { //------------------------------------------------------------------- Public functions.
 
 
         /**
          * Handle page clicks.
          */
 		pageClickHandler: function( event ) {
+
+
+console.log(document.activeElement);
+
+
 
 			// Bail if the click is on a menu.
 			if ( true === !! event.target.closest( '.' + classNameMenu ) ) return;
@@ -118,6 +122,17 @@ const dropdownPlugin = (function() {
 
 			if ( event.type === 'mouseenter' ) {
 
+
+/*
+
+When hover enter is disabled, the first close problem goes away.
+
+
+*/
+
+
+
+
 				// Set focus on the dropdown and open it.
 				const button = event.target.querySelector( '.dropdown_toggle' );
 				button.focus();
@@ -136,7 +151,6 @@ const dropdownPlugin = (function() {
 						activeAncestorDropdown.setAttribute( 'data-hover-lock', 'false');
 						dropdownPlugin.close( activeAncestorDropdown.querySelector( '.dropdown_toggle' ) );
 					}
-
 				} );
 
 			} else if ( event.type === 'mouseleave' ) {
@@ -149,7 +163,6 @@ const dropdownPlugin = (function() {
 						// close it.
 						dropdownPlugin.close( button );
 					}
-
 				} );
 			}
 		},
@@ -165,7 +178,6 @@ const dropdownPlugin = (function() {
 			dropdown.addEventListener( 'mouseenter', dropdownPlugin.hoverHandler );
 			dropdown.addEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
 			dropdown.setAttribute( 'data-hover-listener', 'true' );
-
 		},
 
 
@@ -180,7 +192,6 @@ const dropdownPlugin = (function() {
 			dropdown.removeEventListener( 'mouseenter', dropdownPlugin.hoverHandler );
 			dropdown.removeEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
 			dropdown.setAttribute( 'data-hover-listener', 'false' );
-
 		},
 
 
@@ -200,17 +211,20 @@ const dropdownPlugin = (function() {
 
 				// If active and unlocked.
 				if ( button.classList.contains('dropdown_toggle-active')
-							&& false === !! button.closest( '[data-hover-lock="true"]' ) ) {
+					 && false === !! button.closest( '[data-hover-lock="true"]' ) ) {
 
 					// Lock it.
-					button.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'true');
+					button.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'true' );
 
 				// If active and locked.
-				} else if ( button.classList.contains('dropdown_toggle-active')
+				} else if ( button.classList.contains( 'dropdown_toggle-active' )
 							&& true === !! button.closest( '[data-hover-lock="true"]' ) ) {
 
-					// Unlock and close it.
-					button.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'false');
+					// If it's the top level dropdown, unlock it.
+					if ( button.parentElement.classList.contains( 'dropdown-hover' ) ) {
+						button.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'false');
+					}
+					// Close it.
 					dropdownPlugin.close( button );
 
 				// Else, is not active.
@@ -219,6 +233,17 @@ const dropdownPlugin = (function() {
 					// Lock and open it.
 					button.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'true');
 					dropdownPlugin.open( button );
+
+					// Close other open branches in the ancestor dropdown.
+					const activeButtons = document.querySelectorAll( '.dropdown_toggle-active' );
+					[ ...activeButtons ].forEach( activeButton => {
+
+						// Check this isn't an ancestor of the newly opened dropdown.
+						if ( ! activeButton.parentElement.contains( button ) ) {
+							// Close.
+							dropdownPlugin.close( activeButton );
+						}
+					} );
 				}
 
 			// Click is NOT on a dropdown button, but IS in an UNLOCKED dropdown branch.
@@ -236,27 +261,37 @@ const dropdownPlugin = (function() {
          */
 		open: function( button ) {
 
-			const dropdown = button.parentElement;
-			let menu       = dropdown.lastElementChild;
+				const dropdown = button.parentElement;
+				let menu       = dropdown.lastElementChild;
 
-			// Set dropdown swing direction on smaller screens.
-			if ( window.innerWidth <= 1024 ) {
-				if ( isInLeftHalf( dropdown ) ) {
+				// Set dropdown swing direction on smaller screens.
+				if ( window.innerWidth <= 1024
+					&& isInLeftHalf( dropdown ) ) {
 					dropdown.classList.add( 'dropdown-swingRight' );
 					dropdown.classList.remove( 'dropdown-swingLeft' );
+				} else {
+					dropdown.classList.add( 'dropdown-swingLeft' );
+					dropdown.classList.remove( 'dropdown-swingRight' );
 				}
-			} else {
-				dropdown.classList.add( 'dropdown-swingLeft' );
-				dropdown.classList.remove( 'dropdown-swingRight' );
-			}
 
-			//set attributes
-			button.classList.add( "dropdown_toggle-active" );
-			button.setAttribute( "aria-expanded", true );
-			button.setAttribute( "aria-pressed", true );
+				//set attributes
 
-			// Now browser has calculcated layout, adjust y-scroll if required,
-			scrollIntoView( menu );
+
+/*
+When hover handler calls this function, then the click handler calls
+this function and the class below is added,
+it causes a close() on the menu item on first doc click - but only
+if chrome does not already have focus in the OS. wtf.
+
+*/
+
+				button.classList.add( "dropdown_toggle-active" );
+				button.setAttribute( "aria-expanded", true );
+				button.setAttribute( "aria-pressed", true );
+
+				// Now browser has calculcated layout, adjust y-scroll if required,
+				scrollIntoView( menu );
+
         },
 
         /**
@@ -264,14 +299,9 @@ const dropdownPlugin = (function() {
          */
         close: function( button ) {
 
-			// Unlock this dropdown branch.
-			let ancestorToggle = button.parentElement.closest( '.dropdown-hover' ).querySelector( '.dropdown_toggle' );
-			if ( ancestorToggle.hasAttribute('data-hover-lock')
-				&& ancestorToggle.dataset.hoverLock === 'true' ) {
 
-				ancestorToggle.setAttribute( 'data-hover-lock', 'false');
+console.log( 'close: ' + button.parentElement.firstElementChild.innerText );
 
-			}
 
 			// If the button's dropdown also has active children.
 			const activeChildren = button.parentElement.querySelectorAll( '.dropdown_toggle-active' );
@@ -288,9 +318,11 @@ const dropdownPlugin = (function() {
 				button.setAttribute( "aria-pressed", false );
 			}
 
+
+
+
         },
 
 
-    };/* public functions */
-    
-})();/* plugin end */
+    };// Public functions.
+})();// Plugin end.
