@@ -1454,9 +1454,32 @@ body > main {
 		display: none;
 	}
 	.search_container {
-		visibility: hidden;
+		display: flex;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		align-items: center;
+		justify-content: center;
+		transform: translateX(-100vw);
+		transition: transform .25s ease-in-out;
+		background-color: var(--tc_colour-accent);
 	}
+		.search_close {
+			position: absolute;
+			top: 0;
+			right: 0;
+			border: none;
+			background: none;
+			cursor: pointer;
+			padding: 0 1em;
+			width: fit-content;
+			height: 100%;
+			color: var(--tc_colour-white);
+			font-size: var(--tc_h1);
+		}
 
 .search_toggle:checked + .search_container {
-	visibility: visible;
+	transform: translateX(0);
 }

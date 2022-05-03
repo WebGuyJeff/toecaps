@@ -71,6 +71,9 @@ get_template_part( 'template-parts/css-loader' );
 								)
 							);
 							?>
+							<button class="search_close" onclick="document.querySelector('.search_toggle').click()">
+								<i class="fa-solid fa-xmark"></i>
+							</button>
 						</div>
 					</div>
 
