@@ -130,7 +130,7 @@ class Seo_Meta {
 		$jt_themeuri  = get_template_directory_uri();
 
 		/* Page-Specific */
-		$post = get_post();// Set up the post manually
+		$post = get_post(); // Set up the post manually.
 		setup_postdata( $post );
 		$jt_postid      = get_the_ID();
 		$jt_postcontent = get_post_field( 'post_content', $jt_postid, '' );

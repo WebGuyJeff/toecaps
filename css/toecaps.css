@@ -811,7 +811,6 @@ body > main {
 		.header_image {
 			object-fit: cover;
 			object-position: center;
-			position: absolute;
 			top: 0;
 			margin: 0;
 			padding: 0;
@@ -1145,6 +1144,7 @@ body > main {
 		padding-left: 16px;
 		color: inherit;
 		width: 42px;
+		transition: all 0.25s ease-in;
 	}
 			.dropdown_toggleIcon {
 				display: block;
@@ -1173,8 +1173,7 @@ body > main {
 						text-align: left;
 						color: var(--tc_colour-black);
 						font-size: inherit;
-						transition: max-height 0.125s ease-in-out,
-						            margin 0.2s ease-in-out;
+						transition: all 0.25s ease-in;
 					}
 						.dropdown_item {
 							display: inline-flex;
@@ -1219,17 +1218,20 @@ body > main {
 		align-items: center;
 		align-self: stretch;
 		justify-content: center;
-	}
-	.dropdown-inMenu > .dropdown_toggle-active {
-		box-shadow: -2px -1px 4px -2px #0008;
 		border-top-left-radius: 0.5em;
 	}
-	.dropdown-inMenu > .dropdown_toggle-active + .dropdown_contents {
+	.dropdown-inMenu > .dropdown_contents {
 		position: static;
 		align-items: center;
 		align-self: stretch;
 		justify-content: center;
 		background-color: transparent;
+	}
+
+.dropdown-inMenu > .dropdown_toggle-active {
+	box-shadow: -2px -1px 4px -2px #0008;
+}
+	.dropdown-inMenu > .dropdown_toggle-active + .dropdown_contents {
 		margin-left: 8px;
 		border-left: solid 4px #0004;
 	}
@@ -1382,3 +1384,23 @@ body > main {
         height: 100%;
         color: var(--tc_colour-white);
     }
+
+
+/*--------------------------------------------------------- 4.13 PARALLAX ----*/
+
+
+.parallax {
+	display: flex;
+	position: absolute;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	overflow: hidden;
+}
+	.parallax_inner {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 200%;
+	}

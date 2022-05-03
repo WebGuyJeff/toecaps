@@ -35,14 +35,15 @@ function enqueue_scripts_and_styles() {
 		wp_deregister_script( 'jquery' );
 		wp_enqueue_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', array(), '3.6.0', true );
 		// Other front end resources.
-		wp_enqueue_script( 'menu_js', get_template_directory_uri() . '/js/menu.js', array(), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
-		wp_enqueue_script( 'dropdown_js', get_template_directory_uri() . '/js/dropdown.js', array(), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
+		wp_enqueue_script( 'menu_js', get_template_directory_uri() . '/js/menu.js', array(), filemtime( get_template_directory() . '/js/menu.js' ), true );
+		wp_enqueue_script( 'dropdown_js', get_template_directory_uri() . '/js/dropdown.js', array(), filemtime( get_template_directory() . '/js/dropdown.js' ), true );
 		wp_enqueue_script( 'menu_more_js', get_template_directory_uri() . '/js/menu-more.js', array( 'dropdown_js' ), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
-		wp_register_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js', array( 'jquery' ), '3.9.1', true );
+		wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js', array( 'jquery' ), '3.9.1', true );
 		// CSSRule this is part of core but there's a separate CDN?
 		wp_register_script( 'gsap_cssrule', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CSSRulePlugin.min.js', array( 'gsap' ), '3.9.1', true );
-		wp_register_script( 'gsap_scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js', array( 'gsap' ), '3.9.1', true );
+		wp_enqueue_script( 'gsap_scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js', array( 'gsap' ), '3.9.1', true );
 		wp_register_script( 'modal_js', get_template_directory_uri() . '/js/modal.js', array(), '0.1', true );
+		wp_enqueue_script( 'parallax_js', get_template_directory_uri() . '/js/parallax.js', array( 'gsap_scrolltrigger' ), filemtime( get_template_directory() . '/js/parallax.js' ), true );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_scripts_and_styles' );
@@ -139,11 +140,12 @@ if ( ! function_exists( 'toecaps_setup' ) ) :
 			array(
 				'homepage-menu' => esc_html__( 'Homepage Menu', 'toecaps' ),
 				'footer-menu'   => esc_html__( 'Footer Menu', 'toecaps' ),
-				'gates-menu'    => esc_html__( 'Gates Menu', 'toecaps' ),
-				'bedrooms-menu' => esc_html__( 'Bedrooms Menu', 'toecaps' ),
-				'cnc-menu'      => esc_html__( 'CNC Menu', 'toecaps' ),
-				'spray-menu'    => esc_html__( 'Spray Menu', 'toecaps' ),
-				'camper-menu'   => esc_html__( 'Camper Menu', 'toecaps' ),
+				'tan-menu'      => esc_html__( 'Tan Menu', 'toecaps' ),
+				'teal-menu'     => esc_html__( 'Teal Menu', 'toecaps' ),
+				'blue-menu'     => esc_html__( 'Blue Menu', 'toecaps' ),
+				'yellow-menu'   => esc_html__( 'Yellow Menu', 'toecaps' ),
+				'red-menu'      => esc_html__( 'Red Menu', 'toecaps' ),
+				'green-menu'    => esc_html__( 'Green Menu', 'toecaps' ),
 			)
 		);
 

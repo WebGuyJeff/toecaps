@@ -30,7 +30,7 @@ get_template_part( 'template-parts/css-loader' );
 
 <?php get_template_part( 'template-parts/promo-banner' ); ?>
 
-	<header class="header">
+	<header class="header parallax_trigger">
 		<div class="container">
 			<a class="identity" href="<?php echo esc_url( get_bloginfo( 'wpurl' ) ); ?>" aria-label="Home">
 				<?php
@@ -70,37 +70,43 @@ get_template_part( 'template-parts/css-loader' );
 
 		<div class="header_hero">
 
-			<?php
+			<div class="parallax">
+				<div class="parallax_inner">
 
-			if ( has_post_thumbnail() ) {
+					<?php
 
-				$attributes = array(
-					'class' => 'header_image',
-				);
-				the_post_thumbnail( 'post-thumbnail', $attributes );
+					if ( has_post_thumbnail() ) {
 
-			} else {
-				?>
+						$attributes = array(
+							'class' => 'header_image',
+						);
+						the_post_thumbnail( 'post-thumbnail', $attributes );
 
-					<img
-						class="header_image header_image-fade wp-post-image"
-						width="1920"
-						height="960"
-						src="http://localhost:8001/wp-content/uploads/2022/04/hero-background.webp"
-						alt="Joinery Workshop"
-						loading="lazy"
-						srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback.webp 1920w,
-								<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-300x150.webp 300w,
-								<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-1024x512.webp 1024w,
-								<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-768x384.webp 768w,
-								<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-1536x768.webp 1536w"
-						sizes="(max-width: 1920px) 100vw, 1920px"
-					>
+					} else {
+						?>
 
-				<?php
-			}
+							<img
+								class="header_image header_image-fade wp-post-image"
+								width="1920"
+								height="960"
+								src="http://localhost:8001/wp-content/uploads/2022/04/hero-background.webp"
+								alt="Joinery Workshop"
+								loading="lazy"
+								srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback.webp 1920w,
+										<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-300x150.webp 300w,
+										<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-1024x512.webp 1024w,
+										<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-768x384.webp 768w,
+										<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-1536x768.webp 1536w"
+								sizes="(max-width: 1920px) 100vw, 1920px"
+							>
 
-			?>
+						<?php
+					}
+
+					?>
+
+				</div>
+			</div>
 
 			<div class="container">
 				<?php get_template_part( 'template-parts/h1' ); ?>

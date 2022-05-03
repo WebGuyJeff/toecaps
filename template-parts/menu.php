@@ -14,37 +14,52 @@ namespace BigupWeb\Toecaps;
 use BigupWeb\Toecaps\Helpers;
 
 
-global $post; // if outside the loop.
+if ( is_page() && ! $post->post_parent && ! empty( get_pages( array( 'child_of' => get_queried_object_id() ) ) )
+	|| is_page() && $post->post_parent ) {
 
-if ( is_front_page() || is_home() ) {
-	// This is the front page.
-	Menu_Walker::output_theme_location_menu(
-		array(
-			'theme_location'    => 'homepage-menu',
-			'menu_class'        => 'mainMenu',
-			'nav_or_div'        => 'nav',
-			'nav_aria_label'    => 'Main Menu',
-			'html_tab_indents'  => 5,
-		)
-	);
+	// This is a category page (parent or child).
 
-} elseif ( is_page() && ! $post->post_parent && ! empty( get_pages( array( 'child_of' => get_queried_object_id() ) ) ) ) {
-	// This is a parent page.
-	echo '<p>NO PARENT PAGE MENU CONFIGURED!</p>';
+	$page_template = basename( get_page_template_slug(), '.php' );
 
-} elseif ( is_page() && $post->post_parent ) {
-	// This is a child page.
-	echo '<p>NO CHILD PAGE MENU CONFIGURED!</p>';
+	switch ( $page_template ) {
 
+		case 'toecaps-green':
+			$menu_slug = 'green-menu';
+			break;
+
+		case 'toecaps-tan':
+			$menu_slug = 'tan-menu';
+			break;
+
+		case 'toecaps-yellow':
+			$menu_slug = 'yellow-menu';
+			break;
+
+		case 'toecaps-blue':
+			$menu_slug = 'blue-menu';
+			break;
+
+		case 'toecaps-teal':
+			$menu_slug = 'teal-menu';
+			break;
+
+		case 'toecaps-red':
+			$menu_slug = 'red-menu';
+			break;
+	}
 } else {
-	// This is an orphan page.
-	Menu_Walker::output_theme_location_menu(
-		array(
-			'theme_location'    => 'homepage-menu',
-			'menu_class'        => 'mainMenu',
-			'nav_or_div'        => 'nav',
-			'nav_aria_label'    => 'Main Menu',
-			'html_tab_indents'  => 5,
-		)
-	);
+
+	// This is the home page, an orphan page, or any other unnaccounted for page.
+	$menu_slug = 'homepage-menu';
+
 }
+
+Menu_Walker::output_theme_location_menu(
+	array(
+		'theme_location'   => $menu_slug,
+		'menu_class'       => 'mainMenu',
+		'nav_or_div'       => 'nav',
+		'nav_aria_label'   => 'Main Menu',
+		'html_tab_indents' => 5,
+	)
+);
