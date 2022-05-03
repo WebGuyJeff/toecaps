@@ -12,17 +12,29 @@ namespace BigupWeb\Toecaps;
 ?>
 
 <section class="container">
-	<article  id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-		<header class="entry-header">
-			<?php the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' ); ?>
-		</header>
-
-		<div class="entry-summary">
-			<?php the_excerpt(); ?>
+	<?php
+	$s    = get_search_query();
+	$args = array(
+					's' =>$s
+				);
+	// The Query.
+	$the_query = new WP_Query( $args );
+	if ( $the_query->have_posts() ) {
+		_e( "<h2 style='font-weight:bold;color:#000'>Search Results for: ".get_query_var('s')."</h2>" );
+		while ( $the_query->have_posts() ) {
+			$the_query->the_post();
+			?>
+			<li>
+				<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+			</li>
+			<?php
+		}
+	} else {
+	?>
+		<h2 style='font-weight:bold;color:#000'>Nothing Found</h2>
+		<div class="alert alert-info">
+			<p>Sorry, but nothing matched your search criteria. Please try a new search or use the
+				navigation menu to find what you are looking for.</p>
 		</div>
-
-		<footer class="entry-footer">
-			<?php Tags::print_html_entry_footer(); ?>
-		</footer>
-	</article>
+	<?php } ?>
 </section>

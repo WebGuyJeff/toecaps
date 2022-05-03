@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Toecaps Template File - Left Sidebar.
  *

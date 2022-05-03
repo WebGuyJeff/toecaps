@@ -25,14 +25,6 @@ get_header();
 	<?php
 	if ( have_posts() ) :
 		while ( have_posts() ) :
-
-
-/* jeffDebug */
-$output = get_template_part( 'template-parts/content', get_post_format() );
-Helpers::output_to_front_end( $output );
-
-
-
 			the_post();
 			get_template_part( 'template-parts/content', get_post_format() );
 		endwhile;

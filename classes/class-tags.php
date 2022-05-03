@@ -21,7 +21,6 @@ namespace BigupWeb\Toecaps;
 class Tags {
 
 
-
 	/**
 	 * Prints HTML with meta information for the current post-date/time.
 	 */
@@ -190,6 +189,47 @@ class Tags {
 
 			<?php
 		endif; // End is_singular().
+	}
+
+
+	/**
+	 * Print the next and previous posts navigation.
+	 *
+	 * @since Twenty Twenty-One 1.0
+	 *
+	 * @return void
+	 */
+	public static function posts_navigation() {
+		the_posts_pagination(
+			array(
+				'before_page_number' => esc_html__( 'Page', 'toecaps' ) . ' ',
+				'mid_size'           => 0,
+				'prev_text'          => sprintf(
+					'%s <span class="nav-prev-text">%s</span>',
+					is_rtl() ? '<i class="fa-solid fa-arrow-right"></i>' : '<i class="fa-solid fa-arrow-left"></i>',
+					wp_kses(
+						__( 'Newer <span class="nav-short">posts</span>', 'toecaps' ),
+						array(
+							'span' => array(
+								'class' => array(),
+							),
+						)
+					)
+				),
+				'next_text'          => sprintf(
+					'<span class="nav-next-text">%s</span> %s',
+					wp_kses(
+						__( 'Older <span class="nav-short">posts</span>', 'toecaps' ),
+						array(
+							'span' => array(
+								'class' => array(),
+							),
+						)
+					),
+					is_rtl() ? '<i class="fa-solid fa-arrow-right"></i>' : '<i class="fa-solid fa-arrow-left"></i>'
+				),
+			)
+		);
 	}
 
 

@@ -29,11 +29,14 @@
 	4.5 MODAL
 	4.6 MAIN MENU
 	4.7 DROPDOWN
-	4.8 FOLLOW
-	4.9 SOCIAL_LINK
-	4.10 BUTTON
-	4.11 LINK
-	4.12 FORM
+	4.8 SECONDARY MENU
+	4.9 FOLLOW
+	4.10 SOCIAL_LINK
+	4.11 BUTTON
+	4.12 LINK
+	4.13 FORM
+	4.14 PARALLAX
+	4.15 SEARCH
 
 
 ~o~~~~~~oOo~~~~~~o~
@@ -788,12 +791,17 @@ body > main {
     content-visibility: visible;
     position: relative;
     transition: transform 0.3s ease-in-out;
-    background: var(--tc_colour-white);
+    color: var(--tc_colour-white);
 	background: var(--tc_colour-accent);
 	padding-bottom: 2em;
     width: 100%;
     height: fit-content;
 }
+	.header_main {
+		display: flex;
+		justify-content: space-evenly;
+		padding: 1em 0;
+	}
 	.header_menu {
 		background: var(--tc_colour-white);
 		color: var(--tc_colour-black);
@@ -831,6 +839,11 @@ body > main {
 		.header_ctaButton {
 			margin: 1em 0.5em;
 		}
+
+.tc_page-notHome  .header_main {
+	justify-content: space-between;
+}
+
 
 
 /*------------------------------------------------------------ 4.3 FOOTER ----*/
@@ -871,14 +884,12 @@ body > main {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin: 0 auto;
 	width: fit-content;
 	text-decoration: none;
 	color: var(--tc_colour-white);
 }
     .identity_logo {
-		margin: 1em auto;
-        height: 8em;
+        max-height: 8em;
     }
 	.identity_title {
 		margin: 0;
@@ -891,6 +902,10 @@ body > main {
 		font-family: var(--tc_font-secondary);
 		font-size: var(--tc_h4);
 	}
+
+.tc_page-notHome  .identity_logo {
+	max-height: 6em;
+}
 
 
 /*------------------------------------------------------------- 4.5 MODAL ----*/
@@ -1267,9 +1282,29 @@ body > main {
 .fullscreenMenu .dropdown_toggle-active + .dropdown_contents {
 	box-shadow: -20px -23px 4px -23px #0008;
 }
-	
 
-/*------------------------------------------------------------ 4.8 FOLLOW ----*/
+
+/*---------------------------------------------------- 4.8 SECONDARY MENU ----*/
+
+
+.secondaryMenu {
+	gap: 0.5em;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-end;
+}
+	.secondaryMenu_item {
+		display: flex;
+		flex-flow: row nowrap;
+		text-decoration: none;
+		color: inherit;
+	}
+		.secondaryMenu_label {
+
+		}
+
+
+/*------------------------------------------------------------ 4.9 FOLLOW ----*/
 
 
 .follow {
@@ -1293,7 +1328,7 @@ body > main {
 			}
 
 
-/*------------------------------------------------------- 4.9 SOCIAL_LINK ----*/
+/*------------------------------------------------------- 4.10 SOCIAL_LINK ----*/
 
 
 .social_link {
@@ -1307,7 +1342,7 @@ body > main {
 	}
 
 
-/*----------------------------------------------------------- 4.10 BUTTON ----*/
+/*----------------------------------------------------------- 4.11 BUTTON ----*/
 
 
 .button {
@@ -1357,7 +1392,7 @@ body > main {
         }
 
 
-/*------------------------------------------------------------- 4.11 LINK ----*/
+/*------------------------------------------------------------- 4.12 LINK ----*/
 
 
 .link {
@@ -1365,7 +1400,7 @@ body > main {
 }
 
 
-/*------------------------------------------------------------- 4.12 FORM ----*/
+/*------------------------------------------------------------- 4.13 FORM ----*/
 
 
 .form {
@@ -1386,7 +1421,7 @@ body > main {
     }
 
 
-/*--------------------------------------------------------- 4.13 PARALLAX ----*/
+/*--------------------------------------------------------- 4.14 PARALLAX ----*/
 
 
 .parallax {
@@ -1404,3 +1439,24 @@ body > main {
 		width: 100%;
 		height: 200%;
 	}
+
+
+/*----------------------------------------------------------- 4.15 SEARCH ----*/
+
+
+.search {
+
+}
+	.search_label {
+
+	}
+	.search_toggle {
+		display: none;
+	}
+	.search_container {
+		visibility: hidden;
+	}
+
+.search_toggle:checked + .search_container {
+	visibility: visible;
+}

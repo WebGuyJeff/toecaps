@@ -9,6 +9,7 @@
 
 namespace BigupWeb\Toecaps;
 
+
 /**
  * Functions which enhance the theme by hooking into WordPress
  *
@@ -16,15 +17,14 @@ namespace BigupWeb\Toecaps;
  */
 class Hooks {
 
-
-
-	// init the class on each new instance
-	function __construct() {
+	/**
+	 * Init the class on each new instance.
+	 */
+	public function __construct() {
 
 		add_filter( 'body_class', array( $this, 'add_body_classes' ) );
 		add_action( 'wp_head', array( $this, 'add_pingback_header' ) );
-
-	}//end __construct()
+	}
 
 
 	/**
@@ -35,37 +35,33 @@ class Hooks {
 	 */
 	public function add_body_classes( $classes ) {
 
-		// Home
-		if ( is_front_page() ) { // Homepage
-			$classes[] = 'hb__home';
+		global $post;
+
+		// Page type.
+		if ( is_page() && ! $post->post_parent && ! empty( get_pages( array( 'child_of' => get_queried_object_id() ) ) )
+			|| is_page() && $post->post_parent ) {
+			// Category page (parent or child).
+			$classes[] = 'tc_page-category';
+
+		} elseif ( empty( get_pages( array( 'child_of' => get_queried_object_id() ) ) ) ) {
+			// Orphan page.
+			$classes[] = 'tc_page-orphan';
+
+		}
+		
+		if ( is_front_page() || is_home() ) {
+			// Home page.
+			$classes[] = 'tc_page-home';
+
+		} else  {
+			// NOT home page.
+			$classes[] = 'tc_page-notHome';
 		}
 
-		// Page type
-		if ( is_page_template( 'page-templates/landing-page.php' ) ) {
-			$classes[] = 'hb__pag-landing';
-		} elseif ( is_home() ) { // Posts Page
-			$classes[] = 'hb__pag-posts';
-		} elseif ( is_category() ) {
-			$classes[] = 'hb__pag-category';
-		} elseif ( is_archive() ) { // Auto-gen 'cats'
-			$classes[] = 'hb__pag-archive';
-		} elseif ( is_singular() ) {
-			$classes[] = 'hb__pag-singular';
-		} else {
-			$classes[] = 'hb__pag-typeunknown';
-		}
-
-		// Template
-		if ( is_page_template( 'column-sidebar' ) ) {
-			$classes[] = 'hb__tmp-sidesright';
-		} elseif ( is_page_template( 'sidebar-column' ) ) {
-			$classes[] = 'hb__tmp-sidesleft';
-		} elseif ( is_page_template( 'sidebar-column-sidebar' ) ) {
-			$classes[] = 'hb__tmp-sidesboth';
-		} elseif ( is_page_template( 'landing-page' ) ) {
-			$classes[] = 'hb__tmp-landingpage';
-		} elseif ( is_page_template( 'full-width-page' ) ) {
-			$classes[] = 'hb__tmp-fullwidthpage';
+		// Template.
+		if ( is_page_template( 'toecaps-full-width' ) ) {
+			// Full-width page template.
+			$classes[] = 'tc_page-fullWidth';
 		}
 
 		return $classes;
