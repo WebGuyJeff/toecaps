@@ -75,16 +75,16 @@ const navAutoMore = (function() {
 		// Bail if the menu is empty/hidden.
 		if ( navWidth <= 0 ) return;
 
-		const navGap       = parseInt( window.getComputedStyle( nav ).getPropertyValue("gap"), 10); // Flex Gap.
-		let moreWidth      = more.offsetWidth + navGap;
+		const navGap  = parseInt( window.getComputedStyle( nav ).getPropertyValue("gap"), 10); // Flex Gap.
+		// let moreWidth = more.offsetWidth + navGap;
 
 		if ( window.innerWidth >= minWindowLimit ) {
 
-			if ( navWidth > containerWidth - moreWidth ) {
+			if ( navWidth > containerWidth ) {
 
 				// While the nav width is too big.
 				let navLastItem;
-				while ( navWidth > containerWidth - moreWidth ) {
+				while ( navWidth > containerWidth ) {
 					// Move last menu item to 'more'.
 					let count = nav.children.length;
 					navLastItem = nav.children[ count - 2 ] // Don't select the 'more' item.
@@ -106,7 +106,7 @@ const navAutoMore = (function() {
 				let moreFirstItem      = moreContents.firstElementChild;
 				let moreFirstItemWidth = moreFirstItem.offsetWidth;
 				let newNavWidth        = navWidth + moreFirstItemWidth + navGap;		
-				while ( newNavWidth < containerWidth - moreWidth &&
+				while ( newNavWidth < containerWidth &&
 						moreContents.children.length > 0 ) {
 
 					// Put a menu item back if it fits.

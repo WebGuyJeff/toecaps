@@ -119,14 +119,8 @@ const dropdownPlugin = (function() {
 		 */
 		hoverHandler: function( event ) {
 
-			// event.target returns null when assigned to a var!
-
-			const button = event.target.querySelector( '.dropdown_toggle' );
+			const button = event.target.getElementsByClassName( 'dropdown_toggle' )[0];
 			if ( event.type === 'mouseenter' ) {
-
-/*
-When hover enter is disabled, the first close problem goes away.
-*/
 
 				// Set focus on the dropdown and open it.
 				button.focus();
@@ -134,21 +128,45 @@ When hover enter is disabled, the first close problem goes away.
 
 			} else if ( event.type === 'mouseleave' ) {
 
-
-				const elemUnderCursor = document.elementFromPoint( event.clientX, event.clientY);
-console.log( 'TRUTH ' + ( elemUnderCursor.parentElement.contains( button ) ) );
-				if ( elemUnderCursor.parentElement.contains( button ) ) return;
-
 				// If this menu branch isn't hover-locked.
-//				if ( false === !! button.closest( '[data-hover-lock="true"]' ) ) {
-//					// close it.
-//					dropdownPlugin.close( button );
-//				}
+				if ( false === !! button.closest( '[data-hover-lock="true"]' )
+					&& button.classList.contains( 'dropdown_toggle-active' ) ) {
 
+					/**
+					 * Chrome Bug Patch: 
+					 * 
+					 * When the dropdown menu class is updated on click -> open(), the dropdown
+					 * appears to be removed from the viewport for a split second causing a
+					 * mouseleave event to fire. This means, when you click on a sub-dropdown menu
+					 * after hovering over the parent, it closes the menu.
+					 * 
+					 * More weirdly, this only happens if the browser itself doesn't have OS window
+					 * focus before performing the hover > click. If you click anywhere on the
+					 * browser UI, including on the viewport area, this bug will not occur. Super
+					 * edge-case bug!
+					 * 
+					 * Tested in KDE Debian, and only occurs in Chrome. Firefox/Opera tested OK.
+					 * 
+					 * To patch this issue, a timeout delay is added to the mouseleave event, so
+					 * that before the close() is fired, a sanity check can be performed to ensure
+					 * the mouse is still not over the dropdown. If the mouse is still hovering the
+					 * dropdown, the close() is not fired and this bug is avoided.
+					 */
+					let hoverTarget;
+					const mouseOverElem = ( event ) => {
+						hoverTarget = event.target;
+					}
+					document.addEventListener('mouseover', mouseOverElem, false);
+					setTimeout( () => {
+						if ( ! button.parentElement.contains( hoverTarget ) ) {
+							dropdownPlugin.close( button );
+						}
+						document.removeEventListener('mouseover', mouseOverElem, false);
+					}, 10 );
+					// Bug Patch End.
+				}
 			}
-
 		},
-
 
 		/**
 		 * Register hover event listeners.
@@ -185,8 +203,6 @@ console.log( 'TRUTH ' + ( elemUnderCursor.parentElement.contains( button ) ) );
 		 * soon as a click is detected outside of the menu branch.
 		 */
 		menuClickHandler: function( event ) {
-
-console.log( 'menuClickHandler' );
 
 			// If click is on a dropdown button (3-way toggle).
 			if ( true === !! event.target.closest( '.dropdown_toggle' ) ) {
@@ -298,7 +314,6 @@ console.log( 'menuClickHandler' );
 					activeBranch[ i ].setAttribute( "aria-expanded", false );
 					activeBranch[ i ].setAttribute( "aria-pressed", false );
 
-console.log( 'close child: ' + activeBranch[ i ].parentElement.querySelector( '.dropdown_primary' ).innerText );
 				} //);
 
 			} else {
@@ -306,14 +321,7 @@ console.log( 'close child: ' + activeBranch[ i ].parentElement.querySelector( '.
 				button.setAttribute( "aria-expanded", false );
 				button.setAttribute( "aria-pressed", false );
 
-
-console.log( 'close-single: ' + button.parentElement.querySelector( '.dropdown_primary' ).innerText );
-
 			}
-
-
-
-
         },
 
 
