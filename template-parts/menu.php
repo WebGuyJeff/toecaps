@@ -47,6 +47,9 @@ if ( is_page() && ! $post->post_parent && ! empty( get_pages( array( 'child_of' 
 			$menu_slug = 'red-menu';
 			break;
 	}
+
+	$menu_slug = ( isset( $menu_slug ) ) ? $menu_slug : 'homepage-menu';
+
 } else {
 
 	// This is the home page, an orphan page, or any other unnaccounted for page.

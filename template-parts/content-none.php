@@ -11,8 +11,8 @@ namespace BigupWeb\Toecaps;
 
 ?>
 
-<section class="no-results not-found sauce">
-	<div >
+<section class="no-results not-found">
+	<div class="container">
 		<header class="page-header">
 			<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'toecaps' ); ?></h1>
 		</header>

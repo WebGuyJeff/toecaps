@@ -48,20 +48,11 @@ if ( is_front_page() || is_home() ) {
 
 } else {
 
-	if ( is_page() && $post->post_parent || empty( get_pages( array( 'child_of' => get_queried_object_id() ) ) ) ) {
-		// This is a child or orphan page.
-		?>
-
-		<div class="identity">
-			<h1 class="header_title"><?php echo esc_html( get_the_title() ); ?></h1>
-		</div>
-
-		<?php
-	} else {
-		// This is a parent page.
+	if ( is_page()
+		&& ! empty( get_pages( array( 'child_of' => get_queried_object_id() ) ) ) ) {
+		// This is a category ( parent ) page.
 
 		?>
-
 		<div class="header_cta">
 
 			<div class="identity">
@@ -72,23 +63,46 @@ if ( is_front_page() || is_home() ) {
 					<?php echo esc_html( Helpers::get_first_sentence( get_the_excerpt() ) ); ?>
 				</span>
 			</div>
-
 			<?php
+
 			$phone = get_option( 'phone' );
 			if ( $phone ) {
-				?>
 
+				?>
 				<a class="header_ctaButton button" role="button" href="tel:<?php echo esc_attr( get_option( 'phone' ) ); ?>" aria-label="Phone us">
 					<span>Call Now</span>
 				</a>
-
 				<?php
 			}
 			?>
 
 		</div>
+		<?php
+
+	} elseif ( is_search() ) {
+
+		?>
+
+		<div class="identity">
+			<h1 class="header_title">Search Results</h1>
+		</div>
+
+		<?php
+
+	} else {
+		// Fallback for child, orphan, search etc.
+
+		?>
+
+		<div class="identity">
+			<h1 class="header_title"><?php echo esc_html( get_the_title() ); ?></h1>
+		</div>
 
 		<?php
 	}
+
+	?>
+	</div>
+	<?php
 
 }

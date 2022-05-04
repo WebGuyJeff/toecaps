@@ -61,23 +61,24 @@ get_template_part( 'template-parts/css-loader' );
 								Search
 							</span>
 						</label>
-						<input id="search_form" class="search_toggle" type="checkbox">
-						<div class="search_container">
-							<?php
-							get_search_form(
-								$args = array(
-									'echo'       => true,
-									'aria_label' => 'Search our website',
-								)
-							);
-							?>
-							<button class="search_close" onclick="document.querySelector('.search_toggle').click()">
-								<i class="fa-solid fa-xmark"></i>
-							</button>
-						</div>
-					</div>
 
+					</div>
 				</nav>
+
+				<input id="search_form" class="search_toggle" type="checkbox">
+				<div class="search_container">
+					<?php
+					get_search_form(
+						$args = array(
+							'echo'       => true,
+							'aria_label' => 'Search our website',
+						)
+					);
+					?>
+					<button class="search_close" onclick="document.querySelector('.search_toggle').click()">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+				</div>
 
 			</div>
 		</div>

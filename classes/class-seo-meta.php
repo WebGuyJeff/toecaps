@@ -114,105 +114,111 @@ class Seo_Meta {
 	public function build_meta_vars() {
 
 		/* Constants (need a source) */
-		$jt_siteauthor = 'Joinery Team';
-		$jt_localealt  = 'en_US';
-		$jt_objecttype = 'website';
-		$jt_robots     = 'index, follow, nocache, noarchive';
+		$bw_siteauthor = 'Joinery Team';
+		$bw_localealt  = 'en_US';
+		$bw_objecttype = 'website';
+		$bw_robots     = 'index, follow, nocache, noarchive';
 
 		/* Sitewide */
-		$jt_identity = wp_strip_all_tags( get_bloginfo( 'name', 'display' ) );
-		$jt_blogtitle = wp_strip_all_tags( get_the_title( get_option( 'page_for_posts', true ) ) );
-		$jt_sitedesc  = wp_strip_all_tags( get_bloginfo( 'description', 'display' ) );
-		$jt_siteurl   = esc_url( home_url( $path = '/', $scheme = 'https' ) );
-		$jt_sitelogo  = esc_url( wp_get_attachment_url( get_theme_mod( 'custom_logo' ) ) );
-		$jt_locale    = wp_strip_all_tags( get_bloginfo( 'language' ) );
-		$jt_charset   = wp_strip_all_tags( get_bloginfo( 'charset' ) );
-		$jt_themeuri  = get_template_directory_uri();
+		$bw_identity = wp_strip_all_tags( get_bloginfo( 'name', 'display' ) );
+		$bw_blogtitle = wp_strip_all_tags( get_the_title( get_option( 'page_for_posts', true ) ) );
+		$bw_sitedesc  = wp_strip_all_tags( get_bloginfo( 'description', 'display' ) );
+		$bw_siteurl   = esc_url( home_url( $path = '/', $scheme = 'https' ) );
+		$bw_sitelogo  = esc_url( wp_get_attachment_url( get_theme_mod( 'custom_logo' ) ) );
+		$bw_locale    = wp_strip_all_tags( get_bloginfo( 'language' ) );
+		$bw_charset   = wp_strip_all_tags( get_bloginfo( 'charset' ) );
+		$bw_themeuri  = get_template_directory_uri();
 
 		/* Page-Specific */
 		$post = get_post(); // Set up the post manually.
 		setup_postdata( $post );
-		$jt_postid      = get_the_ID();
-		$jt_postcontent = get_post_field( 'post_content', $jt_postid, '' );
-		$jt_postimage   = esc_url( $this->extract_image_from_content( $jt_postcontent ) );
-		$jt_posttitle   = wp_strip_all_tags( get_the_title() );
-		$jt_permalink   = esc_url( get_permalink() );
+		$bw_postid      = get_the_ID();
+		$bw_postcontent = get_post_field( 'post_content', $bw_postid, '' );
+		$bw_postimage   = esc_url( $this->extract_image_from_content( $bw_postcontent ) );
+		$bw_posttitle   = wp_strip_all_tags( get_the_title() );
+		$bw_permalink   = esc_url( get_permalink() );
 
 		/* Set scope */
-		$jt_catexcerpt   = '';
-		$jt_archivetitle = '';
-		$jt_postexcerpt  = '';
-		$jt_postauthor   = '';
+		$bw_catexcerpt   = '';
+		$bw_archivetitle = '';
+		$bw_postexcerpt  = '';
+		$bw_postauthor   = '';
 
 		/* scrape conditionally by page type */
 		if ( is_category() ) { // User may have set desc
-			$jt_catexcerpt = preg_split( '/[.?!]/', wp_strip_all_tags( category_description(), true ) )[0] . '.';
+			$bw_catexcerpt = preg_split( '/[.?!]/', wp_strip_all_tags( category_description(), true ) )[0] . '.';
 		}
 		if ( is_archive() ) { // Also matches categories (don't set vars twice)
-			$jt_archivetitle = wp_strip_all_tags( post_type_archive_title( '', false ) );
-			$jt_thumbnail    = esc_url( get_the_post_thumbnail_url( $jt_postid ) );
+			$bw_archivetitle = wp_strip_all_tags( post_type_archive_title( '', false ) );
+			$bw_thumbnail    = esc_url( get_the_post_thumbnail_url( $bw_postid ) );
 		} else {
-			$jt_postexcerpt = preg_split( '/[.?!]/', wp_strip_all_tags( $jt_postcontent, true ) )[0] . '.';
-			$jt_postauthor  = wp_strip_all_tags( get_the_author() );
-			$jt_thumbnail   = esc_url( get_the_post_thumbnail_url( $jt_postid ) );
+			$bw_postexcerpt = preg_split( '/[.?!]/', wp_strip_all_tags( $bw_postcontent, true ) )[0] . '.';
+			$bw_postauthor  = wp_strip_all_tags( get_the_author() );
+			$bw_thumbnail   = esc_url( get_the_post_thumbnail_url( $bw_postid ) );
 		}
 
 		/* choose the most suitable scraped value with preference order by page type */
 		if ( is_front_page() ) { // Homepage
-			$jt_title   = ucwords( $jt_identity );
-			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_sitedesc, $jt_postexcerpt ) ) );
-			$jt_author  = ucwords( $this->first_not_empty( array( $jt_siteauthor, $jt_postauthor ) ) );
-			$jt_canon   = $this->enforce_forward_slash( $jt_siteurl );
-			$jt_ogimage = $this->first_not_empty( array( $jt_sitelogo, $jt_thumbnail, $jt_postimage ) );
+			$bw_title   = ucwords( $bw_identity );
+			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_sitedesc, $bw_postexcerpt ) ) );
+			$bw_author  = ucwords( $this->first_not_empty( array( $bw_siteauthor, $bw_postauthor ) ) );
+			$bw_canon   = $this->enforce_forward_slash( $bw_siteurl );
+			$bw_ogimage = $this->first_not_empty( array( $bw_sitelogo, $bw_thumbnail, $bw_postimage ) );
 		} elseif ( is_home() ) { // Posts Page
-			$jt_title   = ucwords( $this->first_not_empty( array( $jt_blogtitle, $jt_identity ) ) );
-			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_postexcerpt, $jt_sitedesc ) ) );
-			$jt_author  = ucwords( $jt_siteauthor );
-			$jt_canon   = $this->enforce_forward_slash( $jt_permalink );
-			$jt_ogimage = $this->first_not_empty( array( $jt_thumbnail, $jt_sitelogo, $jt_postimage ) );
+			$bw_title   = ucwords( $this->first_not_empty( array( $bw_blogtitle, $bw_identity ) ) );
+			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_postexcerpt, $bw_sitedesc ) ) );
+			$bw_author  = ucwords( $bw_siteauthor );
+			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
+			$bw_ogimage = $this->first_not_empty( array( $bw_thumbnail, $bw_sitelogo, $bw_postimage ) );
 		} elseif ( is_category() ) {
-			$jt_title   = ucwords( $this->first_not_empty( array( $jt_archivetitle, $jt_posttitle ) ) );
-			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_catexcerpt, $jt_postexcerpt, $jt_sitedesc ) ) );
-			$jt_author  = ucwords( $this->first_not_empty( array( $jt_postauthor, $jt_siteauthor ) ) );
-			$jt_canon   = $this->enforce_forward_slash( $jt_permalink );
-			$jt_ogimage = $this->first_not_empty( array( $jt_thumbnail, $jt_postimage, $jt_sitelogo ) );
+			$bw_title   = ucwords( $this->first_not_empty( array( $bw_archivetitle, $bw_posttitle ) ) );
+			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_catexcerpt, $bw_postexcerpt, $bw_sitedesc ) ) );
+			$bw_author  = ucwords( $this->first_not_empty( array( $bw_postauthor, $bw_siteauthor ) ) );
+			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
+			$bw_ogimage = $this->first_not_empty( array( $bw_thumbnail, $bw_postimage, $bw_sitelogo ) );
 		} elseif ( is_archive() ) { // Auto-gen 'cats'
-			$jt_title   = ucwords( $this->first_not_empty( array( $jt_archivetitle, $jt_posttitle ) ) );
-			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_catexcerpt, $jt_postexcerpt, $jt_sitedesc ) ) );
-			$jt_author  = ucwords( $this->first_not_empty( array( $jt_postauthor, $jt_siteauthor ) ) );
-			$jt_canon   = $this->enforce_forward_slash( $jt_permalink );
-			$jt_ogimage = $this->first_not_empty( array( $jt_thumbnail, $jt_postimage, $jt_sitelogo ) );
+			$bw_title   = ucwords( $this->first_not_empty( array( $bw_archivetitle, $bw_posttitle ) ) );
+			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_catexcerpt, $bw_postexcerpt, $bw_sitedesc ) ) );
+			$bw_author  = ucwords( $this->first_not_empty( array( $bw_postauthor, $bw_siteauthor ) ) );
+			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
+			$bw_ogimage = $this->first_not_empty( array( $bw_thumbnail, $bw_postimage, $bw_sitelogo ) );
 		} elseif ( is_singular() ) { // These vars should be reliable
-			$jt_title   = ucwords( $jt_posttitle );
-			$jt_desc    = ucfirst( $jt_postexcerpt );
-			$jt_author  = ucwords( $jt_postauthor );
-			$jt_canon   = $this->enforce_forward_slash( $jt_permalink );
-			$jt_ogimage = $this->first_not_empty( array( $jt_postimage, $jt_thumbnail, $jt_sitelogo ) );
+			$bw_title   = ucwords( $bw_posttitle );
+			$bw_desc    = ucfirst( $bw_postexcerpt );
+			$bw_author  = ucwords( $bw_postauthor );
+			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
+			$bw_ogimage = $this->first_not_empty( array( $bw_postimage, $bw_thumbnail, $bw_sitelogo ) );
+		} elseif ( is_search() ) {
+			$bw_title   = ucwords( 'Search Results' );
+			$bw_desc    = ucfirst( 'We are here to help you find what you\'re looking for.' );
+			$bw_author  = ucwords( $bw_siteauthor );
+			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
+			$bw_ogimage = $this->first_not_empty( array( $bw_postimage, $bw_thumbnail, $bw_sitelogo ) );
 		} else {
 			echo '<!-- META FALLBACK - CHECK THEME-SEO TEMPLATE FUNCTIONS -->';
-			$jt_title   = ucwords( $this->first_not_empty( array( $jt_posttitle, $jt_archivetitle, $jt_identity ) ) );
-			$jt_desc    = ucfirst( $this->first_not_empty( array( $jt_postexcerpt, $jt_catexcerpt, $jt_sitedesc ) ) );
-			$jt_author  = ucwords( $this->first_not_empty( array( $jt_postauthor, $jt_siteauthor ) ) );
-			$jt_canon   = $this->enforce_forward_slash( $jt_permalink );
-			$jt_ogimage = $this->first_not_empty( array( $jt_thumbnail, $jt_postimage, $jt_sitelogo ) );
+			$bw_title   = ucwords( $this->first_not_empty( array( $bw_posttitle, $bw_archivetitle, $bw_identity ) ) );
+			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_postexcerpt, $bw_catexcerpt, $bw_sitedesc ) ) );
+			$bw_author  = ucwords( $this->first_not_empty( array( $bw_postauthor, $bw_siteauthor ) ) );
+			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
+			$bw_ogimage = $this->first_not_empty( array( $bw_thumbnail, $bw_postimage, $bw_sitelogo ) );
 		}
 
 		return $meta = array(
-			'title'       => $jt_title,
-			'desc'        => $jt_desc,
-			'author'      => $jt_author,
-			'canon'       => $jt_canon,
-			'ogimage'     => $jt_ogimage,
-			'ogtitle'     => $jt_title,
-			'robots'      => $jt_robots,
-			'ogtype'      => $jt_objecttype,
-			'ogurl'       => $jt_canon,
-			'oglocale'    => $jt_locale,
-			'oglocalealt' => $jt_localealt,
-			'ogdesc'      => $jt_desc,
-			'ogsitename'  => $jt_identity,
-			'charset'     => $jt_charset,
-			'themeuri'    => $jt_themeuri,
+			'title'       => $bw_title,
+			'desc'        => $bw_desc,
+			'author'      => $bw_author,
+			'canon'       => $bw_canon,
+			'ogimage'     => $bw_ogimage,
+			'ogtitle'     => $bw_title,
+			'robots'      => $bw_robots,
+			'ogtype'      => $bw_objecttype,
+			'ogurl'       => $bw_canon,
+			'oglocale'    => $bw_locale,
+			'oglocalealt' => $bw_localealt,
+			'ogdesc'      => $bw_desc,
+			'ogsitename'  => $bw_identity,
+			'charset'     => $bw_charset,
+			'themeuri'    => $bw_themeuri,
 		);
 
 	}//end build_meta_vars()
