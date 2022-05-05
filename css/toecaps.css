@@ -41,6 +41,7 @@
 	4.17 SITEMAP
 	4.18 BREADCRUMB
 	4.19 AUTO MORE
+	4.20 USP BAR
 
 
 ~o~~~~~~oOo~~~~~~o~
@@ -797,18 +798,21 @@ body > main {
     transition: transform 0.3s ease-in-out;
 	margin-bottom: 2em;
 	background: var(--tc_colour-accent);
-	padding-bottom: 2em;
+	/*padding-bottom: 2em;*/
     width: 100%;
     height: fit-content;
     color: var(--tc_colour-white);
 }
 	.header_main {
-		display: flex;
+		display: grid;
 		position: relative;
-		flex-flow: row wrap;
-		justify-content: space-evenly;
 		padding: 1em 0;
 		overflow: hidden;
+		grid-template-areas:
+			"logo menu"
+			"search search";
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
 	}
 	.header_menu {
 		background: var(--tc_colour-white);
@@ -853,6 +857,13 @@ body > main {
 
 .tc_page-notHome  .header_main {
 	justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+	.header_main {
+		grid-template-areas: "logo search menu";
+		grid-template-columns: 1fr auto 1fr;
+	}
 }
 
 
@@ -901,9 +912,11 @@ body > main {
 	width: fit-content;
 	text-decoration: none;
 	color: var(--tc_colour-white);
+	grid-area: logo;
+	justify-self: start;
 }
     .identity_logo {
-        max-height: 8em;
+        max-height: 4em;
     }
 	.identity_title {
 		margin: 0;
@@ -917,10 +930,14 @@ body > main {
 		font-size: var(--tc_h4);
 	}
 
+@media (min-width: 600px) { .identity_logo { max-height: 5em; } }
+@media (min-width: 768px) { .identity_logo { max-height: 6em; } }
+@media (min-width: 1024px) { .identity_logo { max-height: 7em; } }
+@media (min-width: 1280px) { .identity_logo { max-height: 8em; } }
+
 .tc_page-notHome  .identity_logo {
 	max-height: 6em;
 }
-
 
 /*------------------------------------------------------------- 4.5 MODAL ----*/
 
@@ -1068,6 +1085,8 @@ body > main {
 					font-size: clamp(var(--tc_small), 5vw, var(--tc_h5) );
 				}
 			.fullscreenMenu_social {
+				gap: 0.3em;
+				flex-flow: row wrap;
 				margin: auto;
 				width: fit-content;
 				color: var(--tc_colour-white);
@@ -1302,12 +1321,15 @@ body > main {
 
 
 .secondaryMenu {
-	gap: 1.5em;
+	gap: 0.5em;
 	display: flex;
 	position: absolute;
 	right: 0;
-	flex-flow: row wrap;
+	flex-flow: column;
 	align-self: center;
+	grid-area: menu;
+	justify-self: end;
+	justify-content: flex-end;
 }
 	.secondaryMenu_item {
 		display: flex;
@@ -1318,6 +1340,13 @@ body > main {
 		.secondaryMenu_label {
 
 		}
+
+@media (min-width: 600px) {
+	.secondaryMenu {
+		gap: 1.5em;
+		flex-flow: row wrap;
+	}
+}
 
 
 /*------------------------------------------------------------ 4.9 FOLLOW ----*/
@@ -1348,10 +1377,10 @@ body > main {
 
 
 .social_link {
-	display: flex;
 	align-items: center;
+	margin: 0;
 	padding: 0 6px;
-	height: 100%;
+	width: fit-content;
 	text-decoration: none;
 	color: inherit;
 }
@@ -1478,14 +1507,15 @@ body > main {
 		align-items: center;
 		justify-content: center;
 		transition: visibility .25s ease-in,
-		            margin-bottom .25s ease-in;
+		            margin-bottom .25s ease-in,
+					opacity .25s ease-in;
 		visibility: hidden;
-		margin-top: 1em;
-		margin-bottom: -4em;
-		background-color: var(--tc_colour-accent);
+		margin-bottom: -5em;
+		margin-top: 2em;
 		width: 100%;
-		height: 3em;
 		overflow: hidden;
+		grid-area: search;
+		opacity: 0;
 	}
 		.search_form {
 			display: flex;
@@ -1525,11 +1555,20 @@ body > main {
 
 .search_toggle:checked + .search_container {
 	visibility: visible;
+	opacity: 1;
+	margin-top: 2em;
+	margin-bottom: 1em;
 	animation: heightAndVisibility ease-in-out;
-	margin-bottom: 0em;
+}
+
+@media ( min-width: 768px ) {
+	.search_toggle:checked + .search_container {
+		margin-top: 1em;
+	}
 }
 
 .search_inPageWrap {
+	margin-top: 1em;
 	margin-bottom: 2em;
 }
 
@@ -1607,9 +1646,10 @@ body > main {
 
 
 .breadcrumb {
-	padding: 0.5em 1em;
-	margin-bottom: 1.5em;
-	background-color: var(--tc_colour-lightGrey);
+	padding: 1em 0;
+	background-color: #fff;
+	color: var(--tc_colour-black);
+	font-size: var(--tc_small);
 }
 	.breadcrumb a {
 		color: var(--tc_colour-blue);
@@ -1631,3 +1671,33 @@ body > main {
 .autoMore > .dropdown_primary:hover {
 	background-color: var(--tc_colour-menuHover);
 }
+
+
+/*-------------------------------------------------------- 4.20 USP BAR ----*/
+
+
+.USPBar {
+	padding: 0.6em 0;
+	color: var(--tc_colour-darkBlue);
+	background: var(--tc_colour-lightGrey);
+	font-size: var(--tc_small);
+}
+	.USPBar > div:first-child {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+		.USPBar_item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex: 0 0 25%;
+			border-right: solid 1px;
+		}
+			a.USPBar_link {
+				text-decoration: none;
+				color: inherit;
+			}
+				.USPBar_link > i {
+					margin-inline-end: 0.2em;
+				}

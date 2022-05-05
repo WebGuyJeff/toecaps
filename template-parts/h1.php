@@ -13,6 +13,9 @@ namespace BigupWeb\Toecaps;
 
 use BigupWeb\Toecaps\Helpers;
 
+$tc_settings = get_option( 'tc_theme_array' ); // Serialized array of all options.
+$tc_phone    = $tc_settings['tc_phone_number'];
+
 global $post; // if outside the loop.
 
 if ( is_front_page() || is_home() ) {
@@ -30,11 +33,10 @@ if ( is_front_page() || is_home() ) {
 		</div>
 
 		<?php
-		$phone = get_option( 'phone' );
-		if ( $phone ) {
+		if ( $tc_phone ) {
 			?>
 
-			<a class="header_ctaButton button" role="button" href="tel:<?php echo esc_attr( get_option( 'phone' ) ); ?>" aria-label="Phone us">
+			<a class="header_ctaButton button" role="button" href="tel:<?php echo esc_attr( $tc_phone ); ?>" aria-label="Phone us">
 				<span>Call Now</span>
 			</a>
 
@@ -65,11 +67,10 @@ if ( is_front_page() || is_home() ) {
 			</div>
 			<?php
 
-			$phone = get_option( 'phone' );
 			if ( $phone ) {
 
 				?>
-				<a class="header_ctaButton button" role="button" href="tel:<?php echo esc_attr( get_option( 'phone' ) ); ?>" aria-label="Phone us">
+				<a class="header_ctaButton button" role="button" href="tel:<?php echo esc_attr( $tc_phone ); ?>" aria-label="Phone us">
 					<span>Call Now</span>
 				</a>
 				<?php
@@ -85,11 +86,19 @@ if ( is_front_page() || is_home() ) {
 		<h1 class="header_title">Search Results</h1>
 		<?php
 
+	} elseif ( is_404() ) {
+
+		?>
+		<h1 class="header_title">Page not found</h1>
+		<?php
+
 	} else {
 		// Fallback for child, orphan, search etc.
 
 		?>
-		<h1 class="header_title"><?php echo esc_html( get_the_title() ); ?></h1>
+		<h1 class="header_title">
+			<?php echo esc_html( get_the_title() ); ?>
+		</h1>
 		<?php
 	}
 

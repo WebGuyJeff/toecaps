@@ -230,11 +230,12 @@ class Tags {
 
 
 	/**
-	 * Print the next and previous posts navigation.
+	 * Print the breadcrumb.
 	 */
 	public static function print_html_breadcrumb() {
 		$arrow = '<i class="breadcrumb_separator fa-solid fa-chevron-right"></i>';
 		echo '<div class="breadcrumb">';
+		echo '<div class="container">';
 		echo '<a href="' . esc_url( home_url() ) . '" rel="nofollow">Home</a>';
 		if ( is_category() || is_single() ) {
 			echo $arrow;
@@ -252,6 +253,7 @@ class Tags {
 			echo esc_html( the_search_query() );
 			echo '</span>';
 		}
+		echo '</div>';
 		echo '</div>';
 	}
 

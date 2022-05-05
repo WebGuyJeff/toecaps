@@ -9,6 +9,7 @@
 
 use BigupWeb\Toecaps\Helpers;
 use BigupWeb\Toecaps\Hooks;
+use BigupWeb\Toecaps\Admin_Settings;
 
 /**
  * Load the PHP autoloader from it's own file
@@ -21,6 +22,13 @@ require_once get_template_directory() . '/classes/autoload.php';
  */
 $hooks = new Hooks();
 
+/**
+ * Theme Settings Page.
+ */
+if ( is_admin() ) {
+	$admin_settings = new Admin_Settings();
+}
+
 
 /**
  * Enqueue scripts and styles
@@ -28,8 +36,10 @@ $hooks = new Hooks();
 function enqueue_scripts_and_styles() {
 	wp_enqueue_style( 'style_css', get_template_directory_uri() . '/style.css', array(), filemtime( get_template_directory() . '/style.css' ), 'all' );
 	wp_enqueue_style( 'toecaps_css', get_template_directory_uri() . '/css/toecaps.css', array( 'style_css' ), filemtime( get_template_directory() . '/css/toecaps.css' ), 'all' );
+	wp_register_style( 'fontawesome_css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css', array(), '6.1.1', 'all' );
 	// If not in admin area.
 	if ( 'wp-login.php' !== $GLOBALS['pagenow'] && ! is_admin() ) {
+		wp_enqueue_style( 'fontawesome_css' );
 		wp_register_style( 'parent_css', get_template_directory_uri() . '/css/parent-page.css', array( 'toecaps_css' ), filemtime( get_template_directory() . '/css/parent-page.css' ), 'all' );
 		// De-register wp jquery and use CDN.
 		wp_deregister_script( 'jquery' );
@@ -44,6 +54,7 @@ function enqueue_scripts_and_styles() {
 		wp_enqueue_script( 'gsap_scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js', array( 'gsap' ), '3.9.1', true );
 		wp_register_script( 'modal_js', get_template_directory_uri() . '/js/modal.js', array(), '0.1', true );
 		wp_enqueue_script( 'parallax_js', get_template_directory_uri() . '/js/parallax.js', array( 'gsap_scrolltrigger' ), filemtime( get_template_directory() . '/js/parallax.js' ), true );
+
 	}
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_scripts_and_styles' );
@@ -59,6 +70,7 @@ function toecaps_load_admin_scripts_and_styles() {
 	if ( ! wp_script_is( 'custom-script', 'enqueued' ) ) {
 		wp_enqueue_style( 'toecaps-icons' );
 	}
+	wp_enqueue_style( 'fontawesome_css' );
 }
 add_action( 'admin_enqueue_scripts', 'toecaps_load_admin_scripts_and_styles' );
 
@@ -297,146 +309,3 @@ add_filter(
 	10,
 	2
 );
-
-// ================================================== Toecaps admin settings
-
-
-/**
- * Add Toecaps admin menu option to sidebar
- */
-function theme_settings_add_menu() {
-
-	add_menu_page(
-		'Toecaps Settings',   // page_title.
-		'Toecaps',            // menu_title.
-		'manage_options',           // capability.
-		'toecaps-settings',   // menu_slug.
-		'',                         // function.
-		'dashicons-toecaps-boot',                  // icon_url.
-		4                           // position.
-	);
-
-	add_submenu_page(
-		'toecaps-settings',    // parent_slug.
-		'Toecaps Settings',    // page_title.
-		'Theme Settings',            // menu_title.
-		'manage_options',            // capability.
-		'toecaps-settings',    // menu_slug.
-		'theme_settings_page',       // function.
-		1                            // position.
-	);
-}
-add_action( 'admin_menu', 'theme_settings_add_menu' );
-
-/**
- * Create Toecaps Global Settings Page
- */
-function theme_settings_page() {
-
-	?>
-	<div class="wrap">
-		<h1>
-			<span>
-				<span class="dashicons-toecaps-boot"></span>
-			</span>
-			Toecaps Settings
-		</h1>
-		<form method="post" action="options.php">
-			<?php
-			settings_fields( 'section-contact' );
-			settings_fields( 'section' );
-			do_settings_sections( 'theme-options' );
-			submit_button();
-			?>
-		</form>
-	</div>
-	<?php
-}
-
-/**
- * Add phone number option field to the admin page.
- */
-function setting_phone() {
-	?>
-	<input type="tel" name="phone" id="phone" value="<?php echo esc_attr( get_option( 'phone' ) ); ?>" />
-	<?php
-}
-/**
- * Add email address option field to the admin page.
- */
-function setting_email() {
-	?>
-	<input type="email" name="email" id="email" value="<?php echo esc_html( get_option( 'email' ) ); ?>" />
-	<?php
-}
-/**
- * Add postal address option field to the admin page.
- */
-function setting_address() {
-	?>
-	<textarea name="address" id="address" value="<?php echo esc_textarea( get_option( 'address' ) ); ?>" rows="7" cols="50" ></textarea>
-	<?php
-}
-
-/**
- * Add LinkedIn option field to the admin page
- */
-function setting_linkedin() {
-	?>
-	<input type="url" name="linkedin" id="linkedin" value="<?php echo esc_url( get_option( 'linkedin' ) ); ?>" />
-	<?php
-}
-/**
- * Add Instagram option field to the admin page
- */
-function setting_instagram() {
-	?>
-	<input type="url" name="instagram" id="instagram" value="<?php echo esc_url( get_option( 'instagram' ) ); ?>" />
-	<?php
-}
-/**
- * Add Facebook option field to the admin page
- */
-function setting_facebook() {
-	?>
-	<input type="url" name="facebook" id="facebook" value="<?php echo esc_url( get_option( 'facebook' ) ); ?>" />
-	<?php
-}
-/**
- * Add Pinterest option field to the admin page
- */
-function setting_pinterest() {
-	?>
-	<input type="url" name="pinterest" id="pinterest" value="<?php echo esc_url( get_option( 'pinterest' ) ); ?>" />
-	<?php
-}
-
-/**
- * Tell WordPress to build the admin page
- *
- * Function arguments:
- * add_settings_section( $id, $title, $callback, $page );
- * add_settings_field( $id, $title, $callback, $page, $section, $args );
- * register_setting( $option_group, $option_name, $sanitize_callback );
- */
-function theme_settings_page_setup() {
-
-	add_settings_section( 'section-contact', 'Contact Info', null, 'theme-options' );
-		add_settings_field( 'phone', 'Phone Number', 'setting_phone', 'theme-options', 'section-contact' );
-		add_settings_field( 'email', 'Email Address', 'setting_email', 'theme-options', 'section-contact' );
-		add_settings_field( 'address', 'Business Address', 'setting_address', 'theme-options', 'section-contact' );
-		register_setting( 'section-contact', 'phone', array( new Helpers(), 'sanitize_phone_number' ) );
-		register_setting( 'section-contact', 'email', 'sanitize_email' );
-		register_setting( 'section-contact', 'address', 'sanitize_textarea_field' );
-
-	add_settings_section( 'section', 'Social Links', null, 'theme-options' );
-		add_settings_field( 'linkedin', 'LinkedIn URL', 'setting_linkedin', 'theme-options', 'section' );
-		add_settings_field( 'instagram', 'Instagram URL', 'setting_instagram', 'theme-options', 'section' );
-		add_settings_field( 'facebook', 'Facebook URL', 'setting_facebook', 'theme-options', 'section' );
-		add_settings_field( 'pinterest', 'Pinterest URL', 'setting_pinterest', 'theme-options', 'section' );
-		register_setting( 'section', 'linkedin', 'esc_url_raw' );
-		register_setting( 'section', 'instagram', 'esc_url_raw' );
-		register_setting( 'section', 'facebook', 'esc_url_raw' );
-		register_setting( 'section', 'pinterest', 'esc_url_raw' );
-}
-add_action( 'admin_init', 'theme_settings_page_setup' );

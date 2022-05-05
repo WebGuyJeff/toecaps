@@ -151,11 +151,20 @@ get_template_part( 'template-parts/css-loader' );
 
 			<div class="container">
 				<?php get_template_part( 'template-parts/h1' ); ?>
-			</h1>
+			</div>
 
 		</div>
 
-	</header>
+		<?php
 
-	<?php
-	Tags::print_html_breadcrumb();
+
+
+		get_template_part( 'template-parts/usp' );
+
+		if ( ! is_front_page() && ! is_home() ) {
+
+			Tags::print_html_breadcrumb();
+		}
+		?>
+
+	</header>

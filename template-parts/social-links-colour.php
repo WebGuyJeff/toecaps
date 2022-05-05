@@ -7,8 +7,13 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-$facebook = get_option( 'facebook' );
-if ( $facebook ) {
+$tc_settings  = get_option( 'tc_theme_array' ); // Serialized array of all options.
+$tc_facebook  = $tc_settings['tc_social_url_facebook'];
+$tc_instagram = $tc_settings['tc_social_url_instagram'];
+$tc_pinterest = $tc_settings['tc_social_url_pinterest'];
+$tc_linkedin  = $tc_settings['tc_social_url_linkedin'];
+
+if ( $tc_facebook ) {
 	?>
 	<a
 		class="social_link"
@@ -16,7 +21,7 @@ if ( $facebook ) {
 		rel="noopener"
 		role="link"
 		aria-label="<?php esc_html_e( 'Facebook', 'toecaps' ); ?>"
-		href="<?php echo esc_url( get_option( 'facebook' ) ); ?>"
+		href="<?php echo esc_url( $tc_facebook ); ?>"
 		title="<?php esc_html_e( 'Facebook', 'toecaps' ); ?>"
 	>
 		<?php echo file_get_contents( get_theme_file_path( 'imagery/icons_social/social-facebook-radius.svg' ) ); ?>
@@ -24,8 +29,7 @@ if ( $facebook ) {
 	<?php
 }
 
-$instagram = get_option( 'instagram' );
-if ( $instagram ) {
+if ( $tc_instagram ) {
 	?>
 	<a
 		class="social_link"
@@ -33,7 +37,7 @@ if ( $instagram ) {
 		rel="noopener"
 		role="link"
 		aria-label="<?php esc_html_e( 'Instagram', 'toecaps' ); ?>"
-		href="<?php echo esc_url( get_option( 'instagram' ) ); ?>"
+		href="<?php echo esc_url( $tc_instagram ); ?>"
 		title="<?php esc_html_e( 'Instagram', 'toecaps' ); ?>"
 	>
 		<?php echo file_get_contents( get_theme_file_path( 'imagery/icons_social/social-instagram-radius.svg' ) ); ?>
@@ -41,8 +45,7 @@ if ( $instagram ) {
 	<?php
 }
 
-$linkedin = get_option( 'linkedin' );
-if ( $linkedin ) {
+if ( $tc_linkedin ) {
 	?>
 	<a
 		class="social_link"
@@ -50,7 +53,7 @@ if ( $linkedin ) {
 		rel="noopener"
 		role="link"
 		aria-label="<?php esc_html_e( 'LinkedIn', 'toecaps' ); ?>"
-		href="<?php echo esc_url( get_option( 'linkedin' ) ); ?>"
+		href="<?php echo esc_url( $tc_linkedin ); ?>"
 		title="<?php esc_html_e( 'LinkedIn', 'toecaps' ); ?>"
 	>
 		<?php echo file_get_contents( get_theme_file_path( 'imagery/icons_social/social-linkedin-radius.svg' ) ); ?>
@@ -58,8 +61,7 @@ if ( $linkedin ) {
 	<?php
 }
 
-$pinterest = get_option( 'pinterest' );
-if ( $pinterest ) {
+if ( $tc_pinterest ) {
 	?>
 	<a
 		class="social_link"
@@ -67,7 +69,7 @@ if ( $pinterest ) {
 		rel="noopener"
 		role="link"
 		aria-label="<?php esc_html_e( 'Pinterest', 'toecaps' ); ?>"
-		href="<?php echo esc_url( get_option( 'pinterest' ) ); ?>"
+		href="<?php echo esc_url( $tc_pinterest ); ?>"
 		title="<?php esc_html_e( 'Pinterest', 'toecaps' ); ?>"
 	>
 		<?php echo file_get_contents( get_theme_file_path( 'imagery/icons_social/social-pinterest-radius.svg' ) ); ?>

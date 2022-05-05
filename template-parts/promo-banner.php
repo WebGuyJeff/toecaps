@@ -9,6 +9,10 @@
 
 namespace BigupWeb\Toecaps;
 
+$tc_settings = get_option( 'tc_theme_array' ); // Serialized array of all options.
+$tc_phone    = $tc_settings['tc_phone_number'];
+$tc_email    = $tc_settings['tc_email_address'];
+
 ?>
 
 <div role="banner" class="promoBanner">
@@ -16,32 +20,30 @@ namespace BigupWeb\Toecaps;
 
 		<div class="promoBanner_contact">
 			<?php
-			$email = get_option( 'email' );
-			if ( $email ) {
+			if ( $tc_email ) {
 				?>
 				<a
 					class="promoBanner_link"
-					href="mailto:<?php echo esc_html( get_option( 'email' ) ); ?>?subject=New%20Website%20Enquiry"
+					href="mailto:<?php echo esc_html( $tc_email ); ?>?subject=New%20Website%20Enquiry"
 					aria-label="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
 					title="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
 				>
 					<i class="fa-solid fa-envelope"></i>
-					<?php echo esc_html( get_option( 'email' ) ); ?>
+					<?php echo esc_html( $tc_email ); ?>
 				</a>
 				<?php
 			}
 
-			$phone = get_option( 'phone' );
-			if ( $phone ) {
+			if ( $tc_phone ) {
 				?>
 				<a
 					class="promoBanner_link"
-					href="tel:<?php echo esc_attr( get_option( 'phone' ) ); ?>"
+					href="tel:<?php echo esc_attr( $tc_phone ); ?>"
 					aria-label="<?php esc_html_e( 'Phone us', 'toecaps' ); ?>"
 					title="<?php esc_html_e( 'Phone us', 'toecaps' ); ?>"
 				>
 					<i class="fa-solid fa-phone"></i>
-					<?php echo esc_attr( get_option( 'phone' ) ); ?>
+					<?php echo esc_attr( $tc_phone ); ?>
 				</a>
 				<?php
 			}

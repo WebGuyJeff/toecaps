@@ -20,19 +20,40 @@ header( 'HTTP/1.0 404 Not Found' );
 
 get_header(); ?>
 
-<main class="main">
-	<div class="base">
+<main>
 
-		<section class="container">
-			<div >
-				<a id="page_not_found">
-					<h1 class="title">Clang! 🤕</h1>
-				</a>
-				<span class="subtitle">Error 404</span>
-				<p >homepage</a> or try the links below.</p>
-			</div>
-		</section>
+	<div class="container">
 
+		<a id="page_not_found">
+			<h2>Oops! 🤕</h2>
+		</a>
+		<p>
+			We couldn't find the page you were looking for. If you believe this is an error,
+			please let us know. Otherwise use the search and links below to get back on
+			track.
+		</p>
+
+		<div class="search_inPageWrap">
+			<?php
+			get_search_form(
+				$args = array(
+					'echo'       => true,
+					'aria_label' => 'Search our website',
+				)
+			);
+			?>
+		</div>
+
+		<div class="sitemap">
+			<?php
+			wp_list_pages(
+				array(
+					'post_type' => 'page',
+					'title_li'  => '<h3>Sitemap</h3>',
+				)
+			)
+			?>
+		</div>
 
 	</div>
 
@@ -40,5 +61,5 @@ get_header(); ?>
 
 
 <?php
-get_sidebar();
+
 get_footer();

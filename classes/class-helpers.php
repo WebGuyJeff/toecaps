@@ -297,9 +297,26 @@ HTML;
 	 * Sanitise phone numbers
 	 * 
 	 */
-	public static function sanitize_phone_number( $phone ) {
+	public static function sanitise_phone_number( $phone ) {
 
 		return preg_replace( '/[^\d+]/', '', $phone );
+	}
+
+
+	/**
+	 * Clean a string for CSS class use or similar.
+	 *
+	 * Removes excess whitespace and invalid characters.
+	 *
+	 * @param {string} $string A string to be cleaned.
+	 * @return {string} A cleaned string.
+	 */
+	public static function sanitise_classes( $string ) {
+
+		$trimmed_string = trim( $string );
+		$safe_string    = preg_replace( '/[^A-Za-z0-9 \-_]/', '', $trimmed_string );
+
+		return $safe_string;
 	}
 
 
