@@ -194,12 +194,8 @@ class Tags {
 
 	/**
 	 * Print the next and previous posts navigation.
-	 *
-	 * @since Twenty Twenty-One 1.0
-	 *
-	 * @return void
 	 */
-	public static function posts_navigation() {
+	public static function print_html_previous_next_posts_navigation() {
 		the_posts_pagination(
 			array(
 				'before_page_number' => esc_html__( 'Page', 'toecaps' ) . ' ',
@@ -230,6 +226,33 @@ class Tags {
 				),
 			)
 		);
+	}
+
+
+	/**
+	 * Print the next and previous posts navigation.
+	 */
+	public static function print_html_breadcrumb() {
+		$arrow = '<i class="breadcrumb_separator fa-solid fa-chevron-right"></i>';
+		echo '<div class="breadcrumb">';
+		echo '<a href="' . esc_url( home_url() ) . '" rel="nofollow">Home</a>';
+		if ( is_category() || is_single() ) {
+			echo $arrow;
+			the_category( ' • ' );
+			if ( is_single() ) {
+				echo $arrow;
+				the_title();
+			}
+		} elseif ( is_page() ) {
+			echo $arrow;
+			echo esc_html( the_title() );
+		} elseif ( is_search() ) {
+			echo $arrow;
+			echo '<span>';
+			echo esc_html( the_search_query() );
+			echo '</span>';
+		}
+		echo '</div>';
 	}
 
 

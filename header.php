@@ -10,6 +10,7 @@
 namespace BigupWeb\Toecaps;
 
 use BigupWeb\Toecaps\Helpers;
+use BigupWeb\Toecaps\Tags;
 
 get_template_part( 'template-parts/css-loader' );
 
@@ -155,3 +156,6 @@ get_template_part( 'template-parts/css-loader' );
 		</div>
 
 	</header>
+
+	<?php
+	Tags::print_html_breadcrumb();

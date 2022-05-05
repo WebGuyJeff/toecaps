@@ -88,7 +88,7 @@ get_header();
 
 		<?php
 		// Previous/next page navigation.
-		Tags::posts_navigation();
+		Tags::print_html_previous_next_posts_navigation();
 
 
 		// If no content, include the "No posts found" template.

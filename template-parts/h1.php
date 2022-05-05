@@ -82,22 +82,14 @@ if ( is_front_page() || is_home() ) {
 	} elseif ( is_search() ) {
 
 		?>
-
-		<div class="identity">
-			<h1 class="header_title">Search Results</h1>
-		</div>
-
+		<h1 class="header_title">Search Results</h1>
 		<?php
 
 	} else {
 		// Fallback for child, orphan, search etc.
 
 		?>
-
-		<div class="identity">
-			<h1 class="header_title"><?php echo esc_html( get_the_title() ); ?></h1>
-		</div>
-
+		<h1 class="header_title"><?php echo esc_html( get_the_title() ); ?></h1>
 		<?php
 	}
 
