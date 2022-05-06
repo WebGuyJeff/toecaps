@@ -18,7 +18,9 @@ const dropdownPlugin = (function() {
 	let mouseDown = false;
 
     /**
-     * Initialise the dropdowns with event listeners.
+     * Initialise the dropdowns.
+	 * 
+	 * Fired on doc ready to attach event listeners to all dropdowns in the DOM.
      */
     function initDropdowns() {
 
@@ -43,6 +45,8 @@ const dropdownPlugin = (function() {
 
     /**
      * Call init function on document ready.
+	 * 
+	 * Polls for document ready state.
      */
     let docLoaded = setInterval( function() {
 
@@ -55,9 +59,11 @@ const dropdownPlugin = (function() {
 
     /**
      * Check if passed elem is in left half of viewport.
+	 * 
+	 * @param {HTMLElement} element - Element to check.
      */
-    function isInLeftHalf( button ) {
-        const dims = button.getBoundingClientRect();
+    function isInLeftHalf( element ) {
+        const dims = element.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
 
         return (
@@ -68,6 +74,8 @@ const dropdownPlugin = (function() {
 
     /**
      * Check if passed elem is overflowing viewport bottom and scroll window if needed.
+	 * 
+	 * @param {HTMLElement} menu - The dropdown contents (menu) element.
      */
     function scrollIntoView( menu ) {
         const menuStyles     = menu.getBoundingClientRect();
@@ -92,7 +100,11 @@ const dropdownPlugin = (function() {
 
 
         /**
-         * Handle page clicks.
+         * Page Click Handler.
+		 * 
+		 * A callback to be passed with event listeners.
+		 * 
+		 * @param {Event} event - The event object.
          */
 		pageClickHandler: function( event ) {
 
@@ -118,9 +130,11 @@ const dropdownPlugin = (function() {
 
 
 		/**
-		 * Dropdown Hover Event Handler.
+		 * Hover Event Handler.
 		 * 
-		 * This function should be passed with event listeners.
+		 * A callback to be passed with event listeners.
+		 * 
+		 * @param {Event} event - The event object.
 		 */
 		hoverHandler: function( event ) {
 
@@ -178,11 +192,16 @@ const dropdownPlugin = (function() {
 
 
 		/**
-		 * Dropdown Focus Event Handler.
+		 * Focus Event Handler.
 		 * 
-		 * This function should be passed with event listeners.
+		 * A callback to be passed with event listeners.
+		 * 
+		 * @param {Event} event - The event object.
 		 */
 		focusHandler: function( event ) {
+
+
+console.log(event);
 
 			// Bail if a click is being triggered to avoid duplicate calls to open().
 			if ( mouseDown ) return;
@@ -200,17 +219,27 @@ const dropdownPlugin = (function() {
 				if ( false === !! button.closest( '[data-hover-lock="true"]' )
 					&& button.classList.contains( 'dropdown_toggle-active' ) ) {
 
-					// Close it.
-					dropdownPlugin.close( button );
+					// If focus has moved outside the dropdown branch, close the whole thing.
+					if ( false === !! event.target.closest( '.dropdown-hover' ).contains( event.relatedTarget ) ) {
+						// Close dropdown branch.
+						dropdownPlugin.close( event.target.closest( '.dropdown-hover' ).querySelector( '.dropdown_toggle' ) );
+					} else {
+						// Close dropdown.
+						dropdownPlugin.close( button );
+					}
 				}
 			}
 		},
 
 
 		/**
-		 * Register hover event listeners.
+		 * Register hover and focus event listeners.
 		 * 
-		 * Attach hover event listeners to a dropdown element.
+		 * Attach hover and focus listeners to a dropdown element. This can be used to register new
+		 * dropdowns by external scripts. In the Toecaps theme, this function is used by
+		 * menu-more.js to register the auto-generated 'more' dropdown.
+		 * 
+		 * @param {HTMLElement} dropdown - The dropdown element to attach event listeners to.
 		 */
 		registerHover: function( dropdown ) {
 
@@ -229,8 +258,10 @@ const dropdownPlugin = (function() {
 		/**
 		 * Deregister hover event listeners.
 		 * 
-		 * Useful for when the hover functionality is no longer required. Does not affect the click
-		 * listener which should never be removed.
+		 * Useful for when the hover functionality is no longer desireable. This is also used by
+		 * more.js to disable hover functionality when items are moved into the 'more' dropdown.
+		 * 
+		 * @param {HTMLElement} dropdown The dropdown element to deregister hover listeners from.
 		 */
 		deregisterHover: function( dropdown ) {
 
@@ -241,11 +272,13 @@ const dropdownPlugin = (function() {
 
 
 		/**
-		 * Detect clicks anywhere on the menu.
+		 * Menu Click Event Handler.
 		 * 
 		 * Menu branches are locked open as soon as they are clicked anywhere inside. This means
 		 * they won't close when the user accidentally hovers-off the menu, but they will close as
 		 * soon as a click is detected outside of the menu branch.
+		 * 
+		 * @param {Event} event The click event.
 		 */
 		menuClickHandler: function( event ) {
 
@@ -294,6 +327,16 @@ const dropdownPlugin = (function() {
 
         /**
          * Open the menu.
+		 * 
+		 * Takes a dropdown button element and opens the menu branch. It should not need to be aware
+		 * of the caller or trigger, only requiring the passing of the button toggle element.
+		 * 
+		 * It performs these tasks:
+		 *  - Closes other open branches in the same dropdown.
+		 *  - Close other top level dropdowns no longer in focus.
+		 *  - Open inactive ancestor dropdowns when a child is focused directly by reverse tabbing.
+		 * 
+		 * @param {HTMLElement} button The dropdown button toggle element.
          */
 		open: function( button ) {
 
@@ -375,6 +418,11 @@ const dropdownPlugin = (function() {
 
         /**
          * Close the menu.
+		 * 
+		 * Takes a dropdown button element and closes the menu branch. It should not need to be
+		 * aware of the caller or trigger, only requiring the passing of the button toggle element.
+		 * 
+		 * @param {HTMLElement} button The dropdown button toggle element.
          */
         close: function( button ) {
 
@@ -383,17 +431,17 @@ const dropdownPlugin = (function() {
 			if ( activeBranch.length > 1 ) {
 				// Iterate through innermost to outer closing all open in branch.
 				for (let i = activeBranch.length -1; i >= 0; i--) {
+
 					activeBranch[ i ].classList.remove( "dropdown_toggle-active" );
 					activeBranch[ i ].setAttribute( "aria-expanded", false );
 					activeBranch[ i ].setAttribute( "aria-pressed", false );
-
-				} //);
+				}
 
 			} else {
+
 				button.classList.remove( "dropdown_toggle-active" );
 				button.setAttribute( "aria-expanded", false );
 				button.setAttribute( "aria-pressed", false );
-
 			}
         },
 
