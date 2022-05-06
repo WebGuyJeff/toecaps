@@ -10,8 +10,8 @@
 namespace BigupWeb\Toecaps;
 
 $tc_settings = get_option( 'tc_theme_array' ); // Serialized array of all options.
-$tc_phone    = $tc_settings['tc_phone_number'];
-$tc_email    = $tc_settings['tc_email_address'];
+$tc_phone    = ( isset( $tc_settings['tc_phone_number'] ) ) ? $tc_settings['tc_phone_number'] : '';
+$tc_email    = ( isset( $tc_settings['tc_email_address'] ) ) ? $tc_settings['tc_email_address'] : '';
 
 ?>
 

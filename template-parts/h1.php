@@ -14,7 +14,7 @@ namespace BigupWeb\Toecaps;
 use BigupWeb\Toecaps\Helpers;
 
 $tc_settings = get_option( 'tc_theme_array' ); // Serialized array of all options.
-$tc_phone    = $tc_settings['tc_phone_number'];
+$tc_phone    = ( isset( $tc_settings['tc_phone_number'] ) ) ? $tc_settings['tc_phone_number'] : '';
 
 global $post; // if outside the loop.
 
@@ -67,7 +67,7 @@ if ( is_front_page() || is_home() ) {
 			</div>
 			<?php
 
-			if ( $phone ) {
+			if ( $tc_phone ) {
 
 				?>
 				<a class="header_ctaButton button" role="button" href="tel:<?php echo esc_attr( $tc_phone ); ?>" aria-label="Phone us">

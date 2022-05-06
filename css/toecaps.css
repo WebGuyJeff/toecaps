@@ -76,8 +76,23 @@ RANGE
 
 :root {
 
-	--tc_colour-accent: #29a367;
-	--tc_colour-accent-opaque: #29a367e6;
+	/* Theme Colours */
+	--tc_colour-tan: #bb8866;
+	--tc_colour-tan-opaque: #bb8866e6;
+	--tc_colour-yellow: #fbff02;
+	--tc_colour-yellow-opaque: #fbff02e6;
+	--tc_colour-blue: #2596db;
+	--tc_colour-blue-opaque: #2596dbe6;
+	--tc_colour-red: #ee0000;
+	--tc_colour-red-opaque: #ee0000e6;
+	--tc_colour-teal: #29a2a3;
+	--tc_colour-teal-opaque: #29a2a3e6;
+	--tc_colour-green: #29a367;
+	--tc_colour-green-opaque: #29a367e6;
+
+	--tc_colour-accent: var(--tc_colour-green);
+	--tc_colour-accent-opaque: var(--tc_colour-green-opaque);
+
 	--tc_colour-menuHover: #9f9f9f55;
 	--tc_colour-menuActive: #1b1b1b;
 
@@ -86,24 +101,10 @@ RANGE
 	--tc_colour-grey: #bbb;
 	--tc_colour-lightGrey: #eee;
 	--tc_colour-white: #fff;
-	--tc_colour-green: #29a367;
-	--tc_colour-red: #ea4335;
 	--tc_colour-orange: #fbbc05;
-	--tc_colour-blue: #4285f4;
-	--tc_colour-pink: #e1306c;
-	--tc_colour-darkBlue: #2867b2;
+	--tc_colour-darkBlue: #2952a3;
 
-	--tc_shadow: 0 0.25em 0.5em 0.25em #0006,0 0.125em 0.25em 0.125em #0006;
-
-		/* layout variables */
-	--tc_radius-tiny: 0.15em;
-	--tc_radius-small: 0.6em;
-	--tc_radius: 1.2em;
-	--tc_background: var(--tc_colour-white);
-	--tc_border: solid 0.3em var(--tc_colour-lightGrey);
-	--tc_gutters: 0.5em;
-
-		/* font stacks */
+	/* font stacks */
 	--tc_font-secondary: 'Source Sans Pro', Georgia, Times, "Times New Roman", serif;
 	--tc_font-primary: 'Albertus Medium', Helvetica, 'Helvetica Neue', Frutiger, Arial, sans-serif;
 
@@ -161,13 +162,37 @@ RANGE
 
 
 .page-template-toecaps-tan {
-	--tc_colour-accent: #bb8866;
-	--tc_colour-accent-opaque: #bb8866e6;
+	--tc_colour-accent: var(--tc_colour-tan);
+	--tc_colour-accent-opaque: var(--tc_colour-tan-opaque);
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-black);
 }
+
+	.page-template-toecaps-tan .tc_fill-dark {
+		color: var(--tc_colour-white);
+		background: var(--tc_colour-black);
+		--tc_colour-accent: #var(--tc_colour-black);
+	}
+
+	.page-template-toecaps-tan .tc_fill-light {
+		color: var(--tc_colour-black);
+		background: var(--tc_colour-white);
+		--tc_colour-accent: #var(--tc_colour-black);
+	}
+
+	.page-template-toecaps-tan .tc_fill-accent {
+		color: var(--tc_colour-tan);
+		background: var(--tc_colour-black);
+		--tc_colour-accent: #var(--tc_colour-black);
+	}
+
+
 
 .page-template-toecaps-yellow {
 	--tc_colour-accent: #fbff02;
 	--tc_colour-accent-opaque: #fbff02e6;
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-black);
 }
 
 .page-template-toecaps-blue {
@@ -188,6 +213,21 @@ RANGE
 .page-template-toecaps-green {
 	--tc_colour-accent: #32c17b;
 	--tc_colour-accent-opaque: #32c17be6;
+}
+
+
+.tc_dark {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-black);
+	--tc_colour-accent: #var(--tc_colour-black);
+	--tc_colour-accent-opaque: #bb8866e6;
+}
+
+.tc_light {
+	color: var(--tc_colour-black);
+	background: var(--tc_colour-white);
+	--tc_colour-accent: #var(--tc_colour-black);
+	--tc_colour-accent-opaque: #bb8866e6;
 }
 
 
@@ -591,8 +631,7 @@ blockquote {
 
 .alert {
     margin-block-end: 1.688em;
-    border: var(--tc_border);
-    border-radius: var(--tc_radius-small);
+    border: solid 0.3em var(--tc_colour-lightGrey);
     background: var(--tc_colour-lightGrey);
     padding: 0.8em;
     text-align: center;
@@ -688,7 +727,6 @@ body > main {
            object-fit: contain;
         height: auto;
         max-width: 100%;
-        border-radius: var(--tc_radius-small);
     }
 
 
@@ -955,7 +993,6 @@ body > main {
         justify-items: center;
         z-index: 10;
         margin: auto;
-        border-radius: var(--tc_radius-small);
         min-width: clamp(10em, 100%, 32em);
         max-height: -webkit-fit-content;
         max-height: -moz-fit-content;
@@ -967,7 +1004,7 @@ body > main {
             flex-flow: row;
             grid-row: controls / span 1;
             justify-content: flex-end;
-            padding: var(--tc_gutters);
+            padding: 0.5em;
             width: 100%;
             height: -webkit-fit-content;
             height: -moz-fit-content;
@@ -978,7 +1015,6 @@ body > main {
         }
             .modal_control-close {
                 border: none;
-                border-radius: var(--tc_radius-tiny);
                 background: var(--tc_colour-red);
                 padding: 0.15em 0.6em;
                 color: var(--tc_colour-white);
