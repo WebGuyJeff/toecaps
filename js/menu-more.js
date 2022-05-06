@@ -149,10 +149,22 @@ const navAutoMore = (function() {
 		containers.forEach( container => {
 			const moreClone = moreTemplate.content.cloneNode( true );
 			const nav       = container.querySelector( navSelector );
+
 			nav.appendChild( moreClone );
+			const autoMore = nav.querySelector( '.autoMore' );
 
 			// Attach dropdown hover event listeners.
-			dropdownPlugin.registerHover( nav.querySelector( '.autoMore' ) );
+			dropdownPlugin.registerHover( autoMore );
+
+			// Attach keydown listener to psuedo-button for spacebar/enter key accessibility.
+			autoMore.firstElementChild.addEventListener("keydown", event => {
+				if (event.key === " " || event.key === "Enter" || event.key === "Spacebar") {
+					event.target.click();
+					// Prevent browser scroll on space down (default behaviour in Chrome/Firefox etc).
+					event.preventDefault();
+				}
+			} );
+
 		} );
 		
 		// Process the nav items.

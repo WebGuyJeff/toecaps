@@ -14,6 +14,9 @@ const dropdownPlugin = (function() {
 	// Settings.
 	const classNameMenu = 'mainMenu';
 
+	// True when mousedown on element, false after mouseup.
+	let mouseDown = false;
+
     /**
      * Initialise the dropdowns with event listeners.
      */
@@ -23,7 +26,7 @@ const dropdownPlugin = (function() {
 		document.addEventListener('click', dropdownPlugin.pageClickHandler );
 
 		// Attach 'mouseenter' and 'mouseleave' event handlers to dropdown(s).
-		let hoverDropdowns = document.querySelectorAll( '.dropdown-hover:not( .fullscreenMenu .dropdown )' );
+		let hoverDropdowns = document.querySelectorAll( '.dropdown-hover' );
 		[ ...hoverDropdowns ].forEach( dropdown => {
 			dropdownPlugin.registerHover( dropdown );
         } );
@@ -32,7 +35,9 @@ const dropdownPlugin = (function() {
         let menus = document.getElementsByClassName( classNameMenu );
         [ ...menus ].forEach( menu => {
             menu.addEventListener( 'click', dropdownPlugin.menuClickHandler );
-        } );
+			menu.addEventListener( 'mousedown', () => { mouseDown = true; } );
+			menu.addEventListener( 'mouseup', () => { mouseDown = false; } );
+		} );
     }
 
 
@@ -119,14 +124,17 @@ const dropdownPlugin = (function() {
 		 */
 		hoverHandler: function( event ) {
 
-			const button = event.target.getElementsByClassName( 'dropdown_toggle' )[0];
+			const button = event.target.closest( '.dropdown-hover' ).getElementsByClassName( 'dropdown_toggle' )[0];
+
 			if ( event.type === 'mouseenter' ) {
 
-				// Set focus on the dropdown and open it.
-				button.focus();
+				// Open it.
 				dropdownPlugin.open( button );
 
 			} else if ( event.type === 'mouseleave' ) {
+
+				// In case a mousedown event is dragged off the element, this resets the var to false.
+				mouseDown = false;
 
 				// If this menu branch isn't hover-locked.
 				if ( false === !! button.closest( '[data-hover-lock="true"]' )
@@ -168,6 +176,37 @@ const dropdownPlugin = (function() {
 			}
 		},
 
+
+		/**
+		 * Dropdown Focus Event Handler.
+		 * 
+		 * This function should be passed with event listeners.
+		 */
+		focusHandler: function( event ) {
+
+			// Bail if a click is being triggered to avoid duplicate calls to open().
+			if ( mouseDown ) return;
+
+			const button = event.target.closest( '.dropdown' ).getElementsByClassName( 'dropdown_toggle' )[0];
+
+			if ( event.type === 'focusin' ) {
+
+				// Open it.
+				dropdownPlugin.open( button );
+
+			} else if ( event.type === 'focusout' ) {
+
+				// If this menu branch isn't hover-locked.
+				if ( false === !! button.closest( '[data-hover-lock="true"]' )
+					&& button.classList.contains( 'dropdown_toggle-active' ) ) {
+
+					// Close it.
+					dropdownPlugin.close( button );
+				}
+			}
+		},
+
+
 		/**
 		 * Register hover event listeners.
 		 * 
@@ -175,9 +214,15 @@ const dropdownPlugin = (function() {
 		 */
 		registerHover: function( dropdown ) {
 
-			dropdown.addEventListener( 'mouseenter', dropdownPlugin.hoverHandler );
-			dropdown.addEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
-			dropdown.setAttribute( 'data-hover-listener', 'true' );
+			// Only attach hover listeners to non-mobile menu.
+			if ( false === !! dropdown.closest( '.fullscreenMenu' ) ) {
+				dropdown.addEventListener( 'mouseenter', dropdownPlugin.hoverHandler );
+				dropdown.addEventListener( 'mouseleave', dropdownPlugin.hoverHandler );
+				dropdown.setAttribute( 'data-hover-listener', 'true' );
+			}
+			// Attach focus listeners to all menus.
+			dropdown.addEventListener( 'focusin', dropdownPlugin.focusHandler );
+			dropdown.addEventListener( 'focusout', dropdownPlugin.focusHandler );
 		},
 
 
@@ -229,20 +274,12 @@ const dropdownPlugin = (function() {
 				// Else, is not active.
 				} else {
 
-					// Lock and open it.
+					// Lock it.
 					button.closest( '.dropdown-hover' ).setAttribute( 'data-hover-lock', 'true');
+
+					// Open it.
 					dropdownPlugin.open( button );
 
-					// Close other open branches in the ancestor dropdown.
-					const activeButtons = document.querySelectorAll( '.dropdown_toggle-active' );
-					[ ...activeButtons ].forEach( activeButton => {
-
-						// Check this isn't an ancestor of the newly opened dropdown.
-						if ( ! activeButton.parentElement.contains( button ) ) {
-							// Close.
-							dropdownPlugin.close( activeButton );
-						}
-					} );
 				}
 
 			// Click is NOT on a dropdown button, but IS in an UNLOCKED dropdown branch.
@@ -260,9 +297,10 @@ const dropdownPlugin = (function() {
          */
 		open: function( button ) {
 
-				const dropdown = button.parentElement;
+			const dropdown = button.parentElement;
 
-				// Set dropdown swing direction on smaller screens.
+			// Set dropdown swing direction on smaller screens.
+			if ( dropdown.classList.contains('dropdown-hover') ) {
 				if ( window.innerWidth <= 1024
 					&& isInLeftHalf( dropdown ) ) {
 					dropdown.classList.add( 'dropdown-swingRight' );
@@ -271,33 +309,68 @@ const dropdownPlugin = (function() {
 					dropdown.classList.add( 'dropdown-swingLeft' );
 					dropdown.classList.remove( 'dropdown-swingRight' );
 				}
+			}
 
-				// Get and close all top-level dropdowns that do not contain this dropdown.
-				const activeDropdowns = [];
-				document.querySelectorAll( '.dropdown-hover:not( .fullscreenMenu .dropdown )' ).forEach( hoverDropdown => {
-					if ( hoverDropdown.contains( hoverDropdown.querySelector( '.dropdown_toggle-active' ) ) ) {
-						activeDropdowns.push( hoverDropdown );
+			// Close other open branches in the ancestor dropdown.
+			const activeButtons = document.querySelectorAll( '.dropdown_toggle-active' );
+			[ ...activeButtons ].forEach( activeButton => {
+
+				// Check this isn't an ancestor of the newly opened dropdown.
+				if ( ! activeButton.parentElement.contains( button ) ) {
+					// Close.
+					dropdownPlugin.close( activeButton );
+				}
+			} );
+
+			// Get and close all top-level dropdowns that do not contain this dropdown.
+			const activeTopLevelDropdowns = [];
+			const allTopLevelDropdowns = document.querySelectorAll( '.dropdown-hover:not( .fullscreenMenu .dropdown )' );
+			[ ...allTopLevelDropdowns ].forEach( topLevelDropdown => {
+				if ( topLevelDropdown.contains( topLevelDropdown.querySelector( '.dropdown_toggle-active' ) ) ) {
+					activeTopLevelDropdowns.push( topLevelDropdown );
+				}
+			} );
+			[ ...activeTopLevelDropdowns ].forEach( activeDropdown => {
+				// If dropdown isn't the target, but is active, close it.
+				if ( ! activeDropdown.contains( dropdown ) ) {
+					// Remove lock and close.
+					activeDropdown.setAttribute( 'data-hover-lock', 'false');
+					dropdownPlugin.close( activeDropdown.querySelector( '.dropdown_toggle' ) );
+				}
+			} );
+
+			// Open the ancestors when reverse-tabbing focuses on a last-child dropdown item first.
+			if ( false === !! button.parentElement.classList.contains( 'dropdown-hover' )
+				&& false === !! button.classList.contains( 'dropdown_toggle-active' ) ) {
+				// This is a child dropdown with no active ancestor.
+
+				const inactiveAncestorDropdowns = [];
+				const allBranchDropowns = [ ...dropdown.closest( '.dropdown-hover' ).querySelectorAll( '.dropdown' ) ];
+				// Push the top level dropdown to beginning of array.
+				allBranchDropowns.unshift( dropdown.closest( '.dropdown-hover' ) );
+				// Remove the target dropdown as this will be handled by outer scope.
+				allBranchDropowns.pop();
+
+				allBranchDropowns.forEach( branchDropdown => {
+					if ( branchDropdown.contains( dropdown ) ) {
+						inactiveAncestorDropdowns.push( branchDropdown );
+						// Set attributes.
+						const inactiveButton = branchDropdown.querySelector( '.dropdown_toggle' );
+						inactiveButton.classList.add( "dropdown_toggle-active" );
+						inactiveButton.setAttribute( "aria-expanded", true );
+						inactiveButton.setAttribute( "aria-pressed", true );
 					}
 				} );
-				[ ...activeDropdowns ].forEach( activeDropdown => {
+			}
 
-					// If dropdown isn't the target, but is active, close it.
-					if ( ! activeDropdown.contains( dropdown ) ) {
+			// Set attributes.
+			button.classList.add( "dropdown_toggle-active" );
+			button.setAttribute( "aria-expanded", true );
+			button.setAttribute( "aria-pressed", true );
 
-						// Remove lock and close.
-						activeDropdown.setAttribute( 'data-hover-lock', 'false');
-						dropdownPlugin.close( activeDropdown.querySelector( '.dropdown_toggle' ) );
-					}
-				} );
-
-				// Set attributes.
-				button.classList.add( "dropdown_toggle-active" );
-				button.setAttribute( "aria-expanded", true );
-				button.setAttribute( "aria-pressed", true );
-
-				// Now browser has calculcated layout, adjust y-scroll if required,
-				let menu = dropdown.lastElementChild;
-				scrollIntoView( menu );
+			// Now browser has calculcated layout, adjust y-scroll if required,
+			let menu = dropdown.lastElementChild;
+			scrollIntoView( menu );
         },
 
         /**
@@ -323,7 +396,6 @@ const dropdownPlugin = (function() {
 
 			}
         },
-
 
     };// Public functions.
 })();// Plugin end.
