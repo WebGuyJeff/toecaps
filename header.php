@@ -47,23 +47,18 @@ get_template_part( 'template-parts/css-loader' );
 				</a>
 
 				<nav class="secondaryMenu" aria-label="Secondary Menu">
-
 					<a class="secondaryMenu_item" href="#">
 						<span class="secondaryMenu_label">
 							<i class="fa-solid fa-location-dot"></i>
 							Find us
 						</span>
 					</a>
-
-					<div class="secondaryMenu_item">
-						<label class="search_label link" for="search_form">
-							<span class="secondaryMenu_label">
-								<i class="fa-solid fa-magnifying-glass"></i>
-								Search
-							</span>
-						</label>
-
-					</div>
+					<button class="secondaryMenu_item" onclick="document.querySelector('.search_toggle').click()">
+						<span class="secondaryMenu_label">
+							<i class="fa-solid fa-magnifying-glass"></i>
+							Search
+						</span>
+					</button>
 				</nav>
 
 				<input id="search_form" class="search_toggle" type="checkbox">
@@ -85,11 +80,11 @@ get_template_part( 'template-parts/css-loader' );
 		</div>
 
 		<div class="header_menu">
-			<label class="fullscreenMenu_open" for="fullscreenMenu_toggle">
+			<label class="fullscreenMenu_open theme_fill-accent" for="fullscreenMenu_toggle">
 				<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
 			</label>
 			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox">
-			<div class="fullscreenMenu">
+			<div class="fullscreenMenu theme_fill-accent">
 				<div class="fullscreenMenu_contents">
 					<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').click()">
 						<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
@@ -102,7 +97,7 @@ get_template_part( 'template-parts/css-loader' );
 					</div>
 				</div>
 			</div>
-			<div class="navBar">
+			<div class="navBar theme_fill-prominent">
 				<div class="container">
 					<?php get_template_part( 'template-parts/menu' ); ?>
 				</div>

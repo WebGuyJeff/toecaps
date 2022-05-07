@@ -55,7 +55,7 @@ if ( is_front_page() || is_home() ) {
 		// This is a category ( parent ) page.
 
 		?>
-		<div class="header_cta">
+		<div class="header_cta theme_fill-opaque">
 
 			<div class="identity">
 				<h1 class="identity_title">
