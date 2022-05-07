@@ -166,53 +166,77 @@ RANGE
 /*----------------------------------------------------- 1.2 THEME COLOURS ----*/
 
 
+/* The .theme_alt[...] classes should have no styles of their own, instead only having rules applied
+under the theme body class. This allows the theme to override 'accent' to 'black' for example. */
+
+
+/* Defaults */
 .theme_fill-prominent,
 .theme_fill-prominent .dropdown_contents {
 	color: var(--tc_colour-black);
 	background: var(--tc_colour-white);
 }
-
 .theme_fill-black {
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
 }
-
 .theme_fill-accent {
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-accent);
 }
-
 .theme_fill-opaque {
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-accent-opaque);
 }
-
 .theme_font-accent {
 	color: var(--tc_colour-accent);
 }
 
 
-
-
+/* Tan Theme */
 .page-template-toecaps-tan {
 	--tc_colour-accent: var(--tc_colour-tan);
 	--tc_colour-accent-opaque: var(--tc_colour-tan-opaque);
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
 }
-
-.page-template-toecaps-tan .theme_fill-prominent,
-.page-template-toecaps-tan .theme_fill-prominent .dropdown_contents {
-	color: var(--tc_colour-white);
-	background: var(--tc_colour-darkBlack);
-}
-
+	.page-template-toecaps-tan .theme_fill-prominent,
+	.page-template-toecaps-tan .theme_fill-prominent .dropdown_contents {
+		color: var(--tc_colour-white);
+		background: var(--tc_colour-darkBlack);
+	}
 	.page-template-toecaps-tan .theme_fill-accent {
 		color: var(--tc_colour-black);
 	}
 	.page-template-toecaps-tan .theme_fill-opaque {
+		background: var(--tc_colour-accent-opaque);
 		color: var(--tc_colour-black);
 	}
+
+	.page-template-toecaps-tan .promoBanner {
+		color: var(--tc_colour-black);
+		background: var(--tc_colour-accent);
+	}
+
+	.page-template-toecaps-tan .header {
+		color: var(--tc_colour-white);
+		background: var(--tc_colour-black);
+	}
+
+	.page-template-toecaps-tan button,
+	.page-template-toecaps-tan .button {
+		color: var(--tc_colour-white);
+		background: var(--tc_colour-darkBlack);
+		border: solid 0.2em;
+	}
+
+
+
+
+
+
+
+
 
 .page-template-toecaps-yellow {
 	--tc_colour-accent: #fbff02;
@@ -799,7 +823,7 @@ body > main {
 		right: 0;
 		flex-flow: row wrap;
 		align-items: center;
-		margin-right: 2em;
+		margin-right: 24px;
 		height: 100%;
 		font-size: var(--tc_h5);
 	}
@@ -1077,6 +1101,10 @@ body > main {
 	width: fit-content;
 	font-size: var(--tc_h4);
 }
+label.fullscreenMenu_open {
+	background: inherit;
+	color: inherit;
+}
 .fullscreenMenu_toggle {
 	display: none;
 }
@@ -1111,13 +1139,19 @@ body > main {
 				top: 0;
 				right: 0;
 				margin-left: auto;
-				border: none;
-				background: none;
 				cursor: pointer;
 				padding: 0 1em;
 				width: fit-content;
 				height: 100%;
 				font-size: var(--tc_h1);
+			}
+			button.fullscreenMenu_close {
+				background: inherit;
+				color: inherit;
+				border: none;
+			}
+			button.fullscreenMenu_close *:first-child {
+				color: inherit;
 			}
 			.fullscreenMenu .mainMenu {
 				flex-flow: column nowrap;
@@ -1129,6 +1163,7 @@ body > main {
 			}
 				.fullscreenMenu .mainMenu_item {
 					margin: 0.4em 0;
+					padding: 8px;
 					white-space: normal;
 					color: inherit;
 					font-size: clamp(var(--tc_small), 5vw, var(--tc_h5) );
@@ -1152,9 +1187,13 @@ body > main {
 		margin: 0 auto;
 		width: fit-content;
 	}
+	.footer .mainMenu {
+		flex-flow: column;
+		margin-bottom: 2em;
+	}
 		.mainMenu_item {
 			overflow-wrap: break-word;
-			padding: 8px;
+			padding: 16px;
 			text-transform: uppercase;
 			text-decoration: none;
 			letter-spacing: 0.143em;
@@ -1206,8 +1245,12 @@ body > main {
 	.navBar {
 		display: block;
 	}
-	.mainMenu_item {
-		padding: 16px;
+	.footer .mainMenu {
+		flex-flow: row wrap;
+		justify-content: center;
+	}
+	.footer .dropdown-hover {
+		width: fit-content;
 	}
 }
 
@@ -1236,8 +1279,6 @@ body > main {
 		color: inherit;
 	}
 	.dropdown_toggle {
-		border: none;
-		background: none;
 		cursor: pointer;
 		padding-right: 16px;
 		padding-left: 16px;
@@ -1245,42 +1286,46 @@ body > main {
 		width: 42px;
 		transition: all var(--tc_slideTime) ease-in;
 	}
+	button.dropdown_toggle {
+		border: none;
+		background: none;
+	}
+		.dropdown_toggleIcon {
+			display: block;
+			font-size: inherit;
+		}
 			.dropdown_toggleIcon {
-				display: block;
+				transition: transform var(--tc_hoverTime) ease-in-out;
+				height: 0.8em;
 				font-size: inherit;
 			}
-				.dropdown_toggleIcon {
-					transition: transform var(--tc_hoverTime) ease-in-out;
-					height: 0.8em;
+				.dropdown_contents {
+					display: flex;
+					position: absolute;
+					top: 100%;
+					right: 0;
+					left: unset;
+					flex-flow: column nowrap;
+					grid-area: c;
+					/*visibility: hidden;*/
+					z-index: 1;
+					background-color: #fff;
+					width: calc( 100% - 8px );
+					min-width: fit-content;
+					max-height: 0;
+					overflow: hidden;
+					text-align: left;
+					color: var(--tc_colour-black);
 					font-size: inherit;
+					transition: all var(--tc_slideTime) ease-in;
 				}
-					.dropdown_contents {
-						display: flex;
-						position: absolute;
-						top: 100%;
-						right: 0;
-						left: unset;
-						flex-flow: column nowrap;
-						grid-area: c;
-						/*visibility: hidden;*/
-						z-index: 1;
-						background-color: #fff;
-						width: calc( 100% - 8px );
-						min-width: fit-content;
-						max-height: 0;
-						overflow: hidden;
-						text-align: left;
-						color: var(--tc_colour-black);
-						font-size: inherit;
-						transition: all var(--tc_slideTime) ease-in;
+					.dropdown_item {
+						display: inline-flex;
+						background-color: transparent;
+						width: 100%;
+						text-decoration: none;
+						/*color: var(--tc_colour-black);*/
 					}
-						.dropdown_item {
-							display: inline-flex;
-							background-color: transparent;
-							width: 100%;
-							text-decoration: none;
-							/*color: var(--tc_colour-black);*/
-						}
 
 .dropdown_toggle-active > .dropdown_toggleIcon {
 /*.dropdown-hover:hover:not( .fullscreenMenu .dropdown ):not( .dropdown-inMenu ) > .dropdown_toggle > .dropdown_toggleIcon */
@@ -1339,6 +1384,9 @@ body > main {
 	display: inline-grid;
 	width: 100%;
 }
+.fullscreenMenu .dropdown-hover {
+	padding: 0;
+}
 	.fullscreenMenu .dropdown_primary {
 		padding: 8px;
 	}
@@ -1386,13 +1434,19 @@ body > main {
 	.secondaryMenu_item {
 		display: flex;
 		flex-flow: row nowrap;
-		border: none;
-		background: none;
 		padding: 0.1em;
 		text-decoration: none;
 		color: inherit;
 		font-size: inherit;
 	}
+	button.secondaryMenu_item {
+		border: none;
+		background: inherit;
+	}
+
+.secondaryMenu_item:hover {
+	background: var(--tc_colour-menuHover);
+}
 
 @media (min-width: 600px) {
 	.secondaryMenu {
@@ -1450,7 +1504,9 @@ body > main {
 .button {
     display: inline-block;
     position: relative;
+    transition: all var(--tc_hoverTime) ease-in-out;
     border: none;
+	box-shadow: 5px 5px 0 rgb(0 0 0 / 20%);
     background-color: var(--tc_colour-white);
     padding: 0;
     width: max-content;
@@ -1462,10 +1518,9 @@ body > main {
 	color: var(--tc_colour-black);
 	font-family: inherit;
     font-size: inherit;
-    transition: box-shadow var(--tc_hoverTime) ease-in-out,
-				background-color var(--tc_hoverTime) ease-in-out,
-				border-color var(--tc_hoverTime) ease-in-out;
-	box-shadow: 5px 5px 0 rgb(0 0 0 / 20%);
+}
+.button-cta {
+	border: solid 0.2em;
 }
     .button > *:first-child {
         display: inline-flex;
@@ -1479,18 +1534,17 @@ body > main {
         text-align: center;
         text-decoration: none;
         white-space: normal;
-        color: inherit;
         font-weight: 700;
 		min-height: 3.5em;
 		letter-spacing: 0.143em;
     }
+	.button > *:first-child {
+		color: inherit;
+	}
         .button:hover {
             cursor: pointer;
 			box-shadow: 0 0 0 rgb(0 0 0 / 20%);
-        }
-        .button:hover > *:first-child {
-            color: var(--tc_colour-black);
-            background: #0000;
+			filter: invert(100%);
         }
 
 
@@ -1590,11 +1644,15 @@ body > main {
 				justify-content: center;
 				transition: background var(--tc_hoverTime) ease-in;
 				border: none;
-				background: var(--tc_colour-black);
 				padding: 0.5em;
 				height: 100%;
-				color: var(--tc_colour-white);
 				font-size: inherit;
+			}
+			button.search_submit {
+				border: none;
+				color: inherit;
+				background: var(--tc_colour-black);
+				color: var(--tc_colour-white);
 			}
 			.search_submit:hover {
 				background: var(--tc_colour-menuHover);
@@ -1602,18 +1660,20 @@ body > main {
 		.search_close {
 			aspect-ratio: 1 / 1;
 			transition: background var(--tc_hoverTime) ease-in;
-			border: none;
-			background: none;
 			cursor: pointer;
 			height: 2.5em;
-			color: var(--tc_colour-white);
 			font-size: inherit;
+		}
+		button.search_close {
+			border: none;
+			color: inherit;
+			background: none;
 		}
 		.search_close:hover {
 			background: var(--tc_colour-menuHover);
 		}
 			.search_close i {
-				font-size: var(--tc_h3);
+				font-size: var(--tc_h4);
 			}
 
 .search_toggle:checked + .search_container {
@@ -1709,9 +1769,8 @@ body > main {
 
 
 .breadcrumb {
+	margin-bottom: 1em;
 	padding: 1em 0;
-	background-color: #fff;
-	color: var(--tc_colour-black);
 	font-size: var(--tc_small);
 }
 	.breadcrumb a {
@@ -1736,10 +1795,9 @@ body > main {
 
 
 .USPBar {
-	border: solid 1px #e1e1e1;
-	background: var(--tc_colour-lightGrey);
+	background: var(--tc_colour-darkGrey);
 	padding: 0.6em 0;
-	color: var(--tc_colour-darkGrey);
+	color: inherit;
 	font-size: var(--tc_small);
 }
 	.USPBar > div:first-child {
@@ -1758,7 +1816,7 @@ body > main {
 			display: none;
 		}
 		.USPBar_item:hover {
-			color: var(--tc_colour-black);
+			background: var(--tc_colour-menuHover);
 		}
 			a.USPBar_link {
 				text-decoration: none;

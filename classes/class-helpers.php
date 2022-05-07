@@ -28,7 +28,7 @@ class Helpers {
 		$asset_handles = array();
 
 		if ( ! isset( $fonts ) ) {
-			echo '<script>console.log("ERROR: Bigupweb\Toecaps\Helpers:enqueue_assets() FONT ARGS EMPTY")</script>';
+			echo '<script>console.error("ERROR: Bigupweb\Toecaps\Helpers:enqueue_assets() FONT ARGS EMPTY")</script>';
 
 		} else {
 
@@ -44,7 +44,7 @@ class Helpers {
 						break;
 
 					default:
-						echo '<script>console.log("ERROR: BigupWeb\\\Toecaps\\\Helpers:enqueue_assets() FONT NOT FOUND: ' . $font_name . '")</script>';
+						echo '<script>console.error("ERROR: BigupWeb\\\Toecaps\\\Helpers:enqueue_assets() FONT NOT FOUND: ' . $font_name . '")</script>';
 						break;
 				}
 			}

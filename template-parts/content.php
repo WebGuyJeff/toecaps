@@ -11,10 +11,6 @@ namespace BigupWeb\Toecaps;
 
 ?>
 
-<!-- DELETEME -->
-<h1>Content.php</h1>
-
-
 <article  id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<?php if ( ! is_singular() ) : ?>

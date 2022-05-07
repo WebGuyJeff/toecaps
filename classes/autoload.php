@@ -38,7 +38,7 @@ spl_autoload_register(
 		if ( file_exists( $class_filepath ) ) {
 			include $class_filepath;
 		} else {
-			echo '<script>console.log("ERROR: toecaps php autoload | Class not found: ' . sanitize_key( $classname ) . '");</script>';
+			echo '<script>console.error("ERROR: toecaps php autoload | Class not found: ' . sanitize_key( $classname ) . '");</script>';
 		}
 	}
 );

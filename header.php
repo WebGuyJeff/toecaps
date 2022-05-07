@@ -80,7 +80,7 @@ get_template_part( 'template-parts/css-loader' );
 		</div>
 
 		<div class="header_menu">
-			<label class="fullscreenMenu_open theme_fill-accent" for="fullscreenMenu_toggle">
+			<label class="fullscreenMenu_open" for="fullscreenMenu_toggle">
 				<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
 			</label>
 			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox">
@@ -151,15 +151,13 @@ get_template_part( 'template-parts/css-loader' );
 		</div>
 
 		<?php
-
-
-
 		get_template_part( 'template-parts/usp' );
-
-		if ( ! is_front_page() && ! is_home() ) {
-
-			Tags::print_html_breadcrumb();
-		}
 		?>
 
 	</header>
+
+	<?php
+	if ( ! is_front_page() && ! is_home() ) {
+
+		Tags::print_html_breadcrumb();
+	}

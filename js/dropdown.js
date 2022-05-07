@@ -200,9 +200,6 @@ const dropdownPlugin = (function() {
 		 */
 		focusHandler: function( event ) {
 
-
-console.log(event);
-
 			// Bail if a click is being triggered to avoid duplicate calls to open().
 			if ( mouseDown ) return;
 

@@ -14,7 +14,7 @@
 get_header();
 ?>
 
-<main class="main">
+<main>
 
 	<div class="container">
 

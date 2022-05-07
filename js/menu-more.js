@@ -8,7 +8,7 @@ const navAutoMore = (function() {
 	'use strict';
 	
 	// Settings.
-	const navSelector     = '.mainMenu:not( .fullscreenMenu .mainMenu )';
+	const navSelector     = '.mainMenu:not( .fullscreenMenu .mainMenu ):not( .footer_menu .mainMenu )';
 	const moreTemplate    = document.querySelector( '.autoMoreTemplate' );
 	const minWindowLimit  = 768;
 	const classTopLevel   = 'dropdown-hover';
