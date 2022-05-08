@@ -1505,7 +1505,7 @@ label.fullscreenMenu_open {
     display: inline-block;
     position: relative;
     transition: all var(--tc_hoverTime) ease-in-out;
-    border: none;
+    border: solid 0.1em rgb(0 0 0 / 20%);
 	box-shadow: 5px 5px 0 rgb(0 0 0 / 20%);
     background-color: var(--tc_colour-white);
     padding: 0;
@@ -1543,8 +1543,12 @@ label.fullscreenMenu_open {
 	}
         .button:hover {
             cursor: pointer;
+        }
+		.button:hover,
+		.button:focus {
 			box-shadow: 0 0 0 rgb(0 0 0 / 20%);
 			filter: invert(100%);
+			outline: none;
         }
 
 
@@ -1553,6 +1557,41 @@ label.fullscreenMenu_open {
 
 .link {
 	cursor: pointer;
+}
+
+/* WordPress Gut' link overrides */
+
+a.wp-block-button__link:active,
+a.wp-block-button__link:focus,
+a.wp-block-button__link:hover,
+a.wp-block-button__link:visited {
+	text-decoration: underline;
+	color: inherit;
+}
+
+a.wp-block-button__link:focus:after,
+a.wp-block-button__link:hover:after {
+	transform: translateX( 0.4em );
+}
+
+a.wp-block-button__link {
+	transition: all var(--tc_hoverTime) ease-in;
+	border: solid 0.1em;
+	background: none;
+	color: inherit;
+	font-size: inherit;
+}
+
+a.wp-block-button__link:after {
+	display:inline-block;
+	transition: all var(--tc_hoverTime) ease-in;
+	border: solid 0.1em;
+	border: none;
+	padding-left: 0.6em;
+	vertical-align: middle;
+	font-family: "Font Awesome 6 Free";
+	font-weight: 900;
+	content: "\f054";
 }
 
 
