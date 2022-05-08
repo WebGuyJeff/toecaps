@@ -43,7 +43,7 @@ class Admin_Settings {
 			'manage_options',                             // capability.
 			'toecaps-settings',                           // menu_slug.
 			array( $this, 'tc_theme_add_settings_page' ), // function.
-			'dashicons-toecaps-boot',                     // icon_url.
+			'dashicons-bigup-boot',                       // icon_url.
 			4                                             // position.
 		);
 	}
@@ -58,9 +58,7 @@ class Admin_Settings {
 		<div class="wrap">
 
 			<h1>
-				<span>
-					<span class="dashicons-toecaps-boot"></span>
-				</span>
+				<span class="dashicons-bigup-boot" style="font-size: 2em; margin-right: 0.2em;"></span>
 				Toecaps Settings
 			</h1>
 

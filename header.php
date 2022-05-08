@@ -79,7 +79,7 @@ get_template_part( 'template-parts/css-loader' );
 			</div>
 		</div>
 
-		<div class="header_menu">
+		<div class="header_menu theme_fill-prominent">
 			<label class="fullscreenMenu_open" for="fullscreenMenu_toggle">
 				<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
 			</label>
@@ -97,12 +97,16 @@ get_template_part( 'template-parts/css-loader' );
 					</div>
 				</div>
 			</div>
-			<div class="navBar theme_fill-prominent">
+			<div class="navBar">
 				<div class="container">
 					<?php get_template_part( 'template-parts/menu' ); ?>
 				</div>
 			</div>
 		</div>
+
+		<?php
+		get_template_part( 'template-parts/usp' );
+		?>
 
 		<div class="header_hero">
 
@@ -150,10 +154,6 @@ get_template_part( 'template-parts/css-loader' );
 
 		</div>
 
-		<?php
-		get_template_part( 'template-parts/usp' );
-		?>
-
 	</header>
 
 	<?php
@@ -161,3 +161,6 @@ get_template_part( 'template-parts/css-loader' );
 
 		Tags::print_html_breadcrumb();
 	}
+	?>
+
+	<div class="header_margin"></div>

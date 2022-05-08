@@ -223,8 +223,8 @@ under the theme body class. This allows the theme to override 'accent' to 'black
 		background: var(--tc_colour-black);
 	}
 
-	.page-template-toecaps-tan button,
-	.page-template-toecaps-tan .button {
+	.page-template-toecaps-tan button-cta,
+	.page-template-toecaps-tan .button-cta {
 		color: var(--tc_colour-white);
 		background: var(--tc_colour-darkBlack);
 		border: solid 0.2em;
@@ -871,7 +871,6 @@ body > main {
 
 
 .header {
-	margin-bottom: 2em;
 	background: var(--tc_colour-accent);
     width: 100%;
     height: fit-content;
@@ -911,7 +910,7 @@ body > main {
 			max-height: 100%;
 		}
 		.header_image-fade {
-			filter: contrast(0.8) brightness(0.8);
+			filter: contrast(0.5) brightness(0.6);
 		}
 		.header_cta {
 			margin: 7em auto;
@@ -927,6 +926,10 @@ body > main {
 		.header_title {
 			text-align: center;
 		}
+
+.header_margin {
+	margin-bottom: 2em;
+}
 
 .tc_page-notHome  .header_main {
 	justify-content: space-between;
@@ -1377,7 +1380,7 @@ label.fullscreenMenu_open {
 }
 	.dropdown-inMenu > .dropdown_toggle-active + .dropdown_contents {
 		margin-left: 8px;
-		border-left: solid 4px var(--tc_colour-grey);
+		border-left: solid 4px;
 	}
 
 .fullscreenMenu .dropdown {
@@ -1401,7 +1404,7 @@ label.fullscreenMenu_open {
 		transform: none !important;
 	}
 	.fullscreenMenu .dropdown_toggle-active + .dropdown_contents {
-		border-left: solid 4px var(--tc_colour-white);
+		border-left: solid 4px;
 	}
 
 /* 'Tab' shadows */
@@ -1808,7 +1811,6 @@ a.wp-block-button__link:after {
 
 
 .breadcrumb {
-	margin-bottom: 1em;
 	padding: 1em 0;
 	font-size: var(--tc_small);
 }
@@ -1834,7 +1836,7 @@ a.wp-block-button__link:after {
 
 
 .USPBar {
-	background: var(--tc_colour-darkGrey);
+	background: inherit;
 	padding: 0.6em 0;
 	color: inherit;
 	font-size: var(--tc_small);

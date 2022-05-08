@@ -65,11 +65,11 @@ add_action( 'wp_enqueue_scripts', 'enqueue_scripts_and_styles' );
  * Enqueue admin scripts and styles
  */
 function toecaps_load_admin_scripts_and_styles() {
-	if ( ! wp_script_is( 'custom-script', 'registered' ) ) {
-		wp_register_style( 'toecaps-icons', get_template_directory_uri() . '/dashicons/css/toecaps-icons.css', array(), filemtime( get_template_directory() . '/dashicons/css/toecaps-icons.css' ), 'all' );
+	if ( ! wp_script_is( 'bigup_icons', 'registered' ) ) {
+		wp_register_style( 'bigup_icons', get_template_directory_uri() . '/dashicons/css/bigup-icons.css', array(), filemtime( get_template_directory() . '/dashicons/css/bigup-icons.css' ), 'all' );
 	}
-	if ( ! wp_script_is( 'custom-script', 'enqueued' ) ) {
-		wp_enqueue_style( 'toecaps-icons' );
+	if ( ! wp_script_is( 'bigup_icons', 'enqueued' ) ) {
+		wp_enqueue_style( 'bigup_icons' );
 	}
 	wp_enqueue_style( 'fontawesome_css' );
 }
@@ -77,7 +77,6 @@ add_action( 'admin_enqueue_scripts', 'toecaps_load_admin_scripts_and_styles' );
 
 
 // ======================================================= Basic WordPress setup
-
 
 /**
  * Disable plugin auto updates
