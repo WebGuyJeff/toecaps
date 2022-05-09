@@ -166,11 +166,8 @@ RANGE
 /*----------------------------------------------------- 1.2 THEME COLOURS ----*/
 
 
-/* The .theme_alt[...] classes should have no styles of their own, instead only having rules applied
-under the theme body class. This allows the theme to override 'accent' to 'black' for example. */
-
-
 /* Defaults */
+
 .theme_fill-prominent,
 .theme_fill-prominent .dropdown_contents {
 	color: var(--tc_colour-black);
@@ -179,6 +176,10 @@ under the theme body class. This allows the theme to override 'accent' to 'black
 .theme_fill-black {
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
+}
+.theme_fill-white {
+	color: var(--tc_colour-black);
+	background: var(--tc_colour-white);
 }
 .theme_fill-accent {
 	color: var(--tc_colour-white);
@@ -193,77 +194,92 @@ under the theme body class. This allows the theme to override 'accent' to 'black
 }
 
 
-/* Tan Theme */
+/* Theme overrides */
+
 .page-template-toecaps-tan {
 	--tc_colour-accent: var(--tc_colour-tan);
 	--tc_colour-accent-opaque: var(--tc_colour-tan-opaque);
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
 }
-	.page-template-toecaps-tan .theme_fill-prominent,
-	.page-template-toecaps-tan .theme_fill-prominent .dropdown_contents {
-		color: var(--tc_colour-white);
-		background: var(--tc_colour-darkBlack);
-	}
-	.page-template-toecaps-tan .theme_fill-accent {
-		color: var(--tc_colour-black);
-	}
-	.page-template-toecaps-tan .theme_fill-opaque {
-		background: var(--tc_colour-accent-opaque);
-		color: var(--tc_colour-black);
-	}
-
-	.page-template-toecaps-tan .promoBanner {
-		color: var(--tc_colour-black);
-		background: var(--tc_colour-accent);
-	}
-
-	.page-template-toecaps-tan .header {
-		color: var(--tc_colour-white);
-		background: var(--tc_colour-black);
-	}
-
-	.page-template-toecaps-tan button-cta,
-	.page-template-toecaps-tan .button-cta {
-		color: var(--tc_colour-white);
-		background: var(--tc_colour-darkBlack);
-		border: solid 0.2em;
-	}
-
-
-
-
-
-
-
-
-
 .page-template-toecaps-yellow {
-	--tc_colour-accent: #fbff02;
-	--tc_colour-accent-opaque: #fbff02e6;
+	--tc_colour-accent: var(--tc_colour-yellow);
+	--tc_colour-accent-opaque: var(--tc_colour-yellow-opaque);
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
 }
-
 .page-template-toecaps-blue {
-	--tc_colour-accent: #2596db;
-	--tc_colour-accent-opaque: #2596dbe6;
+	--tc_colour-accent: var(--tc_colour-blue);
+	--tc_colour-accent-opaque: var(--tc_colour-blue-opaque);
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-black);
 }
-
 .page-template-toecaps-red {
-	--tc_colour-accent: #ee0000;
-	--tc_colour-accent-opaque: #ee0000e6;
+	--tc_colour-accent: var(--tc_colour-red);
+	--tc_colour-accent-opaque: var(--tc_colour-red-opaque);
 }
-
 .page-template-toecaps-teal {
-	--tc_colour-accent: #29a2a3;
-	--tc_colour-accent-opaque: #29a2a3e6;
+	--tc_colour-accent: var(--tc_colour-teal);
+	--tc_colour-accent-opaque: var(--tc_colour-teal-opaque);
+}
+.page-template-toecaps-green {
+	--tc_colour-accent: var(--tc_colour-green);
+	--tc_colour-accent-opaque: var(--tc_colour-green-opaque);
 }
 
-.page-template-toecaps-green {
-	--tc_colour-accent: #32c17b;
-	--tc_colour-accent-opaque: #32c17be6;
+
+/* Components-level overrides for the dark backround themes */
+
+.page-template-toecaps-blue .theme_fill-prominent,
+.page-template-toecaps-blue .theme_fill-prominent .dropdown_contents,
+.page-template-toecaps-yellow .theme_fill-prominent,
+.page-template-toecaps-yellow .theme_fill-prominent .dropdown_contents,
+.page-template-toecaps-tan .theme_fill-prominent,
+.page-template-toecaps-tan .theme_fill-prominent .dropdown_contents {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-darkBlack);
 }
+.page-template-toecaps-yellow .theme_fill-accent,
+.page-template-toecaps-tan .theme_fill-accent {
+	color: var(--tc_colour-black);
+}
+.page-template-toecaps-yellow .theme_fill-opaque,
+.page-template-toecaps-tan .theme_fill-opaque {
+	color: var(--tc_colour-black);
+}
+.page-template-toecaps-yellow .promoBanner,
+.page-template-toecaps-tan .promoBanner {
+	color: var(--tc_colour-black);
+	background: var(--tc_colour-accent);
+}
+.page-template-toecaps-blue .header,
+.page-template-toecaps-yellow .header,
+.page-template-toecaps-tan .header {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-black);
+}
+.page-template-toecaps-blue button-cta,
+.page-template-toecaps-blue .button-cta,
+.page-template-toecaps-yellow button-cta,
+.page-template-toecaps-yellow .button-cta,
+.page-template-toecaps-tan button-cta,
+.page-template-toecaps-tan .button-cta {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-darkBlack);
+	border: solid 0.2em;
+}
+
+
+/* Blue theme overrides ( light font works better in some cases ) */
+
+.page-template-toecaps-blue .theme_fill-accent {
+	color: var(--tc_colour-white);
+}
+.page-template-toecaps-blue .promoBanner {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-accent);
+}
+
 
 
 /*---------------------------------------- 1.3 BROWSER AND PSUEDO CLASSES ----*/
@@ -283,24 +299,19 @@ body::-webkit-scrollbar {
 
 ::-moz-placeholder {
 	opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
-	color: var(--tc_colour-grey);
+	color: var(--tc_colour-darkGrey);
 	}
-
-:-ms-input-placeholder {
-	opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
-	color: var(--tc_colour-grey);
-	}
-
 ::placeholder {
 	opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
-	color: var(--tc_colour-grey);
+	color: var(--tc_colour-darkGrey);
 	}
-		:-ms-input-placeholder {
-		color: var(--tc_colour-grey) /* Internet Explorer 10-11 */
-		}
-		::-ms-input-placeholder {
-		color: var(--tc_colour-grey); /* Microsoft Edge */
-		}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	opacity: 1; /* Chrome, Firefox, Opera, Safari 10.1+ */ /* Firefox */
+	color: var(--tc_colour-darkGrey);
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+color: var(--tc_colour-darkGrey);
+}
 
 :focus,
 :focus-visible {
@@ -910,7 +921,7 @@ body > main {
 			max-height: 100%;
 		}
 		.header_image-fade {
-			filter: contrast(0.5) brightness(0.6);
+			filter: contrast(0.8) brightness(0.8);
 		}
 		.header_cta {
 			margin: 7em auto;

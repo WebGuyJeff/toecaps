@@ -118,7 +118,7 @@ get_template_part( 'template-parts/css-loader' );
 					if ( has_post_thumbnail() ) {
 
 						$attributes = array(
-							'class' => 'header_image',
+							'class' => 'header_image header_image-fade',
 						);
 						the_post_thumbnail( 'post-thumbnail', $attributes );
 
