@@ -1663,6 +1663,7 @@ div.wp-block-buttons > .wp-block-button {
 	align-items: flex-end;
 	justify-content: center;
 	height: 100%;
+	width: 100%;
 	overflow: hidden;
 }
 	.parallax_inner {
