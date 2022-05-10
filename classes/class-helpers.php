@@ -63,7 +63,7 @@ class Helpers {
 	 *
 	 * Print anything to the front end. Useful for quickly outputting variables or function
 	 * results when debugging/experimenting. 🧪
-	 * 
+	 *
 	 * Front end handled in js to account for mutlple calls to this function trying to create the
 	 * same element. Further outputs will be appended to the existing #toecaps_debug_console.
 	 */
@@ -87,28 +87,28 @@ class Helpers {
 			$el_content = $dump;
 		}
 
-		//foreach ( $dump as $key => $value ) {
-		//	htmlspecialchars( var_dump( $value ) );
-		//}
+		// foreach ( $dump as $key => $value ) {
+		// htmlspecialchars( var_dump( $value ) );
+		// }
 
 		$el_close = '</pre>';
 		$output   = $el_open . $el_content . $el_close;
 
 		echo $output;
 
-/*
+		/*
 		echo <<<HTML
-<script>
-console.log('{$output}');
-document.addEventListener('DOMContentLoaded', ( event ) => {
-	if ( ! document.getElementById("toecaps_debug_console") ) {
+		<script>
+		console.log('{$output}');
+		document.addEventListener('DOMContentLoaded', ( event ) => {
+		if ( ! document.getElementById("toecaps_debug_console") ) {
 		document.body.insertAdjacentHTML( "beforeend", '{$parent}' );
-	}
-	document.getElementById("toecaps_debug_console").insertAdjacentHTML( "beforeend", '{$output}' );
-} )
-</script>
-HTML;
-*/
+		}
+		document.getElementById("toecaps_debug_console").insertAdjacentHTML( "beforeend", '{$output}' );
+		} )
+		</script>
+		HTML;
+		*/
 	}
 
 
@@ -118,7 +118,7 @@ HTML;
 	 * Unregister all unused nav menu locations that were registered by a theme and not currently
 	 * in use. Any menu locations which are actively being registered e.g. in functions.php will remain
 	 * so. Output displayed on front end. Warning: this function is destructive.
-	 * 
+	 *
 	 * @param {Boolean} update_db: True = writes changes to DB, False = dry run with output.
 	 */
 	public static function unregister_unused_nav_menu_locations( $update_db = false ) {
@@ -295,7 +295,6 @@ HTML;
 
 	/**
 	 * Sanitise phone numbers
-	 * 
 	 */
 	public static function sanitise_phone_number( $phone ) {
 
@@ -322,7 +321,7 @@ HTML;
 
 	/**
 	 * Get the first sentence of a string
-	 * 
+	 *
 	 * @param {string} $string The string of text to get the first sentence from.
 	 * @return {string} The first setence of the string.
 	 */

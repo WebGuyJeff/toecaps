@@ -120,7 +120,7 @@ class Seo_Meta {
 		$bw_robots     = 'index, follow, nocache, noarchive';
 
 		/* Sitewide */
-		$bw_identity = wp_strip_all_tags( get_bloginfo( 'name', 'display' ) );
+		$bw_identity  = wp_strip_all_tags( get_bloginfo( 'name', 'display' ) );
 		$bw_blogtitle = wp_strip_all_tags( get_the_title( get_option( 'page_for_posts', true ) ) );
 		$bw_sitedesc  = wp_strip_all_tags( get_bloginfo( 'description', 'display' ) );
 		$bw_siteurl   = esc_url( home_url( $path = '/', $scheme = 'https' ) );

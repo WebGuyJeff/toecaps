@@ -9,7 +9,6 @@
 
 namespace BigupWeb\Toecaps;
 
-
 /**
  * Functions which enhance the theme by hooking into WordPress
  *
@@ -48,12 +47,12 @@ class Hooks {
 			$classes[] = 'tc_page-orphan';
 
 		}
-		
+
 		if ( is_front_page() || is_home() ) {
 			// Home page.
 			$classes[] = 'tc_page-home';
 
-		} else  {
+		} else {
 			// NOT home page.
 			$classes[] = 'tc_page-notHome';
 		}

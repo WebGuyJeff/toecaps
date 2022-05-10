@@ -1,12 +1,6 @@
 <?php
 /**
- * Admin menu for theme settings.
- *
- * ### To retrieve values:
- * Serialized array of all options:
- *  - $tc_settings = get_option( 'tc_theme_array' );
- * Single Option:
- *  - $tc_email_address = $tc_settings['tc_email_address'];
+ * Admin menu settings class.
  *
  * @package Toecaps
  */
@@ -15,6 +9,17 @@ namespace BigupWeb\Toecaps;
 
 use BigupWeb\Toecaps\Helpers;
 
+
+
+/**
+ * Build admin menu for theme.
+ *
+ * ### To retrieve values:
+ * Serialized array of all options:
+ *  - $tc_settings = get_option( 'tc_theme_array' );
+ * Single Option:
+ *  - $tc_email_address = $tc_settings['tc_email_address'];
+ */
 class Admin_Settings {
 
 
@@ -38,7 +43,7 @@ class Admin_Settings {
 	 */
 	public function tc_theme_add_settings_menu() {
 		add_menu_page(
-			"Toecaps Theme Settings",                     // page_title.
+			'Toecaps Theme Settings',                     // page_title.
 			'Toecaps',                                    // menu_title.
 			'manage_options',                             // capability.
 			'toecaps-settings',                           // menu_slug.
@@ -63,7 +68,7 @@ class Admin_Settings {
 			</h1>
 
 			<p>These settings manage content that appears on the front end of the Toecaps theme.</p>
-            <p>After updating content in these fields, don't forget to click SAVE at the bottom of the page!</strong></p>
+			<p>After updating content in these fields, don't forget to click SAVE at the bottom of the page!</strong></p>
 
 			<?php settings_errors(); ?>
 
@@ -275,7 +280,7 @@ class Admin_Settings {
 
 	}
 
-	public function tc_theme_sanitize($input) {
+	public function tc_theme_sanitize( $input ) {
 		$sanitary_values = array();
 
 		if ( isset( $input['tc_email_address'] ) ) {
@@ -286,15 +291,15 @@ class Admin_Settings {
 			$sanitary_values['tc_phone_number'] = Helpers::sanitise_phone_number( $input['tc_phone_number'] );
 		}
 
-        if ( isset( $input['tc_street_address'] ) ) {
+		if ( isset( $input['tc_street_address'] ) ) {
 			$sanitary_values['tc_street_address'] = sanitize_textarea_field( $input['tc_street_address'] );
 		}
 
 		if ( isset( $input['tc_openstreetmap'] ) ) {
-			$sanitary_values['tc_openstreetmap'] = sanitize_text_field( urldecode ( $input['tc_openstreetmap'] ) );
+			$sanitary_values['tc_openstreetmap'] = sanitize_text_field( urldecode( $input['tc_openstreetmap'] ) );
 		}
 
-        if ( isset( $input['tc_social_url_facebook'] ) ) {
+		if ( isset( $input['tc_social_url_facebook'] ) ) {
 			$sanitary_values['tc_social_url_facebook'] = sanitize_url( $input['tc_social_url_facebook'] );
 		}
 
@@ -302,7 +307,7 @@ class Admin_Settings {
 			$sanitary_values['tc_social_url_instagram'] = sanitize_url( $input['tc_social_url_instagram'] );
 		}
 
-        if ( isset( $input['tc_social_url_pinterest'] ) ) {
+		if ( isset( $input['tc_social_url_pinterest'] ) ) {
 			$sanitary_values['tc_social_url_pinterest'] = sanitize_url( $input['tc_social_url_pinterest'] );
 		}
 
@@ -361,20 +366,20 @@ class Admin_Settings {
 		return $sanitary_values;
 	}
 
-//========================================================= Section Descriptions
+	// ========================================================= Section Descriptions
 
 	public function tc_theme_contact_section_callback() {
-        echo '<p>Contact Information displayed across the website. Put each line
+		echo '<p>Contact Information displayed across the website. Put each line
                  of the street address on a new line as it will appear this way
                  on the front end.</p>';
 	}
 
-    public function tc_theme_social_section_section_callback() {
-        echo '<p>Configure external links for social accounts including "https://".</p>';
+	public function tc_theme_social_section_section_callback() {
+		echo '<p>Configure external links for social accounts including "https://".</p>';
 	}
 
-    public function tc_theme_usp_section_callback() {
-        echo '<p>The unique selling points and their icons. The icon should be a valid FontAwesome
+	public function tc_theme_usp_section_callback() {
+		echo '<p>The unique selling points and their icons. The icon should be a valid FontAwesome
 				icon class e.g "fa-solid fa-alarm-clock" without quotations.</p>
 				<p>Visit <a target="_blank" href="https://fontawesome.com/icons">FontAwesome</a> to search available
 				icons and find their classes.</p>';
@@ -383,140 +388,140 @@ class Admin_Settings {
 	public function tc_email_address_callback() {
 		printf(
 			'<input class="regular-text" type="email" name="tc_theme_array[tc_email_address]" id="tc_email_address" value="%s">',
-			isset( $this->tc_theme['tc_email_address'] ) ? esc_attr( $this->tc_theme['tc_email_address']) : ''
+			isset( $this->tc_theme['tc_email_address'] ) ? esc_attr( $this->tc_theme['tc_email_address'] ) : ''
 		);
 	}
 
 	public function tc_phone_number_callback() {
 		printf(
 			'<input class="regular-text" type="tel" pattern="[0-9 ]+" name="tc_theme_array[tc_phone_number]" id="tc_phone_number" value="%s">',
-			isset( $this->tc_theme['tc_phone_number'] ) ? esc_attr( $this->tc_theme['tc_phone_number']) : ''
+			isset( $this->tc_theme['tc_phone_number'] ) ? esc_attr( $this->tc_theme['tc_phone_number'] ) : ''
 		);
 	}
 
-    public function tc_street_address_callback() {
+	public function tc_street_address_callback() {
 		printf(
 			'<textarea class="regular-text" rows="8" cols="50" name="tc_theme_array[tc_street_address]" id="tc_street_address">%s</textarea>',
-			isset( $this->tc_theme['tc_street_address'] ) ? esc_textarea( $this->tc_theme['tc_street_address']) : ''
+			isset( $this->tc_theme['tc_street_address'] ) ? esc_textarea( $this->tc_theme['tc_street_address'] ) : ''
 		);
 	}
 
-    public function tc_openstreetmap_callback() {
+	public function tc_openstreetmap_callback() {
 		printf(
 			'<input class="regular-text" type="url" name="tc_theme_array[tc_openstreetmap]" id="tc_openstreetmap" value="%s">',
-			isset( $this->tc_theme['tc_openstreetmap'] ) ? esc_url_raw( $this->tc_theme['tc_openstreetmap']) : ''
+			isset( $this->tc_theme['tc_openstreetmap'] ) ? esc_url_raw( $this->tc_theme['tc_openstreetmap'] ) : ''
 		);
 	}
 
-    public function tc_social_url_facebook_callback() {
+	public function tc_social_url_facebook_callback() {
 		printf(
 			'<input class="regular-text" type="url" name="tc_theme_array[tc_social_url_facebook]" id="tc_social_url_facebook" value="%s">',
-			isset( $this->tc_theme['tc_social_url_facebook'] ) ? esc_url( $this->tc_theme['tc_social_url_facebook']) : ''
+			isset( $this->tc_theme['tc_social_url_facebook'] ) ? esc_url( $this->tc_theme['tc_social_url_facebook'] ) : ''
 		);
 	}
 
 	public function tc_social_url_instagram_callback() {
 		printf(
 			'<input class="regular-text" type="url" name="tc_theme_array[tc_social_url_instagram]" id="tc_social_url_instagram" value="%s">',
-			isset( $this->tc_theme['tc_social_url_instagram'] ) ? esc_url( $this->tc_theme['tc_social_url_instagram']) : ''
+			isset( $this->tc_theme['tc_social_url_instagram'] ) ? esc_url( $this->tc_theme['tc_social_url_instagram'] ) : ''
 		);
 	}
 
-    public function tc_social_url_pinterest_callback() {
+	public function tc_social_url_pinterest_callback() {
 		printf(
 			'<input class="regular-text" type="url" name="tc_theme_array[tc_social_url_pinterest]" id="tc_social_url_pinterest" value="%s">',
-			isset( $this->tc_theme['tc_social_url_pinterest'] ) ? esc_url( $this->tc_theme['tc_social_url_pinterest']) : ''
+			isset( $this->tc_theme['tc_social_url_pinterest'] ) ? esc_url( $this->tc_theme['tc_social_url_pinterest'] ) : ''
 		);
 	}
 
 	public function tc_social_url_linkedin_callback() {
 		printf(
 			'<input class="regular-text" type="url" name="tc_theme_array[tc_social_url_linkedin]" id="tc_social_url_linkedin" value="%s">',
-			isset( $this->tc_theme['tc_social_url_linkedin'] ) ? esc_url( $this->tc_theme['tc_social_url_linkedin']) : ''
+			isset( $this->tc_theme['tc_social_url_linkedin'] ) ? esc_url( $this->tc_theme['tc_social_url_linkedin'] ) : ''
 		);
 	}
 
 	public function tc_usp_1_text_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_1_text]" id="tc_usp_1_text" value="%s">',
-			isset( $this->tc_theme['tc_usp_1_text'] ) ? esc_attr( $this->tc_theme['tc_usp_1_text']) : ''
+			isset( $this->tc_theme['tc_usp_1_text'] ) ? esc_attr( $this->tc_theme['tc_usp_1_text'] ) : ''
 		);
 	}
 
 	public function tc_usp_1_url_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_1_url]" id="tc_usp_1_url" value="%s">',
-			isset( $this->tc_theme['tc_usp_1_url'] ) ? esc_attr( $this->tc_theme['tc_usp_1_url']) : ''
+			isset( $this->tc_theme['tc_usp_1_url'] ) ? esc_attr( $this->tc_theme['tc_usp_1_url'] ) : ''
 		);
 	}
 
 	public function tc_usp_1_icon_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_1_icon]" id="tc_usp_1_icon" value="%s">',
-			isset( $this->tc_theme['tc_usp_1_icon'] ) ? esc_attr( $this->tc_theme['tc_usp_1_icon']) : ''
+			isset( $this->tc_theme['tc_usp_1_icon'] ) ? esc_attr( $this->tc_theme['tc_usp_1_icon'] ) : ''
 		);
 	}
 
 	public function tc_usp_2_text_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_2_text]" id="tc_usp_2_text" value="%s">',
-			isset( $this->tc_theme['tc_usp_2_text'] ) ? esc_attr( $this->tc_theme['tc_usp_2_text']) : ''
+			isset( $this->tc_theme['tc_usp_2_text'] ) ? esc_attr( $this->tc_theme['tc_usp_2_text'] ) : ''
 		);
 	}
 
 	public function tc_usp_2_url_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_2_url]" id="tc_usp_2_url" value="%s">',
-			isset( $this->tc_theme['tc_usp_2_url'] ) ? esc_attr( $this->tc_theme['tc_usp_2_url']) : ''
+			isset( $this->tc_theme['tc_usp_2_url'] ) ? esc_attr( $this->tc_theme['tc_usp_2_url'] ) : ''
 		);
 	}
 
 	public function tc_usp_2_icon_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_2_icon]" id="tc_usp_2_icon" value="%s">',
-			isset( $this->tc_theme['tc_usp_2_icon'] ) ? esc_attr( $this->tc_theme['tc_usp_2_icon']) : ''
+			isset( $this->tc_theme['tc_usp_2_icon'] ) ? esc_attr( $this->tc_theme['tc_usp_2_icon'] ) : ''
 		);
 	}
 
 	public function tc_usp_3_text_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_3_text]" id="tc_usp_3_text" value="%s">',
-			isset( $this->tc_theme['tc_usp_3_text'] ) ? esc_attr( $this->tc_theme['tc_usp_3_text']) : ''
+			isset( $this->tc_theme['tc_usp_3_text'] ) ? esc_attr( $this->tc_theme['tc_usp_3_text'] ) : ''
 		);
 	}
 
 	public function tc_usp_3_url_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_3_url]" id="tc_usp_3_url" value="%s">',
-			isset( $this->tc_theme['tc_usp_3_url'] ) ? esc_attr( $this->tc_theme['tc_usp_3_url']) : ''
+			isset( $this->tc_theme['tc_usp_3_url'] ) ? esc_attr( $this->tc_theme['tc_usp_3_url'] ) : ''
 		);
 	}
 
 	public function tc_usp_3_icon_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_3_icon]" id="tc_usp_3_icon" value="%s">',
-			isset( $this->tc_theme['tc_usp_3_icon'] ) ? esc_attr( $this->tc_theme['tc_usp_3_icon']) : ''
+			isset( $this->tc_theme['tc_usp_3_icon'] ) ? esc_attr( $this->tc_theme['tc_usp_3_icon'] ) : ''
 		);
 	}
 
 	public function tc_usp_4_text_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_4_text]" id="tc_usp_4_text" value="%s">',
-			isset( $this->tc_theme['tc_usp_4_text'] ) ? esc_attr( $this->tc_theme['tc_usp_4_text']) : ''
+			isset( $this->tc_theme['tc_usp_4_text'] ) ? esc_attr( $this->tc_theme['tc_usp_4_text'] ) : ''
 		);
 	}
 
 	public function tc_usp_4_url_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_4_url]" id="tc_usp_4_url" value="%s">',
-			isset( $this->tc_theme['tc_usp_4_url'] ) ? esc_attr( $this->tc_theme['tc_usp_4_url']) : ''
+			isset( $this->tc_theme['tc_usp_4_url'] ) ? esc_attr( $this->tc_theme['tc_usp_4_url'] ) : ''
 		);
 	}
 
 	public function tc_usp_4_icon_callback() {
 		printf(
 			'<input class="regular-text" type="text" name="tc_theme_array[tc_usp_4_icon]" id="tc_usp_4_icon" value="%s">',
-			isset( $this->tc_theme['tc_usp_4_icon'] ) ? esc_attr( $this->tc_theme['tc_usp_4_icon']) : ''
+			isset( $this->tc_theme['tc_usp_4_icon'] ) ? esc_attr( $this->tc_theme['tc_usp_4_icon'] ) : ''
 		);
 	}
 

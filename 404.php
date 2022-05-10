@@ -15,7 +15,6 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-
 header( 'HTTP/1.0 404 Not Found' );
 
 get_header(); ?>
@@ -36,7 +35,7 @@ get_header(); ?>
 		<div class="search_inPageWrap">
 			<?php
 			get_search_form(
-				$args = array(
+				array(
 					'echo'       => true,
 					'aria_label' => 'Search our website',
 				)

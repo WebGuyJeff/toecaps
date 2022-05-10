@@ -11,7 +11,7 @@ $tc_settings  = get_option( 'tc_theme_array' ); // Serialized array of all optio
 $tc_facebook  = ( isset( $tc_settings['tc_social_url_facebook'] ) ) ? $tc_settings['tc_social_url_facebook'] : '';
 $tc_instagram = ( isset( $tc_settings['tc_social_url_instagram'] ) ) ? $tc_settings['tc_social_url_instagram'] : '';
 $tc_pinterest = ( isset( $tc_settings['tc_social_url_pinterest'] ) ) ? $tc_settings['tc_social_url_pinterest'] : '';
-$tc_linkedin  = ( isset( $tc_settings['tc_social_url_linkedin']	) ) ? $tc_settings['tc_social_url_linkedin'] : '';
+$tc_linkedin  = ( isset( $tc_settings['tc_social_url_linkedin'] ) ) ? $tc_settings['tc_social_url_linkedin'] : '';
 
 if ( $tc_facebook ) {
 	?>
@@ -61,7 +61,7 @@ if ( $tc_linkedin ) {
 	<?php
 }
 
-if ($tc_pinterest ) {
+if ( $tc_pinterest ) {
 	?>
 	<a
 		class="social_link"

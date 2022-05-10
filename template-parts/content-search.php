@@ -15,12 +15,12 @@ namespace BigupWeb\Toecaps;
 	<?php
 	$s    = get_search_query();
 	$args = array(
-					's' =>$s
-				);
+		's' => $s,
+	);
 	// The Query.
 	$the_query = new WP_Query( $args );
 	if ( $the_query->have_posts() ) {
-		_e( "<h2 style='font-weight:bold;color:#000'>Search Results for: ".get_query_var('s')."</h2>" );
+		_e( "<h2 style='font-weight:bold;color:#000'>Search Results for: " . get_query_var( 's' ) . '</h2>' );
 		while ( $the_query->have_posts() ) {
 			$the_query->the_post();
 			?>
@@ -30,7 +30,7 @@ namespace BigupWeb\Toecaps;
 			<?php
 		}
 	} else {
-	?>
+		?>
 		<h2 style='font-weight:bold;color:#000'>Nothing Found</h2>
 		<div class="alert alert-info">
 			<p>Sorry, but nothing matched your search criteria. Please try a new search or use the

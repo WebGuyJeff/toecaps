@@ -897,10 +897,6 @@ body > main {
 		grid-template-columns: 1fr 1fr;
 		align-items: center;
 	}
-	.header_menu {
-		/*background: var(--tc_colour-white);*/
-		/*color: var(--tc_colour-black);*/
-	}
 	.header_hero {
 		display: flex;
 		position: relative;
@@ -1653,81 +1649,75 @@ a.wp-block-button__link:after {
 /*----------------------------------------------------------- 4.15 SEARCH ----*/
 
 
-.search {
-
+.search_toggle {
+	display: none;
 }
-	.search_label {
-
-	}
-	.search_toggle {
-		display: none;
-	}
-	.search_container {
-		gap: 0.5em;
+.search_container {
+	gap: 0.5em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: visibility var(--tc_slideTime) ease-in,
+				margin-bottom var(--tc_slideTime) ease-in,
+				opacity var(--tc_slideTime) ease-in;
+	grid-area: search;
+	visibility: hidden;
+	opacity: 0;
+	margin-top: 2em;
+	margin-bottom: -5em;
+	padding: 0.25em;
+	width: 100%;
+	overflow: hidden;
+}
+	.search_form {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: visibility var(--tc_slideTime) ease-in,
-		            margin-bottom var(--tc_slideTime) ease-in,
-					opacity var(--tc_slideTime) ease-in;
-		grid-area: search;
-		visibility: hidden;
-		opacity: 0;
-		margin-top: 2em;
-		margin-bottom: -5em;
-		padding: 0.25em;
-		width: 100%;
-		overflow: hidden;
+		flex-flow: row nowrap;
+		width: fit-content;
+		height: 2.5em;
 	}
-		.search_form {
-			display: flex;
-			flex-flow: row nowrap;
-			width: fit-content;
-			height: 2.5em;
+		.search_field {
+			border: solid 1px var(--tc_colour-black);
+			padding: 0.5em;
+			height: 100%;
 		}
-			.search_field {
-				border: solid 1px var(--tc_colour-black);
-				padding: 0.5em;
-				height: 100%;
-			}
-			.search_submit {
-				aspect-ratio: 1 / 1;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				transition: background var(--tc_hoverTime) ease-in;
-				border: none;
-				padding: 0.5em;
-				height: 100%;
-				font-size: inherit;
-			}
-			button.search_submit {
-				border: none;
-				color: inherit;
-				background: var(--tc_colour-black);
-				color: var(--tc_colour-white);
-			}
-			.search_submit:hover {
-				background: var(--tc_colour-menuHover);
-			}
-		.search_close {
+		.search_submit {
 			aspect-ratio: 1 / 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 			transition: background var(--tc_hoverTime) ease-in;
-			cursor: pointer;
-			height: 2.5em;
+			border: none;
+			padding: 0.5em;
+			height: 100%;
 			font-size: inherit;
 		}
-		button.search_close {
+		button.search_submit {
 			border: none;
 			color: inherit;
-			background: none;
+			background: var(--tc_colour-black);
+			color: var(--tc_colour-white);
 		}
-		.search_close:hover {
+		.search_submit:hover {
 			background: var(--tc_colour-menuHover);
 		}
-			.search_close i {
-				font-size: var(--tc_h4);
-			}
+	.search_close {
+		aspect-ratio: 1 / 1;
+		transition: background var(--tc_hoverTime) ease-in;
+		cursor: pointer;
+		height: 2.5em;
+		font-size: inherit;
+	}
+	button.search_close {
+		border: none;
+		color: inherit;
+		background: none;
+	}
+	.search_close:hover {
+		background: var(--tc_colour-menuHover);
+	}
+		.search_close i {
+			font-size: var(--tc_h4);
+		}
 
 .search_toggle:checked + .search_container {
 	visibility: visible;

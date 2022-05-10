@@ -19,13 +19,13 @@ namespace BigupWeb\Toecaps;
 		<?php
 		the_content();
 		if ( get_edit_post_link() ) :
-		?>
+			?>
 			<footer class="entry-footer">
 				<div class="container">
 					<?php Tags::print_edit_post_link(); ?>
 				</div>
 			</footer>
-		<?php
+			<?php
 		endif;
 		?>
 	</div>

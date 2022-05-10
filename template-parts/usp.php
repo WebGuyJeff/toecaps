@@ -17,13 +17,13 @@ $tc_settings   = get_option( 'tc_theme_array' ); // Serialized array of all opti
 $tc_usp_1_text = ( isset( $tc_settings['tc_usp_1_text'] ) ) ? $tc_settings['tc_usp_1_text'] : '';
 $tc_usp_1_url  = ( isset( $tc_settings['tc_usp_1_url'] ) ) ? $tc_settings['tc_usp_1_url'] : '';
 $tc_usp_1_icon = ( isset( $tc_settings['tc_usp_1_icon'] ) ) ? $tc_settings['tc_usp_1_icon'] : '';
-$tc_usp_2_text = ( isset( $tc_settings['tc_usp_2_text']	) ) ? $tc_settings['tc_usp_2_text'] : '';
+$tc_usp_2_text = ( isset( $tc_settings['tc_usp_2_text'] ) ) ? $tc_settings['tc_usp_2_text'] : '';
 $tc_usp_2_url  = ( isset( $tc_settings['tc_usp_2_url'] ) ) ? $tc_settings['tc_usp_2_url'] : '';
 $tc_usp_2_icon = ( isset( $tc_settings['tc_usp_2_icon'] ) ) ? $tc_settings['tc_usp_2_icon'] : '';
-$tc_usp_3_text = ( isset( $tc_settings['tc_usp_3_text']	) ) ? $tc_settings['tc_usp_3_text'] : '';
+$tc_usp_3_text = ( isset( $tc_settings['tc_usp_3_text'] ) ) ? $tc_settings['tc_usp_3_text'] : '';
 $tc_usp_3_url  = ( isset( $tc_settings['tc_usp_3_url'] ) ) ? $tc_settings['tc_usp_3_url'] : '';
 $tc_usp_3_icon = ( isset( $tc_settings['tc_usp_3_icon'] ) ) ? $tc_settings['tc_usp_3_icon'] : '';
-$tc_usp_4_text = ( isset( $tc_settings['tc_usp_4_text']	) ) ? $tc_settings['tc_usp_4_text'] : '';
+$tc_usp_4_text = ( isset( $tc_settings['tc_usp_4_text'] ) ) ? $tc_settings['tc_usp_4_text'] : '';
 $tc_usp_4_url  = ( isset( $tc_settings['tc_usp_4_url'] ) ) ? $tc_settings['tc_usp_4_url'] : '';
 $tc_usp_4_icon = ( isset( $tc_settings['tc_usp_4_icon'] ) ) ? $tc_settings['tc_usp_4_icon'] : '';
 
