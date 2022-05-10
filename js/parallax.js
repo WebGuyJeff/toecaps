@@ -23,7 +23,7 @@ const parallaxPlugin = (function () {
 			const height = parallaxInner.clientHeight;
 
 			gsap.to(parallaxInner, {
-				transform: `translateY(${-height / 4}px)`, // 25% of parent height;
+				transform: `translateY(${height / 2}px)`, // 25% of parent height;
 				ease: 'none',
 				scrollTrigger: {
 					trigger: parallaxTrigger,

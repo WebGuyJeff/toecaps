@@ -65,7 +65,7 @@ get_template_part( 'template-parts/css-loader' );
 				<div class="search_container">
 					<?php
 					get_search_form(
-						$args = array(
+						array(
 							'echo'       => true,
 							'aria_label' => 'Search our website',
 						)
@@ -114,11 +114,13 @@ get_template_part( 'template-parts/css-loader' );
 				<div class="parallax_inner">
 
 					<?php
+					$is_homepage  = is_front_page() || is_home();
+					$is_parent    = is_page() && ! empty( get_pages( array( 'child_of' => get_queried_object_id() ) ) );
+					$filter_class = ( $is_homepage || $is_parent ) ? ' header_filter-light' : ' header_filter-dark';
 
 					if ( has_post_thumbnail() ) {
-
 						$attributes = array(
-							'class' => 'header_image header_image-fade',
+							'class' => 'header_image' . $filter_class,
 						);
 						the_post_thumbnail( 'post-thumbnail', $attributes );
 
@@ -126,7 +128,7 @@ get_template_part( 'template-parts/css-loader' );
 						?>
 
 						<img
-							class="header_image header_image-fade wp-post-image"
+							class="header_image wp-post-image <?php echo esc_attr( $filter_class ); ?>"
 							width="1920"
 							height="960"
 							src="http://localhost:8001/wp-content/uploads/2022/04/hero-background.webp"
