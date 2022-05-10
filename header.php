@@ -47,7 +47,7 @@ get_template_part( 'template-parts/css-loader' );
 				</a>
 
 				<nav class="secondaryMenu" aria-label="Secondary Menu">
-					<a class="secondaryMenu_item" href="#">
+					<a class="secondaryMenu_item" href="/contact#find-us">
 						<span class="secondaryMenu_label">
 							<i class="fa-solid fa-location-dot"></i>
 							Find us

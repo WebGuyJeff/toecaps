@@ -20,16 +20,6 @@ get_header();
 
 <main id="post-<?php the_ID(); ?>">
 
-	<?php if ( get_edit_post_link() ) : ?>
-		<header class="entry-header">
-			<div class="container">
-				<?php
-				Tags::print_edit_post_link();
-				?>
-			</div>
-		</header>
-	<?php endif ?>
-
 	<div class="entry-content">
 		<?php
 		the_content(
@@ -59,6 +49,16 @@ get_header();
 			</div>
 		</div>
 	</section>
+
+	<?php if ( get_edit_post_link() ) : ?>
+		<footer class="entry-footer">
+			<div class="container">
+				<?php
+				Tags::print_edit_post_link();
+				?>
+			</div>
+		</footer>
+	<?php endif ?>
 
 </main>
 
