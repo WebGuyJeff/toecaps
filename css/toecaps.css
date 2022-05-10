@@ -1003,6 +1003,7 @@ body > main {
 }
     .identity_logo {
         max-height: 4em;
+		max-width: 5em;
     }
 	.identity_title {
 		margin: 0;
@@ -1016,10 +1017,10 @@ body > main {
 		font-size: var(--tc_h4);
 	}
 
-@media (min-width: 600px) { .identity_logo { max-height: 5em; } }
-@media (min-width: 768px) { .identity_logo { max-height: 6em; } }
-@media (min-width: 1024px) { .identity_logo { max-height: 7em; } }
-@media (min-width: 1280px) { .identity_logo { max-height: 8em; } }
+@media (min-width: 600px)  { .identity_logo { max-height: 5em; max-width: 6.25em; } }
+@media (min-width: 768px)  { .identity_logo { max-height: 6em; max-width: 7.5em; } }
+@media (min-width: 1024px) { .identity_logo { max-height: 7em; max-width: 8.75em; } }
+@media (min-width: 1280px) { .identity_logo { max-height: 8em; max-width: 10em; } }
 
 .tc_page-notHome  .identity_logo {
 	max-height: 6em;
