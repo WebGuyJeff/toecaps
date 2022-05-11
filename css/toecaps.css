@@ -1858,14 +1858,24 @@ div.wp-block-buttons > .wp-block-button {
 	padding: 1em 0;
 	font-size: var(--tc_small);
 }
+	.breadcrumb a,
+	.breadcrumb span {
+		padding: 0.06em 0.2em;
+		transition: all var(--tc_hoverTime) ease-in;
+	}
 	.breadcrumb a {
-		color: var(--tc_colour-blue);
 		text-decoration: none;
+		color: var(--tc_colour-blue);
+	}
+	.breadcrumb a:hover {
+		background: var(--tc_colour-blue);
+		color: var(--tc_colour-white);
 	}
 	.breadcrumb_separator {
 		padding: 0 0.5em;
 		font-size: var(--tc_small);
 	}
+
 
 
 /*-------------------------------------------------------- 5.19 AUTO MORE ----*/
