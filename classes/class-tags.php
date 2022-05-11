@@ -231,8 +231,12 @@ class Tags {
 
 	/**
 	 * Print the breadcrumb.
+	 * 
+	 * ToDo: This should be recursive to account for a chain of parents, not just one.
 	 */
 	public static function print_html_breadcrumb() {
+		global $post; // if outside the loop.
+
 		$arrow = '<i class="breadcrumb_separator fa-solid fa-chevron-right"></i>';
 		echo '<div class="breadcrumb">';
 		echo '<div class="container">';
@@ -244,9 +248,18 @@ class Tags {
 				echo $arrow;
 				the_title();
 			}
+		} elseif ( is_page() && $post->post_parent ) {
+			echo $arrow;
+			echo '<a href="' . get_permalink( $post->post_parent ) . '" rel="nofollow">' . get_the_title( $post->post_parent ) . '</a>';
+			echo $arrow ;
+			echo '<span>';
+			echo esc_html( the_title() );
+			echo '</span>';
 		} elseif ( is_page() ) {
 			echo $arrow;
+			echo '<span>';
 			echo esc_html( the_title() );
+			echo '</span>';
 		} elseif ( is_search() ) {
 			echo $arrow;
 			echo '<span>';

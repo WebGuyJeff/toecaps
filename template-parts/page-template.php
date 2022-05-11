@@ -39,7 +39,7 @@ get_header();
 		?>
 	</div>
 
-	<section class="follow">
+	<section class="follow theme_fill-white">
 		<div="container">
 			<div class="follow_contents">
 				<h3>Follow</h3>
