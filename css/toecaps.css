@@ -327,12 +327,15 @@ color: var(--tc_colour-darkGrey);
 * { 
     box-sizing: border-box;
 }
+
 select {
     text-transform: none;
 }
+
 input {
     overflow: visible;
 }
+
 input,
 optgroup,
 select,
@@ -341,12 +344,14 @@ textarea {
     font-family: inherit;
     font-size: inherit;
 }
+
 input:hover:not(:disabled):not(.disabled),
 optgroup:hover:not(:disabled):not(.disabled),
 select:hover:not(:disabled):not(.disabled),
 textarea:hover:not(:disabled):not(.disabled) {
     cursor: pointer;
 }
+
 a,
 button,
 input[type="button"] {
@@ -354,6 +359,10 @@ input[type="button"] {
 	font-family: inherit;
 }
 
+figcaption {
+	text-align: center;
+	font-size: var(--tc_small);
+}
 
 /*-------------------------------------------- 1.5 WORDPRESS CORE CLASSES ----*/
 
@@ -764,10 +773,22 @@ strong {
 	padding-left: 0;
 }
 
-
 /* This element is created by the bigup-container plugin */
 .bigupContainer {
 	margin-bottom: 5em;
+}
+
+.paddingY-small {
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+.paddingY-medium {
+	padding-top: 24px;
+	padding-bottom: 24px;
+}
+.paddingY-large {
+	padding-top: 36px;
+	padding-bottom: 36px;
 }
 
 
