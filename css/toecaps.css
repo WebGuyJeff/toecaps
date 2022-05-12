@@ -778,6 +778,11 @@ strong {
 	margin-bottom: 5em;
 }
 
+/* SimpLy gallery block */
+.pgcsimplygalleryblock-slider-slider-view:focus {
+	outline: none;
+}
+
 .paddingY-small {
 	padding-top: 12px;
 	padding-bottom: 12px;

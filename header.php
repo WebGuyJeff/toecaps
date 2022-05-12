@@ -29,9 +29,9 @@ get_template_part( 'template-parts/css-loader' );
 
 <body <?php body_class(); ?> >
 
-<?php get_template_part( 'template-parts/promo-banner' ); ?>
-
 	<header class="header parallax_trigger">
+
+		<?php get_template_part( 'template-parts/promo-banner' ); ?>
 
 		<div class="container">
 			<div class="header_main">
