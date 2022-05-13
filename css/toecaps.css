@@ -78,30 +78,38 @@ RANGE
 :root {
 
 	/* Theme Colours */
-	--tc_colour-tan: #bb8866;
-	--tc_colour-tan-opaque: #bb8866e6;
-	--tc_colour-yellow: #fbff02;
-	--tc_colour-yellow-opaque: #fbff02e6;
-	--tc_colour-blue: #2596db;
-	--tc_colour-blue-opaque: #2596dbe6;
-	--tc_colour-red: #cd2927;
-	--tc_colour-red-opaque: #cd2927e6;
-	--tc_colour-teal: #29a2a3;
-	--tc_colour-teal-opaque: #29a2a3e6;
-	--tc_colour-green: #29a367;
-	--tc_colour-green-opaque: #29a367e6;
+	--tc_theme-green: #58b788;
+	--tc_theme-green-opaque: #58b788e6;
+	--tc_theme-yellow: #fdff86;
+	--tc_theme-yellow-opaque: #fdff86e6;
+	--tc_theme-blue: #98c5e9;
+	--tc_theme-blue-opaque: #98c5e9e6;
+	--tc_theme-tan:#d2aa6d;
+	--tc_theme-tan-opaque: #d2aa6de6;
+	--tc_theme-grey: #9b9b9b;
+	--tc_theme-grey-opaque: #9b9b9be6;
+	--tc_theme-violet: #c49be1;
+	--tc_theme-violet-opaque: #c49be1e6;
 
-	--tc_colour-accent: var(--tc_colour-green);
-	--tc_colour-accent-opaque: var(--tc_colour-green-opaque);
+	/* Theme default colours */
+	--tc_theme-accent: var(--tc_theme-green);
+	--tc_theme-accent-opaque: var(--tc_theme-green-opaque);
 
+	/* Colours */
 	--tc_colour-black: #1b1b1b;
 	--tc_colour-darkBlack: #000;
 	--tc_colour-grey: #bbb;
 	--tc_colour-darkGrey: #666;
 	--tc_colour-lightGrey: #eee;
 	--tc_colour-white: #fff;
+	--tc_colour-yellow: #fbff02;
 	--tc_colour-orange: #fbbc05;
+	--tc_colour-tan: #bb8866;
+	--tc_colour-red: #cd2927;
+	--tc_colour-blue: #2596db;
 	--tc_colour-darkBlue: #2952a3;
+	--tc_colour-teal: #29a2a3;
+	--tc_colour-green: #29a367;
 
 	/* visual feedback */
 	--tc_hoverTime: 0.15s;
@@ -187,15 +195,15 @@ RANGE
 }
 .theme_fill-accent {
 	color: var(--tc_colour-white);
-	background: var(--tc_colour-accent);
+	background: var(--tc_theme-accent);
 	text-shadow: 0px 0px 1px #0008;
 }
 .theme_fill-opaque {
 	color: var(--tc_colour-white);
-	background: var(--tc_colour-accent-opaque);
+	background: var(--tc_theme-accent-opaque);
 }
 .theme_font-accent {
-	color: var(--tc_colour-accent);
+	color: var(--tc_theme-accent);
 }
 .theme_font-white {
 	color: var(--tc_colour-white);
@@ -209,34 +217,34 @@ RANGE
 /* Theme overrides */
 
 .page-template-toecaps-tan {
-	--tc_colour-accent: var(--tc_colour-tan);
-	--tc_colour-accent-opaque: var(--tc_colour-tan-opaque);
+	--tc_theme-accent: var(--tc_theme-tan);
+	--tc_theme-accent-opaque: var(--tc_theme-tan-opaque);
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
 }
 .page-template-toecaps-yellow {
-	--tc_colour-accent: var(--tc_colour-yellow);
-	--tc_colour-accent-opaque: var(--tc_colour-yellow-opaque);
+	--tc_theme-accent: var(--tc_theme-yellow);
+	--tc_theme-accent-opaque: var(--tc_theme-yellow-opaque);
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
 }
 .page-template-toecaps-blue {
-	--tc_colour-accent: var(--tc_colour-blue);
-	--tc_colour-accent-opaque: var(--tc_colour-blue-opaque);
+	--tc_theme-accent: var(--tc_theme-blue);
+	--tc_theme-accent-opaque: var(--tc_theme-blue-opaque);
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
 }
 .page-template-toecaps-red {
-	--tc_colour-accent: var(--tc_colour-red);
-	--tc_colour-accent-opaque: var(--tc_colour-red-opaque);
+	--tc_theme-accent: var(--tc_theme-grey);
+	--tc_theme-accent-opaque: var(--tc_theme-grey-opaque);
 }
 .page-template-toecaps-teal {
-	--tc_colour-accent: var(--tc_colour-teal);
-	--tc_colour-accent-opaque: var(--tc_colour-teal-opaque);
+	--tc_theme-accent: var(--tc_theme-violet);
+	--tc_theme-accent-opaque: var(--tc_theme-violet-opaque);
 }
 .page-template-toecaps-green {
-	--tc_colour-accent: var(--tc_colour-green);
-	--tc_colour-accent-opaque: var(--tc_colour-green-opaque);
+	--tc_theme-accent: var(--tc_theme-green);
+	--tc_theme-accent-opaque: var(--tc_theme-green-opaque);
 }
 
 
@@ -262,7 +270,7 @@ RANGE
 .page-template-toecaps-yellow .promoBanner,
 .page-template-toecaps-tan .promoBanner {
 	color: var(--tc_colour-black);
-	background: var(--tc_colour-accent);
+	background: var(--tc_theme-accent);
 }
 .page-template-toecaps-blue .header,
 .page-template-toecaps-yellow .header,
@@ -289,7 +297,7 @@ RANGE
 }
 .page-template-toecaps-blue .promoBanner {
 	color: var(--tc_colour-white);
-	background: var(--tc_colour-accent);
+	background: var(--tc_theme-accent);
 }
 
 
@@ -297,27 +305,27 @@ RANGE
 
 .theme_fill-tan {
 	color: var(--tc_colour-black);
-	background: var(--tc_colour-tan);
+	background: var(--tc_theme-tan);
 }
 .theme_fill-yellow {
 	color: var(--tc_colour-black);
-	background: var(--tc_colour-yellow);
+	background: var(--tc_theme-yellow);
 }
 .theme_fill-blue {
 	color: var(--tc_colour-white);
-	background: var(--tc_colour-blue);
+	background: var(--tc_theme-blue);
 }
 .theme_fill-red {
 	color: var(--tc_colour-white);
-	background: var(--tc_colour-red);
+	background: var(--tc_theme-grey);
 }
 .theme_fill-teal {
 	color: var(--tc_colour-white);
-	background: var(--tc_colour-teal);
+	background: var(--tc_theme-violet);
 }
 .theme_fill-green {
 	color: var(--tc_colour-white);
-	background: var(--tc_colour-green);
+	background: var(--tc_theme-green);
 }
 
 
@@ -1013,7 +1021,7 @@ body > main {
 
 
 .header {
-	background: var(--tc_colour-accent);
+	background: var(--tc_theme-accent);
     width: 100%;
     height: fit-content;
     color: var(--tc_colour-white);
@@ -1055,7 +1063,7 @@ body > main {
 		}
 		.header_cta {
 			margin: 7em auto;
-			background: var(--tc_colour-accent-opaque);
+			background: var(--tc_theme-accent-opaque);
 			padding: 1.2em clamp(0.2em, 5%, 3.5em);
 			width: fit-content;
 			max-width: 100vw;
@@ -1267,7 +1275,7 @@ label.fullscreenMenu_open {
 	transform: translateX(-100%);
 	transition: transform var(--tc_slideTime) ease-in-out;
 	z-index: 10;
-	background: var(--tc_colour-accent);
+	background: var(--tc_theme-accent);
 	width: 100vw;
 	height: 100vh;
 	max-height: 100vh;
@@ -1658,7 +1666,6 @@ label.fullscreenMenu_open {
 	box-shadow: 5px 5px 0 rgb(0 0 0 / 20%);
     background-color: var(--tc_colour-white);
     padding: 0;
-    width: max-content;
     max-width: 100%;
     height: fit-content;
     overflow: visible;
@@ -1677,7 +1684,6 @@ label.fullscreenMenu_open {
         transition: inherit;
         border-radius: inherit;
         padding: 0.5em 2em;
-        width: max-content;
         max-width: 100%;
         height: 100%;
         text-align: center;
