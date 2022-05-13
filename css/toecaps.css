@@ -84,8 +84,8 @@ RANGE
 	--tc_colour-yellow-opaque: #fbff02e6;
 	--tc_colour-blue: #2596db;
 	--tc_colour-blue-opaque: #2596dbe6;
-	--tc_colour-red: #ee0000;
-	--tc_colour-red-opaque: #ee0000e6;
+	--tc_colour-red: #cd2927;
+	--tc_colour-red-opaque: #cd2927e6;
 	--tc_colour-teal: #29a2a3;
 	--tc_colour-teal-opaque: #29a2a3e6;
 	--tc_colour-green: #29a367;
@@ -292,6 +292,33 @@ RANGE
 	background: var(--tc_colour-accent);
 }
 
+
+/* Colour overrides */
+
+.theme_fill-tan {
+	color: var(--tc_colour-black);
+	background: var(--tc_colour-tan);
+}
+.theme_fill-yellow {
+	color: var(--tc_colour-black);
+	background: var(--tc_colour-yellow);
+}
+.theme_fill-blue {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-blue);
+}
+.theme_fill-red {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-red);
+}
+.theme_fill-teal {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-teal);
+}
+.theme_fill-green {
+	color: var(--tc_colour-white);
+	background: var(--tc_colour-green);
+}
 
 
 /*---------------------------------------- 1.3 BROWSER AND PSUEDO CLASSES ----*/
@@ -835,6 +862,10 @@ strong {
 .paddingY-large {
 	padding-top: 36px;
 	padding-bottom: 36px;
+}
+
+.padding-small {
+	padding: 0.5em;
 }
 
 
