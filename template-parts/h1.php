@@ -83,22 +83,28 @@ if ( is_front_page() || is_home() ) {
 	} elseif ( is_search() ) {
 
 		?>
-		<h1 class="header_title">Search Results</h1>
+		<div class="container">
+			<h1 class="header_title">Search Results</h1>
+		</div>
 		<?php
 
 	} elseif ( is_404() ) {
 
 		?>
-		<h1 class="header_title">Page not found</h1>
+		<div class="container">
+			<h1 class="header_title">Page not found</h1>
+		</div>
 		<?php
 
 	} else {
 		// Fallback for child, orphan, search etc.
 
 		?>
-		<h1 class="header_title">
-			<?php echo esc_html( get_the_title() ); ?>
-		</h1>
+		<div class="container">
+			<h1 class="header_title">
+				<?php echo esc_html( get_the_title() ); ?>
+			</h1>
+		</div>
 		<?php
 	}
 

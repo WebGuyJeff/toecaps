@@ -150,10 +150,8 @@ get_template_part( 'template-parts/css-loader' );
 				</div>
 			</div>
 
-			<div class="container">
-				<?php get_template_part( 'template-parts/h1' ); ?>
-			</div>
-
+			<?php get_template_part( 'template-parts/h1' ); ?>
+			
 		</div>
 
 	</header>

@@ -177,6 +177,17 @@ RANGE
 
 /*----------------------------------------------------- 1.2 THEME COLOURS ----*/
 
+/*
+Note: Spec change at client request means colours no longer align with their template names. All
+elements should be renamed to a convention not including the colours to avoid this issue.
+
+For now, these are the mismatches to be aware of:
+
+*class* 						*theme colour*
+.page-template-toecaps-red		grey
+.page-template-toecaps-teal		violet
+
+*/
 
 /* Defaults */
 
@@ -191,7 +202,7 @@ RANGE
 }
 .theme_fill-white {
 	color: var(--tc_colour-black);
-	background: var(--tc_colour-white);
+	background: var(--tc_theme-white);
 }
 .theme_fill-accent {
 	color: var(--tc_colour-white);
@@ -259,14 +270,17 @@ RANGE
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-darkBlack);
 }
+.page-template-toecaps-blue .theme_fill-accent,
 .page-template-toecaps-yellow .theme_fill-accent,
 .page-template-toecaps-tan .theme_fill-accent {
 	color: var(--tc_colour-black);
 }
+.page-template-toecaps-blue .theme_fill-opaque,
 .page-template-toecaps-yellow .theme_fill-opaque,
 .page-template-toecaps-tan .theme_fill-opaque {
 	color: var(--tc_colour-black);
 }
+.page-template-toecaps-blue .promoBanner,
 .page-template-toecaps-yellow .promoBanner,
 .page-template-toecaps-tan .promoBanner {
 	color: var(--tc_colour-black);
@@ -289,17 +303,21 @@ RANGE
 	border: solid 0.2em;
 }
 
-
-/* Blue theme overrides ( light font works better in some cases ) */
-
-.page-template-toecaps-blue .theme_fill-accent {
-	color: var(--tc_colour-white);
+/* Add font shadow for contrast definition */
+.page-template-toecaps-red .promoBanner,
+.page-template-toecaps-teal .promoBanner,
+.page-template-toecaps-green .promoBanner,
+.page-template-toecaps-red .header_cta,
+.page-template-toecaps-teal .header_cta,
+.page-template-toecaps-green .header_cta,
+.page-template-toecaps-red .secondaryMenu_item,
+.page-template-toecaps-teal .secondaryMenu_item,
+.page-template-toecaps-green .secondaryMenu_item,
+.page-template-toecaps-red .USPBar,
+.page-template-toecaps-teal .USPBar,
+.page-template-toecaps-green .USPBar {
+	text-shadow: var(--tc_textShadow);
 }
-.page-template-toecaps-blue .promoBanner {
-	color: var(--tc_colour-white);
-	background: var(--tc_theme-accent);
-}
-
 
 /* Colour overrides */
 
@@ -956,7 +974,6 @@ body > main {
 	padding: 3px;
 	color: var(--tc_colour-white);
 	font-size: var(--tc_small);
-	text-shadow: var(--tc_textShadow);
 }
 	.promoBanner_contact {
 		display: flex;
@@ -1062,13 +1079,14 @@ body > main {
 			filter: contrast(0.5) brightness(0.6) grayscale(0.6);
 		}
 		.header_cta {
-			margin: 7em auto;
+			z-index: 1;
+			margin: 7em 3%;
+			border-radius: 2em;
 			background: var(--tc_theme-accent-opaque);
-			padding: 1.2em clamp(0.2em, 5%, 3.5em);
+			padding: clamp(0.2em, 5%, 2.5em);
 			width: fit-content;
-			max-width: 100vw;
+			max-width: 42em;
 			text-align: center;
-			text-shadow: var(--tc_textShadow);
 		}
 		.header_ctaButton {
 			margin: 1em 0.5em;
@@ -1096,6 +1114,10 @@ body > main {
 	}
 }
 
+@media (min-width: 321px) { .header_cta { border-radius: 3em; } }
+@media (min-width: 451px) { .header_cta { border-radius: 6em; } }
+@media (min-width: 600px) { .header_cta { border-radius: 12em; } }
+@media (min-width: 768px) { .header_cta { border-radius: 30em; } }
 
 
 /*------------------------------------------------------------ 5.3 FOOTER ----*/
@@ -1150,7 +1172,7 @@ body > main {
 }
     .identity_logo {
         max-height: 4em;
-		max-width: 5em;
+		max-width: 4em;
     }
 	.identity_title {
 		margin: 0;
@@ -1161,11 +1183,11 @@ body > main {
 		padding-bottom: 0.5em;
 		white-space: normal;
 		font-family: var(--tc_font-secondary);
-		font-size: var(--tc_h4);
+		font-size: var(--tc_h6);
 	}
 
-@media (min-width: 600px)  { .identity_logo { max-height: 5em; max-width: 6.25em; } }
-@media (min-width: 768px)  { .identity_logo { max-height: 6em; max-width: 7.5em; } }
+@media (min-width: 600px)  { .identity_logo { max-height: 5em; max-width: 6.25em; } .identity_tagline { font-size: var(--tc_h5); } }
+@media (min-width: 768px)  { .identity_logo { max-height: 6em; max-width: 7.5em; } .identity_tagline { font-size: var(--tc_h4); } }
 @media (min-width: 1024px) { .identity_logo { max-height: 7em; max-width: 8.75em; } }
 @media (min-width: 1280px) { .identity_logo { max-height: 8em; max-width: 10em; } }
 
@@ -1343,7 +1365,7 @@ label.fullscreenMenu_open {
 		flex-flow: row nowrap;
 		padding: 0;
 		margin: 0 auto;
-		width: fit-content;
+		width: 100%;
 	}
 	.footer .mainMenu {
 		flex-flow: column;
@@ -1355,7 +1377,7 @@ label.fullscreenMenu_open {
 			text-transform: uppercase;
 			text-decoration: none;
 			letter-spacing: 0.143em;
-			white-space: nowrap;
+			white-space: normal;
 			color: inherit;
 			font-size: var(--tc_small);
 			font-weight: 400;
@@ -1388,6 +1410,18 @@ label.fullscreenMenu_open {
 		.mainMenu_item-active {
 			font-weight: 700;
 		}
+
+@media (min-width: 320px) {
+	.mainMenu {
+		width: fit-content;
+	}
+}
+
+@media (min-width: 600px) {
+	.mainMenu_item {
+		white-space: nowrap;
+	}
+}
 
 @media (max-width: 767px) {
 	.fullscreenMenu_toggle:checked ~ .fullscreenMenu {
@@ -1464,7 +1498,7 @@ label.fullscreenMenu_open {
 					flex-flow: column nowrap;
 					grid-area: c;
 					/*visibility: hidden;*/
-					z-index: 1;
+					z-index: 10;
 					background-color: #fff;
 					width: calc( 100% - 8px );
 					min-width: fit-content;
@@ -1592,7 +1626,6 @@ label.fullscreenMenu_open {
 		flex-flow: row nowrap;
 		padding: 0.1em;
 		text-decoration: none;
-		text-shadow: var(--tc_textShadow);
 		color: inherit;
 		font-size: inherit;
 	}
@@ -1683,14 +1716,13 @@ label.fullscreenMenu_open {
 		align-items: center;
         transition: inherit;
         border-radius: inherit;
-        padding: 0.5em 2em;
+        padding: clamp(0.8em, 3vw, 1em) clamp(0.5em, 3vw, 2em);
         max-width: 100%;
         height: 100%;
         text-align: center;
         text-decoration: none;
         white-space: normal;
         font-weight: 700;
-		min-height: 3.5em;
 		letter-spacing: 0.143em;
     }
 	.button > *:first-child {
@@ -1999,7 +2031,6 @@ div.wp-block-buttons > .wp-block-button {
 .USPBar {
 	background: inherit;
 	padding: 0.6em 0;
-	text-shadow: var(--tc_textShadow);
 	color: inherit;
 	font-size: var(--tc_small);
 }
