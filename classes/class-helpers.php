@@ -323,12 +323,28 @@ class Helpers {
 	 * Get the first sentence of a string
 	 *
 	 * @param {string} $string The string of text to get the first sentence from.
-	 * @return {string} The first setence of the string.
+	 * @return {string} The first sentence of the string.
 	 */
 	public static function get_first_sentence( $string ) {
 
 		$sentence = preg_split( '/(\.|!|\?)\s/', $string, 2, PREG_SPLIT_DELIM_CAPTURE );
 		return $sentence['0'];
+	}
+
+	/**
+	 * Get the first sentence of a string
+	 *
+	 * @param  {string} $html The string of html to get the first <p> from.
+	 * @return {string} $sentence The first sentence of the <p>.
+	 */
+	public static function get_first_sentence_of_html( $html ) {
+		preg_match( '/<p>(.*?)<\/p>/', $html, $match );
+		// Bail if no <p>'s found.
+		if ( empty( $match ) ) {
+			return;
+		}
+		$sentence = self::get_first_sentence( $match[1] );
+		return $sentence;
 	}
 
 

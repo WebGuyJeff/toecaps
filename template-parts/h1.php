@@ -62,7 +62,7 @@ if ( is_front_page() || is_home() ) {
 					<?php echo esc_html( get_the_title() ); ?>
 				</h1>
 				<span class="identity_tagline">
-					<?php echo esc_html( Helpers::get_first_sentence( get_the_excerpt() ) ); ?>
+					<?php echo esc_html( Helpers::get_first_sentence( wp_strip_all_tags( get_the_content() ) ) ); ?>
 				</span>
 			</div>
 			<?php
