@@ -48,17 +48,20 @@ get_template_part( 'template-parts/css-loader' );
 
 				<nav class="secondaryMenu" aria-label="Secondary Menu">
 					<a class="secondaryMenu_item" href="/contact#find-us">
+						<i class="fa-solid fa-location-dot"></i>	
 						<span class="secondaryMenu_label">
-							<i class="fa-solid fa-location-dot"></i>
 							Find us
 						</span>
 					</a>
 					<button class="secondaryMenu_item" onclick="document.querySelector('.search_toggle').click()">
+						<i class="fa-solid fa-magnifying-glass"></i>	
 						<span class="secondaryMenu_label">
-							<i class="fa-solid fa-magnifying-glass"></i>
 							Search
 						</span>
 					</button>
+					<label class="secondaryMenu_item fullscreenMenu_open button" for="fullscreenMenu_toggle">
+						<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
+					</label>
 				</nav>
 
 				<input id="search_form" class="search_toggle" type="checkbox">
@@ -80,9 +83,6 @@ get_template_part( 'template-parts/css-loader' );
 		</div>
 
 		<div class="header_menu theme_fill-prominent">
-			<label class="fullscreenMenu_open" for="fullscreenMenu_toggle">
-				<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
-			</label>
 			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox">
 			<div class="fullscreenMenu">
 				<div class="fullscreenMenu_contents">
