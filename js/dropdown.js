@@ -11,8 +11,13 @@
 const dropdownPlugin = (function () {
 	'use strict';
 
-	// Settings.
-	const classNameMenu = 'mainMenu';
+	// Get the an array of unique menu elements which contain dropdowns.
+	const dropdowns = document.querySelectorAll('.dropdown-hover');
+	const dropdownParents = [];
+	dropdowns.forEach( ( dropdown ) => {
+		dropdownParents.push( dropdown.parentElement );
+	} );
+	const menuContainers = [...new Set(dropdownParents)];
 
 	// True when mousedown on element, false after mouseup.
 	let mouseDown = false;
@@ -33,16 +38,15 @@ const dropdownPlugin = (function () {
 		});
 
 		// Attach 'click' event handler to the menu container(s).
-		let menus = document.getElementsByClassName(classNameMenu);
-		[...menus].forEach((menu) => {
-			menu.addEventListener('click', dropdownPlugin.menuClickHandler);
-			menu.addEventListener('mousedown', () => {
+		menuContainers.forEach( ( menu ) => {
+			menu.addEventListener( 'click', dropdownPlugin.menuClickHandler );
+			menu.addEventListener( 'mousedown', () => {
 				mouseDown = true;
-			});
-			menu.addEventListener('mouseup', () => {
+			} );
+			menu.addEventListener( 'mouseup', () => {
 				mouseDown = false;
-			});
-		});
+			} );
+		} );
 	}
 
 	/**
@@ -105,8 +109,15 @@ const dropdownPlugin = (function () {
 		 * @param {Event} event - The event object.
 		 */
 		pageClickHandler: function (event) {
+
 			// Bail if the click is on a menu.
-			if (true === !!event.target.closest('.' + classNameMenu)) return;
+			let isAMenu = false;
+			menuContainers.forEach( ( menu ) => {
+				if ( true === !! menu.contains( event.target ) ) {
+					isAMenu = true;
+				}
+			} );
+			if ( isAMenu ) return;
 
 			// Get all active top-level dropdowns.
 			const activeDropdowns = [];

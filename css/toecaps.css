@@ -20,29 +20,30 @@
 2. TYPOGRAPHY
 3. UTILITIES AND MODS
 4. LAYOUT
-	3.1 BLOG-POST
-	3.2 CONTAINER
+	4.1 BLOG-POST
+	4.2 CONTAINER
 5. COMPONENTS
-	4.1 PROMOBANNER
-	4.2 HEADER
-	4.3 FOOTER
-	4.4 SITE TITLE
-	4.5 MODAL
-	4.6 MAIN MENU
-	4.7 DROPDOWN
-	4.8 SECONDARY MENU
-	4.9 FOLLOW
-	4.10 SOCIAL_LINK
-	4.11 BUTTON
-	4.12 LINK
-	4.13 FORM
-	4.14 PARALLAX
-	4.15 SEARCH
-	4.16 SEARCH RESULTS
-	4.17 SITEMAP
-	4.18 BREADCRUMB
-	4.19 AUTO MORE
-	4.20 USP BAR
+	5.1 PROMOBANNER
+	5.2 HEADER
+	5.3 FOOTER
+	5.4 SITE TITLE
+	5.5 MODAL
+	5.6 MAIN MENU
+	5.7 DROPDOWN
+	5.8 SECONDARY MENU
+	5.9 FOLLOW
+	5.10 SOCIAL_LINK
+	5.11 BUTTON
+	5.12 LINK
+	5.13 FORM
+	5.14 PARALLAX
+	5.15 SEARCH
+	5.16 SEARCH RESULTS
+	5.17 SITEMAP
+	5.18 BREADCRUMB
+	5.19 AUTO MORE
+	5.20 USP BAR
+	5.21 ACCORDIAN
 
 
 ~o~~~~~~oOo~~~~~~o~
@@ -191,8 +192,7 @@ For now, these are the mismatches to be aware of:
 
 /* Defaults */
 
-.theme_fill-prominent,
-.theme_fill-prominent .dropdown_contents {
+.theme_fill-prominent {
 	color: var(--tc_colour-black);
 	background: var(--tc_colour-white);
 }
@@ -262,11 +262,8 @@ For now, these are the mismatches to be aware of:
 /* Components-level overrides for the dark backround themes */
 
 .page-template-toecaps-blue .theme_fill-prominent,
-.page-template-toecaps-blue .theme_fill-prominent .dropdown_contents,
 .page-template-toecaps-yellow .theme_fill-prominent,
-.page-template-toecaps-yellow .theme_fill-prominent .dropdown_contents,
-.page-template-toecaps-tan .theme_fill-prominent,
-.page-template-toecaps-tan .theme_fill-prominent .dropdown_contents {
+.page-template-toecaps-tan .theme_fill-prominent {
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-darkBlack);
 }
@@ -1013,6 +1010,7 @@ body > main {
 	font-size: var(--tc_small);
 }
 	.promoBanner_contact {
+		gap: 12px;
 		display: flex;
 		flex-flow: row wrap;
 		flex-grow: 1;
@@ -1032,15 +1030,8 @@ body > main {
 		font-size: var(--tc_h5);
 	}
 		.promoBanner_link {
-			padding: 0 12px;
 			text-decoration: none;
 			color: inherit;
-		}
-		.promoBanner_link:first-child {
-			padding-left: 0;
-		}
-		.promoBanner_link:last-child {
-			padding-right: 0;
 		}
 		.promoBanner_link:focus {
 			z-index: 1;
@@ -1219,10 +1210,10 @@ body > main {
 }
     .identity_logo {
         max-height: 4em;
-		max-width: 4em;
+		max-width: 6em;
     }
 	.identity_title {
-		margin: 0;
+		margin: 0 0.5em 0 0.5em;
 		font-size: var(--tc_h1);
 		line-height: 1.3;
 	}
@@ -1326,7 +1317,7 @@ body > main {
 	cursor: pointer;
 	padding: 0.5em;
 	width: fit-content;
-	font-size: var(--tc_h4);
+	font-size: var(--tc_h1);
 }
 label.fullscreenMenu_open {
 	background: inherit;
@@ -1344,11 +1335,12 @@ label.fullscreenMenu_open {
 	transform: translateX(-100%);
 	transition: transform var(--tc_slideTime) ease-in-out;
 	z-index: 10;
-	background: var(--tc_theme-accent);
+	background: var(--tc_colour-black);
 	width: 100vw;
-	height: 100vh;
+	height: 100%; /* On mobile w/position fixed, this is 100% of viewport minus address bar :) */
 	max-height: 100vh;
 	overflow: auto;
+	color: var(--tc_colour-white);
 }
 	.fullscreenMenu_scroll {
 		display: flex;
@@ -1400,8 +1392,13 @@ label.fullscreenMenu_open {
 				flex-flow: row wrap;
 				margin: auto;
 				width: fit-content;
-				font-size: clamp(var(--tc_h5), 5vw, var(--tc_h2) );
+				font-size: var(--tc_h1);
 			}
+
+.fullscreenMenu .dropdown_contents {
+	background-color: var(--tc_colour-black);
+	color: var(--tc_colour-white);
+}
 
 .navBar {
 	display: none;
@@ -1494,23 +1491,53 @@ label.fullscreenMenu_open {
 }
 
 
-
 .categoryMenu {
-	display: flex;
-	flex-flow: row wrap;
-	width: 32em;
-	max-width: 100%;
-	min-width: fit-content;
-	margin: 0 auto;
 	gap: 0.5em;
+	display: flex;
+	flex-flow: column;
 	justify-content: center;
+	margin: 0 auto;
+	width: 18em;
+	min-width: fit-content;
+	max-width: 100%;
 }
 	.categoryMenu_item {
-		padding: 0.5em;
+		transition: all var(--tc_hoverTime) ease-in-out;
 		border: solid 0.1em;
+		padding: 0.5em;
+		width: 100%;
 		text-decoration: none;
 		color: inherit;
 	}
+	.categoryMenu_item:hover {
+		background: var(--tc_colour-menuHover);
+	}
+
+@media ( min-width: 768px ) {
+	.categoryMenu {
+		flex-flow: row wrap;
+		margin-top: 1em;
+	}
+	.categoryMenu_item:hover {
+		transform: rotateX(20deg) translateY(2px);
+		box-shadow: 0 -3px 4px 0px #0008;
+		background: inherit;
+	}
+	.categoryMenu_item {
+		border: none;
+		border-bottom: none;
+		border-top-left-radius: 0.5em;
+		border-top-right-radius: 0.5em;
+		box-shadow: 0 -1px 3px 0px #0004;
+		width: fit-content;
+		color: var(--tc_colour-darkGrey);
+	}
+	.categoryMenu_item-active {
+		box-shadow: 0 -4px 4px 0px #0006;
+		color: inherit;
+	}
+}
+
 
 /*---------------------------------------------------------- 5.7 DROPDOWN ----*/
 
@@ -1534,12 +1561,15 @@ label.fullscreenMenu_open {
 		color: inherit;
 	}
 	.dropdown_toggle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all var(--tc_slideTime) ease-in;
 		cursor: pointer;
 		padding-right: 16px;
 		padding-left: 16px;
-		color: inherit;
 		width: 42px;
-		transition: all var(--tc_slideTime) ease-in;
+		color: inherit;
 	}
 	button.dropdown_toggle {
 		border: none;
@@ -1551,36 +1581,34 @@ label.fullscreenMenu_open {
 		}
 			.dropdown_toggleIcon {
 				transition: transform var(--tc_hoverTime) ease-in-out;
-				height: 0.8em;
+				width: 0.8em;
 				font-size: inherit;
 			}
-				.dropdown_contents {
-					display: flex;
-					position: absolute;
-					top: 100%;
-					right: 0;
-					left: unset;
-					flex-flow: column nowrap;
-					grid-area: c;
-					/*visibility: hidden;*/
-					z-index: 10;
-					background-color: #fff;
-					width: calc( 100% - 8px );
-					min-width: fit-content;
-					max-height: 0;
-					overflow: hidden;
-					text-align: left;
-					color: var(--tc_colour-black);
-					font-size: inherit;
-					transition: all var(--tc_slideTime) ease-in;
-				}
-					.dropdown_item {
-						display: inline-flex;
-						background-color: transparent;
-						width: 100%;
-						text-decoration: none;
-						/*color: var(--tc_colour-black);*/
-					}
+	.dropdown_contents {
+		display: flex;
+		position: absolute;
+		top: 100%;
+		right: 0;
+		left: unset;
+		flex-flow: column nowrap;
+		grid-area: c;
+		transition: all var(--tc_slideTime) ease-in;
+		z-index: 10;
+		background-color: var(--tc_colour-white);
+		color: var(--tc_colour-black);
+		width: calc( 100% - 8px );
+		min-width: fit-content;
+		max-height: 0;
+		overflow: hidden;
+		text-align: left;
+		font-size: inherit;
+	}
+		.dropdown_item {
+			display: inline-flex;
+			background-color: transparent;
+			width: 100%;
+			text-decoration: none;
+		}
 
 .dropdown_toggle-active > .dropdown_toggleIcon {
 /*.dropdown-hover:hover:not( .fullscreenMenu .dropdown ):not( .dropdown-inMenu ) > .dropdown_toggle > .dropdown_toggleIcon */
@@ -1588,7 +1616,6 @@ label.fullscreenMenu_open {
 }
 	.dropdown_toggle-active + .dropdown_contents {
 	/*.dropdown-hover:hover:not( .fullscreenMenu .dropdown ):not( .dropdown-inMenu ) > .dropdown_contents */
-		/*visibility: visible;*/
 		max-height: 500px; /*auto*/
 		padding-top: 3px;
 	}
@@ -1684,7 +1711,6 @@ label.fullscreenMenu_open {
 	align-self: center;
 	justify-content: flex-end;
 	justify-self: end;
-	font-size: var(--tc_small);
 }
 	.secondaryMenu_item {
 		display: flex;
@@ -1707,7 +1733,6 @@ label.fullscreenMenu_open {
 	.secondaryMenu {
 		gap: 1.5em;
 		flex-flow: row wrap;
-		font-size: unset;
 	}
 }
 
@@ -2059,6 +2084,7 @@ div.wp-block-buttons > .wp-block-button {
 
 
 .breadcrumb {
+	display: none;
 	padding: 1em 0;
 	font-size: var(--tc_small);
 }
@@ -2066,6 +2092,10 @@ div.wp-block-buttons > .wp-block-button {
 	.breadcrumb span {
 		padding: 0.06em 0.2em;
 		transition: all var(--tc_hoverTime) ease-in;
+	}
+	.breadcrumb a:first-child,
+	.breadcrumb span:first-child {
+		padding-left: 0;
 	}
 	.breadcrumb a {
 		text-decoration: none;
@@ -2080,6 +2110,11 @@ div.wp-block-buttons > .wp-block-button {
 		font-size: var(--tc_small);
 	}
 
+@media (min-width: 768px) {
+	.breadcrumb {
+		display: inline-block;
+	}
+}
 
 
 /*-------------------------------------------------------- 5.19 AUTO MORE ----*/
@@ -2094,6 +2129,7 @@ div.wp-block-buttons > .wp-block-button {
 
 
 .USPBar {
+	display: none;
 	background: inherit;
 	padding: 0.6em 0;
 	color: inherit;
@@ -2126,6 +2162,9 @@ div.wp-block-buttons > .wp-block-button {
 				}
 
 @media (min-width: 450px) {
+	.USPBar {
+		display: block;
+	}
 	.USPBar_item:nth-child(2) {
 		display: flex;
 		border-left: solid 1px;
@@ -2141,5 +2180,68 @@ div.wp-block-buttons > .wp-block-button {
 	.USPBar_item:nth-child(4) {
 		display: flex;
 		border-left: solid 1px;
+	}
+}
+
+
+/*------------------------------------------------------ 5.21 ACCORDIAN ----*/
+
+
+.accordian {
+	display: flex;
+	flex-direction: column;
+	margin: 1em auto 0 auto;
+	overflow: hidden;
+	max-width: 96%;
+}
+	.accordian_title {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: var(--tc_colour-lightGrey);
+		cursor: pointer;
+		padding: 1em 0.5em;
+		box-shadow: none;
+		letter-spacing: 0.143em;
+		gap: 0.5em;
+	}
+	.accordian_title:hover {
+		filter: invert( 100% );
+	}
+	.accordian_toggle {
+		display: none;
+	}
+		.accordian_toggleIcon:first-child {
+			padding: 0;
+		}
+		.accordian [aria-expanded="true"] > .accordian_toggleIcon {
+			transform: rotate(180deg);
+		}
+	.accordian_contents {
+		padding-top: 0.5em;
+	}
+	.accordian_contents {
+		transform: translateY(-150%);
+		transition: all var(--tc_slideTime) ease-in;
+		visibility: hidden;
+		opacity: 0;
+		max-height: 0;
+	}
+
+	.accordian_toggle:checked + .accordian_contents {
+		transform: translateY(0);
+		visibility: visible;
+		opacity: 1;
+		max-height: 2000px;
+	}
+
+@media ( min-width: 768px ) {
+	.accordian,
+	.accordian_contents {
+		display: contents;
+		visibility: visible;
+	}
+	.accordian_title {
+		display: none;
 	}
 }

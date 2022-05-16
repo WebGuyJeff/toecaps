@@ -21,8 +21,6 @@ const psuedoButtonPlugin = (function () {
 		let buttons = document.querySelectorAll('.button:not( button )');
 
 		[...buttons].forEach((button) => {
-			console.log('psuedo button processing...');
-			console.log(button);
 
 			// Tell assistive tech this is a button.
 			button.setAttribute('role', 'button');

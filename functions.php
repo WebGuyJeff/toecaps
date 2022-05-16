@@ -45,7 +45,8 @@ function enqueue_scripts_and_styles() {
 		wp_deregister_script( 'jquery' );
 		wp_enqueue_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', array(), '3.6.0', true );
 		// Other front end resources.
-		wp_enqueue_script( 'menu_js', get_template_directory_uri() . '/js/menu.js', array(), filemtime( get_template_directory() . '/js/menu.js' ), true );
+		wp_enqueue_script( 'menu_fullscreen_js', get_template_directory_uri() . '/js/menu-fullscreen.js', array(), filemtime( get_template_directory() . '/js/menu-fullscreen.js' ), true );
+		wp_enqueue_script( 'accordian_js', get_template_directory_uri() . '/js/accordian.js', array(), filemtime( get_template_directory() . '/js/accordian.js' ), true );
 		wp_enqueue_script( 'dropdown_js', get_template_directory_uri() . '/js/dropdown.js', array(), filemtime( get_template_directory() . '/js/dropdown.js' ), true );
 		wp_enqueue_script( 'menu_more_js', get_template_directory_uri() . '/js/menu-more.js', array( 'dropdown_js' ), filemtime( get_template_directory() . '/js/menu-more.js' ), true );
 		wp_enqueue_script( 'psuedobutton_js', get_template_directory_uri() . '/js/psuedo-button.js', array(), filemtime( get_template_directory() . '/js/psuedo-button.js' ), true );

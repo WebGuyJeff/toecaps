@@ -12,7 +12,7 @@
  */
 
 use BigupWeb\Toecaps\Tags;
-
+use BigupWeb\Toecaps\Helpers;
 
 get_header();
 ?>
@@ -77,7 +77,7 @@ get_header();
 					the_title( sprintf( '<h3 class="searchResults_title"><a href="%s">', esc_url( get_permalink() ) ), '</a></h2>' );
 					?>
 					<div class="searchResults_excerpt">
-						<?php the_excerpt(); ?>
+						<?php echo esc_html( Helpers::get_first_sentence( wp_strip_all_tags( get_the_content() ) ) ); ?>
 					</div>
 				</div>
 				<?php

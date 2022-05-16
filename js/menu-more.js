@@ -8,15 +8,14 @@ const navAutoMore = (function () {
 	'use strict';
 
 	// Settings.
-	const navSelector =
-		'.mainMenu:not( .fullscreenMenu .mainMenu ):not( .footer_menu .mainMenu )';
-	const moreTemplate = document.querySelector('.autoMoreTemplate');
+	const navSelector    = '.navBar nav';
+	const moreTemplate   = document.querySelector('.autoMoreTemplate');
 	const minWindowLimit = 768;
-	const classTopLevel = 'dropdown-hover';
-	const classInMenu = 'dropdown-inMenu';
+	const classTopLevel  = 'dropdown-hover';
+	const classInMenu    = 'dropdown-inMenu';
 
 	let initialised = false;
-	let containers = [];
+	let containers  = [];
 
 	// Get all in-page nav bars.
 	const navBars = document.querySelectorAll(navSelector);
@@ -62,25 +61,25 @@ const navAutoMore = (function () {
 	 * Update all Nav Bars.
 	 */
 	const updateAll = () => {
-		containers.forEach((container) => {
-			const nav = container.querySelector(navSelector);
-			const more = nav.querySelector('.autoMore');
+		containers.forEach( ( container ) => {
+			const nav = container.querySelector( navSelector );
+			const more = nav.querySelector( '.autoMore' );
 			const moreContents = more.querySelector(
 				'.autoMore > .dropdown_contents'
 			);
-			update(container, nav, more, moreContents);
-		});
+			update( container, nav, more, moreContents );
+		} );
 	};
 
 	/**
 	 * Update the 'more' element.
 	 */
-	const update = (container, nav, more, moreContents) => {
-		let containerWidth = getInnerWidth(container);
+	const update = ( container, nav, more, moreContents ) => {
+		let containerWidth = getInnerWidth( container );
 		let navWidth = nav.offsetWidth;
 
 		// Bail if the menu is empty/hidden.
-		if (navWidth <= 0) return;
+		if ( navWidth <= 0 ) return;
 
 		const navGap = parseInt(
 			window.getComputedStyle(nav).getPropertyValue('gap'),
@@ -88,26 +87,37 @@ const navAutoMore = (function () {
 		); // Flex Gap.
 		// let moreWidth = more.offsetWidth + navGap;
 
-		if (window.innerWidth >= minWindowLimit) {
-			if (navWidth > containerWidth) {
+		if ( window.innerWidth >= minWindowLimit ) {
+			if ( navWidth > containerWidth ) {
 				// While the nav width is too big.
 				let navLastItem;
-				while (navWidth > containerWidth) {
+				while ( navWidth > containerWidth ) {
+
+					// Array keys start at 0 so last item key is length -1.
+					// We deduct 2 as the last item is the 'more' element.
+					let count = nav.children.length - 2;
+					navLastItem = nav.children[ count ];
+
+					// A robust check to make sure we don't have the 'more' element.
+					while ( navLastItem.classList.contains( 'autoMore' ) ) {
+						count--;
+						navLastItem = nav.children[ count ];
+					}
+
 					// Move last menu item to 'more'.
-					let count = nav.children.length;
-					navLastItem = nav.children[count - 2]; // Don't select the 'more' item.
-					moreContents.prepend(navLastItem);
+					moreContents.prepend( navLastItem );
 					navWidth = nav.offsetWidth;
 
 					// Update classes if needed.
-					updateClasses(navLastItem);
+					updateClasses( navLastItem );
 
 					// Deregister hover event listeners.
-					if (navLastItem.classList.contains(classInMenu)) {
-						dropdownPlugin.deregisterHover(navLastItem);
+					if ( navLastItem.classList.contains( classInMenu ) ) {
+						dropdownPlugin.deregisterHover( navLastItem );
 					}
 				}
-			} else if (moreContents.children.length > 0) {
+			} else if ( moreContents.children.length > 0 ) {
+
 				// While nav width is smaller than container.
 				let moreFirstItem = moreContents.firstElementChild;
 				let moreFirstItemWidth = moreFirstItem.offsetWidth;
@@ -201,5 +211,5 @@ const navAutoMore = (function () {
 
 			init();
 		}
-	}, 50);
+	}, 1); // We want the init to run asap so the browser can get on with rendering.
 })();

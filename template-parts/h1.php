@@ -16,8 +16,6 @@ use BigupWeb\Toecaps\Helpers;
 $tc_settings = get_option( 'tc_theme_array' ); // Serialized array of all options.
 $tc_phone    = ( isset( $tc_settings['tc_phone_number'] ) ) ? $tc_settings['tc_phone_number'] : '';
 
-global $post; // if outside the loop.
-
 if ( is_front_page() || is_home() ) {
 
 	?>
