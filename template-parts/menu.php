@@ -52,17 +52,15 @@ if ( is_page() && ! $post->post_parent && ! empty( get_pages( array( 'child_of' 
 
 } else {
 
-	// This is the home page, an orphan page, or any other unnaccounted for page.
-	$menu_slug = 'homepage-menu';
-
+	return;
 }
 
 Menu_Walker::output_theme_location_menu(
 	array(
 		'theme_location'   => $menu_slug,
-		'menu_class'       => 'mainMenu',
+		'menu_class'       => 'categoryMenu',
 		'nav_or_div'       => 'nav',
-		'nav_aria_label'   => 'Main Menu',
+		'nav_aria_label'   => 'Category Menu',
 		'html_tab_indents' => 5,
 	)
 );

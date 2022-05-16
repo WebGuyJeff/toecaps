@@ -202,7 +202,7 @@ For now, these are the mismatches to be aware of:
 }
 .theme_fill-white {
 	color: var(--tc_colour-black);
-	background: var(--tc_theme-white);
+	background: var(--tc_colour-white);
 }
 .theme_fill-accent {
 	color: var(--tc_colour-white);
@@ -620,6 +620,16 @@ a img.aligncenter {
 	.wp-block-columns.cards {
 		grid-template-columns: 33.3% 33.3% 33.3%;
 	}
+}
+
+
+/* Google reviews slider indicator fix */
+
+.wprs_unslider-arrow {
+    right: -20px;
+}
+.wprs_unslider-arrow.prev {
+	left: -20px;
 }
 
 
@@ -1107,7 +1117,7 @@ body > main {
 		}
 		.header_cta {
 			z-index: 1;
-			margin: 7em 3%;
+			margin: 5em 3%;
 			border-radius: 2em;
 			background: var(--tc_theme-accent-opaque);
 			padding: clamp(0.2em, 5%, 2.5em);
@@ -1173,15 +1183,25 @@ body > main {
 			flex-flow: row wrap;
 			font-size: var(--tc_h5);
 		}
-		.footer_phone,
-		.footer_email {
-			text-decoration: none;
-			color: inherit;
+		.footer_contact {
+			display: flex;
+			flex-flow: column;
+			gap: 1.5em;
+			font-style: inherit;
 		}
-		.footer a:focus-visible {
-			z-index: 1;
-			outline: 0.2rem solid var(--tc_colour-white);
-		}
+			.footer_phone,
+			.footer_email,
+			.footer_address {
+				text-decoration: none;
+				color: inherit;
+			}
+				.address_line {
+					margin: 0;
+				}
+			.footer a:focus-visible {
+				z-index: 1;
+				outline: 0.2rem solid var(--tc_colour-white);
+			}
 
 
 /*-------------------------------------------------------- 5.4 SITE TITLE ----*/
@@ -1473,6 +1493,24 @@ label.fullscreenMenu_open {
 	}
 }
 
+
+
+.categoryMenu {
+	display: flex;
+	flex-flow: row wrap;
+	width: 32em;
+	max-width: 100%;
+	min-width: fit-content;
+	margin: 0 auto;
+	gap: 0.5em;
+	justify-content: center;
+}
+	.categoryMenu_item {
+		padding: 0.5em;
+		border: solid 0.1em;
+		text-decoration: none;
+		color: inherit;
+	}
 
 /*---------------------------------------------------------- 5.7 DROPDOWN ----*/
 

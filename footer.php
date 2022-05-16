@@ -9,9 +9,12 @@
 
 namespace BigupWeb\Toecaps;
 
+use BigupWeb\Toecaps\Helpers;
+
 $tc_settings = get_option( 'tc_theme_array' ); // Serialized array of all options.
 $tc_phone    = ( isset( $tc_settings['tc_phone_number'] ) ) ? $tc_settings['tc_phone_number'] : '';
 $tc_email    = ( isset( $tc_settings['tc_email_address'] ) ) ? $tc_settings['tc_email_address'] : '';
+$tc_street_address  = ( isset( $tc_settings['tc_street_address'] ) ) ? $tc_settings['tc_street_address'] : '';
 
 ?>
 
@@ -42,32 +45,53 @@ $tc_email    = ( isset( $tc_settings['tc_email_address'] ) ) ? $tc_settings['tc_
 				<span><?php echo esc_html( get_bloginfo( 'description' ) ); ?></span>
 			</div>
 
-	<!-- insert address here -->
-
 			<?php
-			if ( $tc_phone ) {
-				?>
-				<a
-					class="footer_phone"
-					href="tel:<?php echo esc_attr( $tc_phone ); ?>"
-					aria-label="<?php esc_html_e( 'Phone us', 'toecaps' ); ?>"
-					title="<?php esc_html_e( 'Phone us', 'toecaps' ); ?>"
-				>
-					<?php echo esc_attr( $tc_phone ); ?>
-				</a>
-				<?php
-			}
-			if ( $tc_email ) {
-				?>
-				<a
-					class="footer_email"
-					href="mailto:<?php echo esc_html( $tc_email ); ?>?subject=New%20Website%20Enquiry"
-					aria-label="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
-					title="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
-				>
-					<?php echo esc_html( $tc_email ); ?>
-				</a>
-				<?php
+			if ( $tc_street_address || $tc_phone || $tc_email ) {
+				echo wp_kses( '<address class="footer_contact">', array( 'address' => array( 'class' => array() ) ) );
+
+				if ( $tc_street_address ) {
+					$html_address = Helpers::line_breaks_or_commas_to_html( $tc_street_address );
+					?>
+					
+					<a
+						class="footer_address"
+						href="/contact#find-us"
+						aria-label="<?php esc_html_e( 'Find us', 'toecaps' ); ?>"
+						title="<?php esc_html_e( 'Find us', 'toecaps' ); ?>"
+					>
+						<?php
+						echo wp_kses( $html_address, array( 'p' => array( 'class' => array() ) ) );
+						?>
+					</a>
+
+					<?php
+				}
+				if ( $tc_phone ) {
+					?>
+					<a
+						class="footer_phone"
+						href="tel:<?php echo esc_attr( $tc_phone ); ?>"
+						aria-label="<?php esc_html_e( 'Phone us', 'toecaps' ); ?>"
+						title="<?php esc_html_e( 'Phone us', 'toecaps' ); ?>"
+					>
+						<?php echo esc_attr( $tc_phone ); ?>
+					</a>
+					<?php
+				}
+				if ( $tc_email ) {
+					?>
+					<a
+						class="footer_email"
+						href="mailto:<?php echo esc_html( $tc_email ); ?>?subject=New%20Website%20Enquiry"
+						aria-label="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
+						title="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
+					>
+						<?php echo esc_html( $tc_email ); ?>
+					</a>
+					<?php
+				}
+
+				echo wp_kses( '</address>', array( 'address' => array() ) );
 			}
 			?>
 

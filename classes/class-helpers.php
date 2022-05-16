@@ -348,4 +348,21 @@ class Helpers {
 	}
 
 
+	/**
+	 * Convert line breaks or commas to html
+	 *
+	 * @param  {string} $raw_string The raw text containing line breaks and/or commas.
+	 * @return {string} The html string with each line wrapped in <p>'s.
+	 */
+	public static function line_breaks_or_commas_to_html( $raw_string ) {
+		$string_exploded = preg_split( '/[\n|\r\n|,]/', $raw_string );
+		$string_lines    = array_filter( $string_exploded );
+		$output           = '';
+		foreach ( $string_lines as $line ) {
+			$output .= '<p class="address_line">' . trim( $line ) . '</p>' . "\n";
+		}
+		return $output;
+	}
+
+
 }//end class

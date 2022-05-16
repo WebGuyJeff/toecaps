@@ -90,7 +90,17 @@ get_template_part( 'template-parts/css-loader' );
 						<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
 					</button>
 					<div class="fullscreenMenu_scroll">
-						<?php get_template_part( 'template-parts/menu' ); ?>
+						<?php
+						Menu_Walker::output_theme_location_menu(
+							array(
+								'theme_location'   => 'homepage-menu',
+								'menu_class'       => 'mainMenu',
+								'nav_or_div'       => 'nav',
+								'nav_aria_label'   => 'Main Menu',
+								'html_tab_indents' => 5,
+							)
+						);
+						?>
 					</div>
 					<div class="fullscreenMenu_social">
 						<?php get_template_part( 'template-parts/social-links' ); ?>
@@ -99,7 +109,17 @@ get_template_part( 'template-parts/css-loader' );
 			</div>
 			<div class="navBar">
 				<div class="container">
-					<?php get_template_part( 'template-parts/menu' ); ?>
+					<?php
+					Menu_Walker::output_theme_location_menu(
+						array(
+							'theme_location'   => 'homepage-menu',
+							'menu_class'       => 'mainMenu',
+							'nav_or_div'       => 'nav',
+							'nav_aria_label'   => 'Main Menu',
+							'html_tab_indents' => 5,
+						)
+					);
+					?>
 				</div>
 			</div>
 		</div>
@@ -161,6 +181,9 @@ get_template_part( 'template-parts/css-loader' );
 
 		Tags::print_html_breadcrumb();
 	}
+	
+	get_template_part( 'template-parts/menu' );
+	
 	?>
 
 	<div class="header_margin"></div>
