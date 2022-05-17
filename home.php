@@ -39,7 +39,7 @@ get_header( 'home' );
 	</div>
 
 	<section class="follow">
-		<div="container">
+		<div class="container">
 			<div class="follow_contents">
 				<h3>Follow</h3>
 				<div class="follow_social">

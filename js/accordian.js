@@ -23,6 +23,8 @@ const accordianPlugin = (function () {
 		toggleAria: function ( accordian ) {
 			accordian.setAttribute( 'aria-expanded', accordian.getAttribute( 'aria-expanded' ) === 'true' ? 'false' : 'true' );
 			accordian.setAttribute( 'aria-pressed', accordian.getAttribute( 'aria-pressed' ) === 'true' ? 'false' : 'true' );
+			// Toggle the checkbox toggle.
+			accordian.nextElementSibling.click();
 		},
 
 	}; // Public functions.

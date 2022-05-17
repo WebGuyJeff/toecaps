@@ -123,6 +123,13 @@ RANGE
 	--tc_radius-small: 0.25rem;
 	--tc_radius-medium: 0.5rem;
 
+	/* actionElement */
+	--actionElement-border: solid 0.1em #bebebe;
+	--actionElement-radius: var(--tc_radius-small) !important;
+	--actionElement-background: #eee;
+	--actionElement-color: #1b1b1b;
+	--actionElement-color-visited: #000;
+	
 	/* Light background text shadow */
 	--tc_textShadow: 0px 0px 1px #0008;
 
@@ -218,8 +225,11 @@ For now, these are the mismatches to be aware of:
 	color: var(--tc_colour-white);
 	background: var(--tc_theme-accent-opaque);
 }
-.theme_font-accent {
-	color: var(--tc_theme-accent);
+.theme_font-accent,
+.theme_font-accent a,
+.theme_font-accent button {
+	color: var(--tc_theme-accent) !important;
+	--actionElement-color: var(--tc_theme-accent) !important;
 }
 .theme_font-white {
 	color: var(--tc_colour-white);
@@ -310,15 +320,22 @@ For now, these are the mismatches to be aware of:
 .page-template-toecaps-blue a.wp-block-button__link,
 .page-template-toecaps-yellow a.wp-block-button__link,
 .page-template-toecaps-tan a.wp-block-button__link {
-	border: solid 0.1em #414141;
-	background: #111;
-	color: #e4e4e4;
+	--actionElement-border: solid 0.1em #414141;
+	--actionElement-background: #111;
+	--actionElement-color: #e4e4e4;
+	--actionElement-color-visited: #fff;
 }
 .page-template-toecaps-blue .header,
 .page-template-toecaps-yellow .header,
 .page-template-toecaps-tan .header {
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-black);
+}
+.page-template-toecaps-blue .search_submit,
+.page-template-toecaps-yellow .search_submit,
+.page-template-toecaps-tan .search_submit {
+	color: var(--tc_colour-black);
+	background: var(--tc_colour-white);
 }
 .page-template-toecaps-blue button-cta,
 .page-template-toecaps-blue .button-cta,
@@ -650,6 +667,18 @@ a img.aligncenter {
 	}
 }
 
+.card .wp-block-cover {
+	border-top-left-radius: var(--tc_radius-small);
+	border-top-right-radius: var(--tc_radius-small);
+	overflow: hidden;
+}
+.card h3 {
+	background: var(--tc_colour-white);
+	color: var(--tc_colour-black);
+	padding: 0.2em;
+	border-bottom-left-radius: var(--tc_radius-small);
+	border-bottom-right-radius: var(--tc_radius-small);
+}
 
 /* Google reviews slider indicator fix */
 
@@ -870,7 +899,7 @@ blockquote {
 }
     .alert::before {
         margin-inline-end: 0.5em;
-        content: "ⓘ";
+        content: "â“˜";
     }
     .alert:last-child {
         margin-block-end: 0;
@@ -906,7 +935,7 @@ strong {
 
 .tip::before {
     margin-inline-end: 0.5em;
-    content: "ⓘ";
+    content: "â“˜";
 }
 
 .tip {
@@ -1526,7 +1555,7 @@ body > main {
 
 @media (min-width: 768px) {
 	.fullscreenMenu,
-	label.fullscreenMenu_open {
+	button.fullscreenMenu_open {
 		display: none;
 	}
 	.navBar {
@@ -1938,7 +1967,6 @@ a.wp-block-button__link:focus,
 a.wp-block-button__link:hover,
 a.wp-block-button__link:visited {
 	text-decoration: underline;
-	color: inherit;
 }
 
 a.wp-block-button__link:focus:after,
@@ -1948,11 +1976,17 @@ a.wp-block-button__link:hover:after {
 
 a.wp-block-button__link {
 	transition: all var(--tc_hoverTime) ease-in;
-	border: solid 0.1em #bebebe;
-	border-radius: var(--tc_radius-small) !important;
-	background: #eee;
-	color: #1b1b1b;
+	border: var(--actionElement-border);
+	border-radius: var(--actionElement-radius);
+	background: var(--actionElement-background);
+	color: var(--actionElement-color);
 	font-size: inherit;
+}
+.wp-block-button__link:active,
+.wp-block-button__link:focus,
+.wp-block-button__link:hover,
+.wp-block-button__link:visited {
+	color: var(--actionElement-color-visited);
 }
 
 a.wp-block-button__link:after {
@@ -2063,8 +2097,7 @@ div.wp-block-buttons > .wp-block-button {
 			font-size: inherit;
 		}
 		button.search_submit {
-			border: none;
-			border-top-right-radius: var(--tc_radius-medium);
+			border: solid 1px var(--tc_colour-black);border-top-right-radius: var(--tc_radius-medium);
 			border-bottom-right-radius: var(--tc_radius-medium);
 			background: var(--tc_colour-black);
 			color: inherit;
@@ -2300,9 +2333,9 @@ div.wp-block-buttons > .wp-block-button {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background: #eee;
-		border: solid 0.1em #bebebe;
-		color: #1b1b1b;
+		background: var(--actionElement-background);
+		border: var(--actionElement-border);
+		color: var(--actionElement-color);
 		cursor: pointer;
 		padding: 1em 0.5em;
 		box-shadow: none;

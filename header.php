@@ -41,7 +41,8 @@ get_template_part( 'template-parts/css-loader' );
 					if ( has_custom_logo() ) {
 						$logo_id  = get_theme_mod( 'custom_logo' );
 						$logo_src = wp_get_attachment_image_src( $logo_id, 'full' );
-						echo '<img class="identity_logo" src="' . esc_url( $logo_src[0] ) . '">';
+						$logo_alt = get_post_meta($logo_id, '_wp_attachment_image_alt', TRUE);
+						echo '<img class="identity_logo" alt="' . esc_attr( $logo_alt ) . '" src="' . esc_url( $logo_src[0] ) . '">';
 					}
 					?>
 				</a>
@@ -59,9 +60,9 @@ get_template_part( 'template-parts/css-loader' );
 							Search
 						</span>
 					</button>
-					<label class="secondaryMenu_item fullscreenMenu_open button" for="fullscreenMenu_toggle">
+					<button class="secondaryMenu_item fullscreenMenu_open button" onclick="document.querySelector('.fullscreenMenu_toggle').click()">
 						<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
-					</label>
+					</button>
 				</nav>
 
 				<input id="search_form" class="search_toggle" type="checkbox">

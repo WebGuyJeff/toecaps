@@ -55,22 +55,20 @@ if ( is_page() && ! $post->post_parent && ! empty( get_pages( array( 'child_of' 
 
 	<div class="container">
 		<div class="accordian">
-			<label
+			<button
 				class="accordian_title button"
-				for="accordian1"
-				tabindex="0"
-				role="button"
 				aria-haspopup="menu"
 				aria-expanded="false"
 				aria-controls="accordian_contents-1"
 				aria-pressed="false"
 				onclick="accordianPlugin.toggleAria(this)"
+				id="accordian_button-1"
 			>
 				<?php echo esc_html( get_the_title( wp_get_post_parent_id() ) ); ?>
 				<i class="accordian_toggleIcon fa-solid fa-chevron-down"></i>
-			</label>
+			</button>
 			<input class="accordian_toggle" type="checkbox" id="accordian1">
-			<div class="accordian_contents" id="accordian_contents-1">
+			<div class="accordian_contents" id="accordian_contents-1" role="menu" aria-labelledby="accordian_button-1">
 				<?php
 				Menu_Walker::output_theme_location_menu(
 					array(
