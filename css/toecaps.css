@@ -613,6 +613,12 @@ a img.aligncenter {
 	bottom: 3em;
 }
 
+/* Add radius to images */
+.wp-block-image {
+	border-radius: var(--tc_radius-medium);
+	overflow: hidden;
+}
+
 /* image-link zoom on hover effect */
 .wp-block-image a {
 	display: block;
@@ -650,9 +656,10 @@ a img.aligncenter {
 }
 	.wp-block-column.card {
 		margin: 0 !important;
-		padding: 0.75em;
+		border: solid 1px var(--tc_colour-darkGrey);
 		border-radius: var(--tc_radius-medium);
-		box-shadow: 0 0 10px 0 #5558;
+		box-shadow: 0 0 10px 0 #5556;
+		padding: 0.75em;
 	}
 
 @media (min-width: 600px) {
@@ -955,15 +962,22 @@ strong {
 
 /* For addresses or other multiline text that should match parent formatting */
 .preNormal {
-	font: inherit;
+	margin-block-end: 1em;
+	margin-block-start: 0.5em;
+	padding: 0;
 	white-space: break-spaces;
-	padding-left: 0;
+	font: inherit;
+}
+
+.preNormal a {
+	text-decoration: none;
+	color: inherit;
 }
 
 /* This element is created by the bigup-container plugin */
 .bigupContainer {
-	padding-top: 2em;
-	padding-bottom: 5em;
+	padding-top: 1em;
+	padding-bottom: 3em;
 }
 
 /* SimpLy gallery block */
@@ -1888,11 +1902,15 @@ body > main {
 
 .social_link {
 	align-items: center;
+	transition: var(--tc_hoverTime);
 	margin: 0;
 	padding: 0 6px;
 	width: fit-content;
 	text-decoration: none;
 	color: inherit;
+}
+.social_link:hover {
+	transform: scale(1.1) rotate(2deg);
 }
 	i.fa {
 		color: currentColor;
