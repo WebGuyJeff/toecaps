@@ -196,34 +196,14 @@ class Tags {
 	 * Print the next and previous posts navigation.
 	 */
 	public static function print_html_previous_next_posts_navigation() {
+		$prev_icon = is_rtl() ? '<i class="fa-solid fa-arrow-right"></i>' : '<i class="fa-solid fa-arrow-left"></i>';
+		$next_icon = is_rtl() ? '<i class="fa-solid fa-arrow-left"></i>' : '<i class="fa-solid fa-arrow-right"></i>';
 		the_posts_pagination(
 			array(
 				'before_page_number' => esc_html__( 'Page', 'toecaps' ) . ' ',
-				'mid_size'           => 0,
-				'prev_text'          => sprintf(
-					'%s <span class="nav-prev-text">%s</span>',
-					is_rtl() ? '<i class="fa-solid fa-arrow-right"></i>' : '<i class="fa-solid fa-arrow-left"></i>',
-					wp_kses(
-						__( 'Newer <span class="nav-short">posts</span>', 'toecaps' ),
-						array(
-							'span' => array(
-								'class' => array(),
-							),
-						)
-					)
-				),
-				'next_text'          => sprintf(
-					'<span class="nav-next-text">%s</span> %s',
-					wp_kses(
-						__( 'Older <span class="nav-short">posts</span>', 'toecaps' ),
-						array(
-							'span' => array(
-								'class' => array(),
-							),
-						)
-					),
-					is_rtl() ? '<i class="fa-solid fa-arrow-right"></i>' : '<i class="fa-solid fa-arrow-left"></i>'
-				),
+				'mid_size'           => 2,
+				'prev_text'          => '<span class="pagination_button button">' . $prev_icon . '</span>',
+				'next_text'          => '<span class="pagination_button button">' . $next_icon . '</span>',
 			)
 		);
 	}

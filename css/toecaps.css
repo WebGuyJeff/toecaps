@@ -44,6 +44,7 @@
 	5.19 AUTO MORE
 	5.20 USP BAR
 	5.21 ACCORDIAN
+	5.22 PAGINATION
 
 
 ~o~~~~~~oOo~~~~~~o~
@@ -294,6 +295,14 @@ For now, these are the mismatches to be aware of:
 .page-template-toecaps-yellow .categoryMenu_item:hover,
 .page-template-toecaps-tan .categoryMenu_item:hover {
 	color: var(--tc_colour-black);
+}
+.page-template-toecaps-red .categoryMenu_item-active,
+.page-template-toecaps-teal .categoryMenu_item-active,
+.page-template-toecaps-green .categoryMenu_item-active,
+.page-template-toecaps-red .categoryMenu_item:hover,
+.page-template-toecaps-teal .categoryMenu_item:hover,
+.page-template-toecaps-green .categoryMenu_item:hover {
+	color: var(--tc_colour-white);
 }
 .page-template-toecaps-blue .accordian_title,
 .page-template-toecaps-yellow .accordian_title,
@@ -1096,7 +1105,7 @@ body > main {
 	.header_main {
 		display: grid;
 		position: relative;
-		padding: 1em 0;
+		padding: 0.5em 0;
 		grid-template-areas:
 			"logo menu"
 			"search search";
@@ -1161,6 +1170,7 @@ body > main {
 	.header_main {
 		grid-template-areas: "logo search menu";
 		grid-template-columns: 1fr auto 1fr;
+		padding: 1em 0;
 	}
 }
 
@@ -1223,17 +1233,18 @@ body > main {
 .identity {
 	display: flex;
 	flex-direction: column;
+	grid-area: logo;
 	align-items: center;
 	justify-content: center;
+	justify-self: start;
+	border-radius: var(--tc_radius-small);
+	overflow: hidden;
 	width: fit-content;
 	text-decoration: none;
-	grid-area: logo;
-	justify-self: start;
 }
     .identity_logo {
         max-height: 4em;
 		max-width: 6em;
-		border-radius: var(--tc_radius-small);
     }
 	.identity_title {
 		margin: 0 0.5em 0 0.5em;
@@ -1337,13 +1348,6 @@ body > main {
 	display: inline-block;
 	cursor: pointer;
 	width: fit-content;
-	font-size: var(--tc_display-5);
-}
-label.fullscreenMenu_open {
-	border: none;
-	box-shadow: none;
-	background: inherit;
-	color: inherit;
 }
 .fullscreenMenu_toggle {
 	display: none;
@@ -1489,11 +1493,36 @@ label.fullscreenMenu_open {
 	}
 }
 
-@media (max-width: 767px) {
-	.fullscreenMenu_toggle:checked ~ .fullscreenMenu {
-		transform: translateX(0);
+/* Transition plus visibility toggle - no js! */
+
+	.fullscreenMenu {
+		visibility: hidden;
 	}
-}
+
+	.fullscreenMenu_toggle ~ .fullscreenMenu {
+		animation: visibilityHidden 1s;
+	}
+
+	@media (max-width: 767px) {
+		.fullscreenMenu_toggle:checked ~ .fullscreenMenu {
+			transform: translateX(0) !important;
+			animation: visibilityVisible 1s;
+			visibility: visible;
+		}
+	}
+
+	@keyframes visibilityHidden {
+	0% { visibility: visible; }
+	99% { visibility: visible; }
+	100% { visibility: hidden; }
+	}
+	@keyframes visibilityVisible {
+	0% { visibility: hidden; }
+	99% { visibility: visible; }
+	100% { visibility: visible; }
+	}
+
+/* Transition plus visibility toggle - END */
 
 @media (min-width: 768px) {
 	.fullscreenMenu,
@@ -1533,7 +1562,7 @@ label.fullscreenMenu_open {
 		text-decoration: none;
 		color: inherit;
 	}
-	.categoryMenu_item:hover {
+	.categoryMenu_item:hover:not(.dropdown_contents *) {
 		background: var(--tc_theme-accent);
 		text-decoration: none;
 	}
@@ -1555,14 +1584,28 @@ label.fullscreenMenu_open {
 			width: fit-content;
 			text-decoration: underline;
 		}
-		.categoryMenu_item:hover {
-			transform: rotateZ(4deg);
+		.categoryMenu_item:hover:not(.dropdown_contents *) {
+			transform: rotateZ(2deg);
+		}
+		.categoryMenu_item:hover:not(.dropdown_contents *) > .dropdown_contents {
+			transform: rotateZ(-2deg);
 		}
 		.categoryMenu_item-active {
 			text-decoration: none;
 		}
 }
 
+.categoryMenu .dropdown_primary {
+	padding: 0.5em;
+}
+.categoryMenu .dropdown_contents {
+	margin-top: 0.2em;
+	border-top-left-radius: var(--tc_radius-small);
+	border-top-right-radius: var(--tc_radius-small);
+}
+.categoryMenu .dropdown_contents .categoryMenu_item:hover {
+	background: var(--tc_colour-menuHover);
+}
 
 /*---------------------------------------------------------- 5.7 DROPDOWN ----*/
 
@@ -1731,7 +1774,6 @@ label.fullscreenMenu_open {
 
 
 .secondaryMenu {
-	gap: 0.5em;
 	display: flex;
 	position: absolute;
 	right: 0;
@@ -1742,23 +1784,35 @@ label.fullscreenMenu_open {
 	justify-self: end;
 	font-size: var(--tc_h1);
 }
-	.secondaryMenu_item {
+	.secondaryMenu > .secondaryMenu_item {
 		flex-flow: row nowrap;
-		padding: 0.1em;
+		border: none;
+		box-shadow: none;
+		background: inherit;
+		padding: 0.5em;
 		text-decoration: none;
 		color: inherit;
 		font-size: inherit;
+		text-transform: none;
 	}
-	button.secondaryMenu_item {
-		border: none;
-		background: inherit;
-	}
+		.secondaryMenu > .secondaryMenu_item > *:first-child {
+			padding: 0;
+		}
 		.secondaryMenu_label {
 			display: none;
 		}
 
-.secondaryMenu_item:hover {
-	background: var(--tc_colour-menuHover);
+.secondaryMenu .secondaryMenu_item:focus,
+.secondaryMenu .secondaryMenu_item:focus-within,
+.secondaryMenu .secondaryMenu_item:focus-visible {
+	filter: none;
+	z-index: 1;
+	outline: 0.2rem solid var(--tc_colour-black);
+}
+
+.secondaryMenu .secondaryMenu_item:hover {
+	background: var(--tc_colour-grey);
+	filter: none;
 }
 
 @media (min-width: 600px) {
@@ -1862,7 +1916,8 @@ label.fullscreenMenu_open {
             cursor: pointer;
         }
 		.button:hover,
-		.button:focus {
+		.button:focus,
+		.button:focus-visible {
 			box-shadow: 0 0 0 rgb(0 0 0 / 20%);
 			filter: invert(100%);
 			outline: none;
@@ -1894,7 +1949,7 @@ a.wp-block-button__link:hover:after {
 a.wp-block-button__link {
 	transition: all var(--tc_hoverTime) ease-in;
 	border: solid 0.1em #bebebe;
-	border-radius: var(--tc_radius-small);
+	border-radius: var(--tc_radius-small) !important;
 	background: #eee;
 	color: #1b1b1b;
 	font-size: inherit;
@@ -1978,18 +2033,21 @@ div.wp-block-buttons > .wp-block-button {
 	opacity: 0;
 	margin-top: 2em;
 	margin-bottom: -5em;
-	padding: 0.25em;
 	width: 100%;
 	overflow: hidden;
 }
 	.search_form {
 		display: flex;
 		flex-flow: row nowrap;
-		width: fit-content;
+		width: 100%;
+		max-width: 30em;
 		height: 2.5em;
 	}
 		.search_field {
+			flex-grow: 1;
 			border: solid 1px var(--tc_colour-black);
+			border-top-left-radius: var(--tc_radius-medium);
+			border-bottom-left-radius: var(--tc_radius-medium);
 			padding: 0.5em;
 			height: 100%;
 		}
@@ -2006,8 +2064,10 @@ div.wp-block-buttons > .wp-block-button {
 		}
 		button.search_submit {
 			border: none;
-			color: inherit;
+			border-top-right-radius: var(--tc_radius-medium);
+			border-bottom-right-radius: var(--tc_radius-medium);
 			background: var(--tc_colour-black);
+			color: inherit;
 			color: var(--tc_colour-white);
 		}
 		.search_submit:hover {
@@ -2035,8 +2095,7 @@ div.wp-block-buttons > .wp-block-button {
 .search_toggle:checked + .search_container {
 	visibility: visible;
 	opacity: 1;
-	margin-top: 2em;
-	margin-bottom: 1em;
+	margin-bottom: 1em !important;
 	animation: heightAndVisibility ease-in-out;
 }
 
@@ -2183,20 +2242,22 @@ div.wp-block-buttons > .wp-block-button {
 	}
 		.USPBar_item {
 			display: flex;
-			justify-content: center;
-			align-items: center;
 			flex: 1 0 25%;
+			align-items: center;
+			justify-content: center;
 			transition: color var(--tc_hoverTime) ease-in;
 		}
 		.USPBar_item:nth-child(1n+2) {
 			display: none;
 		}
-		.USPBar_item:hover {
-			background: var(--tc_colour-menuHover);
-		}
 			a.USPBar_link {
+				border-radius: var(--tc_radius-small);
+				padding: 0.1em 0.2em;
 				text-decoration: none;
 				color: inherit;
+			}
+			a.USPBar_link:hover {
+				background: var(--tc_colour-grey);
 			}
 				.USPBar_link > i {
 					margin-inline-end: 0.2em;
@@ -2233,7 +2294,7 @@ div.wp-block-buttons > .wp-block-button {
 	flex-direction: column;
 	margin: 1em auto 0 auto;
 	overflow: hidden;
-	max-width: 96%;
+	padding: 0.2em;
 }
 	.accordian_title {
 		display: flex;
@@ -2288,3 +2349,28 @@ div.wp-block-buttons > .wp-block-button {
 		display: none;
 	}
 }
+
+
+/*----------------------------------------------------- 5.22 PAGINATION ----*/
+
+
+.pagination {
+	margin: 2em 0;
+}
+	.nav-links { /* default WP class */
+		display: flex;
+		flex-flow: row nowrap;
+		gap: 0.5em;
+	}
+		.pagination_button {
+			box-shadow: none;
+			width: fit-content;
+			padding: 0;
+			margin: 0;
+		}
+			.pagination_button > *:first-child {
+				padding: 0.1em 0.6em;
+				display: block;
+				margin: 0 auto;
+				width: 100%;
+			}

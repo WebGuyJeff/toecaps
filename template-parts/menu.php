@@ -48,19 +48,43 @@ if ( is_page() && ! $post->post_parent && ! empty( get_pages( array( 'child_of' 
 			break;
 	}
 
-	$menu_slug = ( isset( $menu_slug ) ) ? $menu_slug : 'homepage-menu';
+	if ( ! isset( $menu_slug ) ) {
+		return;
+	}
+	?>
 
-} else {
+	<div class="container">
+		<div class="accordian">
+			<label
+				class="accordian_title button"
+				for="accordian1"
+				tabindex="0"
+				role="button"
+				aria-haspopup="menu"
+				aria-expanded="false"
+				aria-controls="accordian_contents-1"
+				aria-pressed="false"
+				onclick="accordianPlugin.toggleAria(this)"
+			>
+				<?php echo esc_html( get_the_title( wp_get_post_parent_id() ) ); ?>
+				<i class="accordian_toggleIcon fa-solid fa-chevron-down"></i>
+			</label>
+			<input class="accordian_toggle" type="checkbox" id="accordian1">
+			<div class="accordian_contents" id="accordian_contents-1">
+				<?php
+				Menu_Walker::output_theme_location_menu(
+					array(
+						'theme_location'   => $menu_slug,
+						'menu_class'       => 'categoryMenu',
+						'nav_or_div'       => 'nav',
+						'nav_aria_label'   => 'Category Menu',
+						'html_tab_indents' => 5,
+					)
+				);
+				?>
+			</div>
+		</div>
+	</div>
 
-	return;
+	<?php
 }
-
-Menu_Walker::output_theme_location_menu(
-	array(
-		'theme_location'   => $menu_slug,
-		'menu_class'       => 'categoryMenu',
-		'nav_or_div'       => 'nav',
-		'nav_aria_label'   => 'Category Menu',
-		'html_tab_indents' => 5,
-	)
-);

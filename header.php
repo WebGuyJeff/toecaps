@@ -47,13 +47,13 @@ get_template_part( 'template-parts/css-loader' );
 				</a>
 
 				<nav class="secondaryMenu" aria-label="Secondary Menu">
-					<a class="secondaryMenu_item" href="/contact#find-us">
+					<a class="secondaryMenu_item button" href="/contact#find-us">
 						<i class="fa-solid fa-location-dot"></i>	
 						<span class="secondaryMenu_label">
 							Find us
 						</span>
 					</a>
-					<button class="secondaryMenu_item" onclick="document.querySelector('.search_toggle').click()">
+					<button class="secondaryMenu_item button" onclick="document.querySelector('.search_toggle').click()">
 						<i class="fa-solid fa-magnifying-glass"></i>	
 						<span class="secondaryMenu_label">
 							Search
@@ -65,7 +65,7 @@ get_template_part( 'template-parts/css-loader' );
 				</nav>
 
 				<input id="search_form" class="search_toggle" type="checkbox">
-				<div class="search_container">
+				<div class="search_container" style="margin-bottom: -5em;">
 					<?php
 					get_search_form(
 						array(
@@ -73,10 +73,12 @@ get_template_part( 'template-parts/css-loader' );
 							'aria_label' => 'Search our website',
 						)
 					);
-					?>
+					/* # Decided to omit this button for now.
 					<button class="search_close" onclick="document.querySelector('.search_toggle').click()">
 						<i class="fa-solid fa-xmark"></i>
 					</button>
+					*/
+					?>
 				</div>
 
 			</div>
@@ -84,7 +86,7 @@ get_template_part( 'template-parts/css-loader' );
 
 		<div class="header_menu theme_fill-prominent">
 			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox">
-			<div class="fullscreenMenu">
+			<div class="fullscreenMenu" style="transform: translateX(-100%);">
 				<div class="fullscreenMenu_contents">
 					<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').click()">
 						<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
@@ -180,25 +182,8 @@ get_template_part( 'template-parts/css-loader' );
 	if ( ! is_front_page() && ! is_home() ) {
 		Tags::print_html_breadcrumb();
 	}
+
+	get_template_part( 'template-parts/menu' );
 	?>
-	<div class="accordian">
-		<label
-			class="accordian_title button"
-			for="accordian1"
-			tabindex="0"
-			role="button"
-			aria-haspopup="menu"
-			aria-expanded="false"
-			aria-controls="accordian_contents-1"
-			aria-pressed="false"
-			onclick="accordianPlugin.toggleAria(this)"
-		>
-			<?php echo esc_html( get_the_title( wp_get_post_parent_id() ) ); ?>
-			<i class="accordian_toggleIcon fa-solid fa-chevron-down"></i>
-		</label>
-		<input class="accordian_toggle" type="checkbox" id="accordian1">
-		<div class="accordian_contents" id="accordian_contents-1">
-			<?php get_template_part( 'template-parts/menu' ); ?>
-		</div>
-	</div>
+
 	<div class="header_margin"></div>
