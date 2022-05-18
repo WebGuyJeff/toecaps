@@ -105,9 +105,4 @@ if ( is_front_page() || is_home() ) {
 		</div>
 		<?php
 	}
-
-	?>
-	</div>
-	<?php
-
 }
