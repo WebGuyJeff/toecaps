@@ -40,10 +40,6 @@ function enqueue_scripts_and_styles() {
 	// If not in admin area.
 	if ( 'wp-login.php' !== $GLOBALS['pagenow'] && ! is_admin() ) {
 		wp_enqueue_style( 'fontawesome_css' );
-		wp_register_style( 'parent_css', get_template_directory_uri() . '/css/parent-page.css', array( 'toecaps_css' ), filemtime( get_template_directory() . '/css/parent-page.css' ), 'all' );
-		// De-register wp jquery and use CDN.
-		wp_deregister_script( 'jquery' );
-		wp_enqueue_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js', array(), '3.6.0', true );
 		// Other front end resources.
 		wp_enqueue_script( 'menu_fullscreen_js', get_template_directory_uri() . '/js/menu-fullscreen.js', array(), filemtime( get_template_directory() . '/js/menu-fullscreen.js' ), true );
 		wp_enqueue_script( 'accordian_js', get_template_directory_uri() . '/js/accordian.js', array(), filemtime( get_template_directory() . '/js/accordian.js' ), true );
@@ -52,9 +48,7 @@ function enqueue_scripts_and_styles() {
 		wp_enqueue_script( 'psuedobutton_js', get_template_directory_uri() . '/js/psuedo-button.js', array(), filemtime( get_template_directory() . '/js/psuedo-button.js' ), true );
 		wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js', array( 'jquery' ), '3.9.1', true );
 		// CSSRule this is part of core but there's a separate CDN?
-		wp_register_script( 'gsap_cssrule', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CSSRulePlugin.min.js', array( 'gsap' ), '3.9.1', true );
 		wp_enqueue_script( 'gsap_scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js', array( 'gsap' ), '3.9.1', true );
-		wp_register_script( 'modal_js', get_template_directory_uri() . '/js/modal.js', array(), '0.1', true );
 		wp_enqueue_script( 'parallax_js', get_template_directory_uri() . '/js/parallax.js', array( 'gsap_scrolltrigger' ), filemtime( get_template_directory() . '/js/parallax.js' ), true );
 
 	}

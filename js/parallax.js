@@ -8,22 +8,21 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin( ScrollTrigger );
 
-const parallaxPlugin = (function () {
-	gsap.registerPlugin(ScrollTrigger);
+const parallaxPlugin = () => {
+	gsap.registerPlugin( ScrollTrigger );
 
 	const doParallax = () => {
-		const paraElems = document.querySelectorAll('.parallax');
+		const paraElems = document.querySelectorAll( '.parallax' );
 		[...paraElems].forEach((parallax) => {
-			const parallaxInner = parallax.querySelector('.parallax_inner');
-			const parallaxTrigger = parallax.closest('.parallax_trigger');
+			const parallaxInner   = parallax.querySelector( '.parallax_inner' );
+			const parallaxTrigger = parallax.closest( '.parallax_trigger' );
+			const height          = parallaxInner.clientHeight;
 
-			parallaxInner.style.transform = `translateY(0)`;
-			const height = parallaxInner.clientHeight;
-
-			gsap.to(parallaxInner, {
-				transform: `translateY(${height / 2}px)`, // 25% of parent height;
+			gsap.to( parallaxInner, {
+				y: height / 2,
+				z:0.01,
 				ease: 'none',
 				scrollTrigger: {
 					trigger: parallaxTrigger,
@@ -36,10 +35,11 @@ const parallaxPlugin = (function () {
 	};
 
 	// Poll for doc ready state
-	let docLoaded = setInterval(function () {
-		if (document.readyState === 'complete') {
-			clearInterval(docLoaded);
+	let docLoaded = setInterval( function () {
+		if ( document.readyState === 'complete' ) {
+			clearInterval( docLoaded );
 			doParallax();
 		}
-	}, 100);
-})(); //modal plugin end.
+	}, 100 );
+};
+parallaxPlugin();

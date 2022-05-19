@@ -1893,6 +1893,10 @@ body > main {
 	width: fit-content;
 	text-decoration: none;
 	color: inherit;
+	transition: all var(--tc_hoverTime) ease-in;
+}
+.social_link:hover {
+	transform: scale(1.1) rotate(2deg);
 }
 	i.fa {
 		color: currentColor;

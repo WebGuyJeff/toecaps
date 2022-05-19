@@ -1,6 +1,6 @@
 <?php
 /**
- * Toecaps Template File - Left Sidebar.
+ * Toecaps Template File - Sidebar.
  *
  * @package   Toecaps
  * @author    Jefferson Real <me@jeffersonreal.uk>

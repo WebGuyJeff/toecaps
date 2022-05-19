@@ -41,7 +41,7 @@ get_template_part( 'template-parts/css-loader' );
 					if ( has_custom_logo() ) {
 						$logo_id  = get_theme_mod( 'custom_logo' );
 						$logo_src = wp_get_attachment_image_src( $logo_id, 'full' );
-						$logo_alt = get_post_meta($logo_id, '_wp_attachment_image_alt', TRUE);
+						$logo_alt = get_post_meta( $logo_id, '_wp_attachment_image_alt', true );
 						echo '<img class="identity_logo" alt="' . esc_attr( $logo_alt ) . '" src="' . esc_url( $logo_src[0] ) . '">';
 					}
 					?>
@@ -74,7 +74,9 @@ get_template_part( 'template-parts/css-loader' );
 							'aria_label' => 'Search our website',
 						)
 					);
-					/* # Decided to omit this button for now.
+
+					/*
+					// Decided to omit this button for now.
 					<button class="search_close" onclick="document.querySelector('.search_toggle').click()">
 						<i class="fa-solid fa-xmark"></i>
 					</button>
@@ -174,7 +176,7 @@ get_template_part( 'template-parts/css-loader' );
 			</div>
 
 			<?php get_template_part( 'template-parts/h1' ); ?>
-			
+
 		</div>
 
 	</header>
