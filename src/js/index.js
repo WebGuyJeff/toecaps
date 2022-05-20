@@ -6,3 +6,6 @@
  */
 
 import { parallax } from './parallax.js';
+import { accordian } from './accordian.js';
+parallax();
+accordian.initialise();

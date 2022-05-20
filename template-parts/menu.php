@@ -61,7 +61,6 @@ if ( is_page() && ! $post->post_parent && ! empty( get_pages( array( 'child_of' 
 				aria-expanded="false"
 				aria-controls="accordian_contents-1"
 				aria-pressed="false"
-				onclick="accordianPlugin.toggleAria(this)"
 				id="accordian_button-1"
 			>
 				<?php echo esc_html( get_the_title( wp_get_post_parent_id() ) ); ?>
