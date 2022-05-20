@@ -587,7 +587,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 			echo <<<TEMPLATE
 <template class="autoMoreTemplate">
 	<div class="mainMenu_item autoMore dropdown dropdown-hover">
-		<span class="dropdown_primary" role="button" tabindex="0" onclick="this.parentElement.querySelector( '.dropdown_toggle' ).click()">
+		<span class="dropdown_primary" role="button" tabindex="0">
 			More
 		</span>
 		<button class="dropdown_toggle" aria-pressed="false" aria-expanded="false" aria-haspopup="menu">

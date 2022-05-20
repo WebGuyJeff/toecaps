@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-const psuedoButtonPlugin = (function () {
+const psuedoButtons = () => {
 	'use strict';
 
 	/**
@@ -54,4 +54,6 @@ const psuedoButtonPlugin = (function () {
 			initPsuedoButtons();
 		}
 	}, 100);
-})(); // Plugin end.
+};
+
+export { psuedoButtons };

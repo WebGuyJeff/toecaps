@@ -9,24 +9,39 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-const menuPlugin = (function () {
+const menuFullscreen = () => {
+
 	/**
 	 * Grab the menu checkbox (should only ever be one instance).
 	 */
 	const checkbox = document.querySelector('#fullscreenMenu_toggle');
 
 	/**
-	 * Init the menu with a checkbox 'change' event listener and a window
-	 * resize event listener.
+	 * Initialise the menu.
+	 * 
+	 * Attach a checkbox 'change' event listener to toggle scroll lock.
+	 * Attach a button event listener to toggle the menu.
 	 */
-	function initMenu() {
-		checkbox.addEventListener('change', function () {
-			if (this.checked) {
+	function initialise() {
+		checkbox.addEventListener( 'change', function() {
+			if ( this.checked ) {
 				disableScroll();
 			} else {
 				enableScroll();
 			}
-		});
+		} );
+
+		const buttons = [
+			document.querySelector('.fullscreenMenu_open'),
+			document.querySelector('.fullscreenMenu_close')
+		]
+
+		buttons.forEach( ( button ) => {
+
+			button.addEventListener( 'click', () => {
+				document.getElementById('fullscreenMenu_toggle').click();
+			} );
+		} );
 	}
 
 	/**
@@ -38,7 +53,7 @@ const menuPlugin = (function () {
 	 * again, the fullscreen menu would unexpectedly appear without the user clicking the menu
 	 * button again.
 	 */
-	const viewportSizeCheck = (event) => {
+	const viewportSizeCheck = () => {
 		let viewportResizeSettle = window.setTimeout(() => {
 			let pageWidth = parseInt(
 				document.querySelector('html').getBoundingClientRect().width,
@@ -49,7 +64,7 @@ const menuPlugin = (function () {
 				checkbox.click();
 				return;
 			}
-		}, 500); // Poll interval.
+		}, 250); // Poll interval.
 	};
 
 	/**
@@ -69,8 +84,7 @@ const menuPlugin = (function () {
 			.getBoundingClientRect().width;
 
 		// Calc the scrollbar width
-		scrollbarWidth =
-			parseInt(widthWithScrollBar - widthWithoutScrollBar, 10) + 'px';
+		const scrollbarWidth = parseInt(widthWithScrollBar - widthWithoutScrollBar, 10) + 'px';
 		return scrollbarWidth;
 	};
 
@@ -79,6 +93,8 @@ const menuPlugin = (function () {
 	 *
 	 * Sets 'overflow: hidden' on the body element and inserts a div element to fill the gap left
 	 * by the missing scrollbar.
+	 * 
+	 * Also attaches an event listner which fires viewportSizeCheck() to update the UI on resize.
 	 */
 	function disableScroll() {
 		// Cover the missing scrollbar gap with a black div
@@ -101,6 +117,7 @@ const menuPlugin = (function () {
 		}
 
 		document.querySelector('body').style.overflow = 'hidden';
+		const scrollbarWidth = getScrollbarWidth();
 		document.querySelector('html').style.paddingRight = scrollbarWidth;
 
 		window.addEventListener('resize', viewportSizeCheck);
@@ -129,7 +146,9 @@ const menuPlugin = (function () {
 	let docLoaded = setInterval(function () {
 		if (document.readyState === 'complete') {
 			clearInterval(docLoaded);
-			initMenu();
+			initialise();
 		}
 	}, 100);
-})(); // plugin end.
+};
+
+export { menuFullscreen };

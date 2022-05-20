@@ -54,13 +54,13 @@ get_template_part( 'template-parts/css-loader' );
 							Find us
 						</span>
 					</a>
-					<button class="secondaryMenu_item button" onclick="document.querySelector('.search_toggle').click()">
+					<button class="secondaryMenu_item button search_button">
 						<i class="fa-solid fa-magnifying-glass"></i>	
 						<span class="secondaryMenu_label">
 							Search
 						</span>
 					</button>
-					<button class="secondaryMenu_item fullscreenMenu_open button" onclick="document.querySelector('.fullscreenMenu_toggle').click()">
+					<button class="secondaryMenu_item fullscreenMenu_open button">
 						<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
 					</button>
 				</nav>
@@ -74,13 +74,6 @@ get_template_part( 'template-parts/css-loader' );
 							'aria_label' => 'Search our website',
 						)
 					);
-
-					/*
-					// Decided to omit this button for now.
-					<button class="search_close" onclick="document.querySelector('.search_toggle').click()">
-						<i class="fa-solid fa-xmark"></i>
-					</button>
-					*/
 					?>
 				</div>
 
@@ -91,7 +84,7 @@ get_template_part( 'template-parts/css-loader' );
 			<input id="fullscreenMenu_toggle" class="fullscreenMenu_toggle" type="checkbox">
 			<div class="fullscreenMenu" style="transform: translateX(-100%);">
 				<div class="fullscreenMenu_contents">
-					<button class="fullscreenMenu_close" onclick="document.getElementById('fullscreenMenu_toggle').click()">
+					<button class="fullscreenMenu_close">
 						<i class="fullscreenMenu_icon fa-solid fa-xmark"></i>
 					</button>
 					<div class="fullscreenMenu_scroll">

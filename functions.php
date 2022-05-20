@@ -35,26 +35,15 @@ if ( is_admin() ) {
  */
 function enqueue_scripts_and_styles() {
 	wp_enqueue_style( 'style_css', get_template_directory_uri() . '/style.css', array(), filemtime( get_template_directory() . '/style.css' ), 'all' );
-	wp_enqueue_style( 'toecaps_css', get_template_directory_uri() . '/css/toecaps.css', array( 'style_css' ), filemtime( get_template_directory() . '/css/toecaps.css' ), 'all' );
 	wp_register_style( 'fontawesome_css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css', array(), '6.1.1', 'all' );
 	// If not in admin area.
 	if ( 'wp-login.php' !== $GLOBALS['pagenow'] && ! is_admin() ) {
 		wp_enqueue_style( 'fontawesome_css' );
-		// Other front end resources.
-		wp_enqueue_script( 'menu_fullscreen_js', get_template_directory_uri() . '/src/js/menu-fullscreen.js', array(), filemtime( get_template_directory() . '/src/js/menu-fullscreen.js' ), true );
-		//wp_enqueue_script( 'accordian_js', get_template_directory_uri() . '/src/js/accordian.js', array(), filemtime( get_template_directory() . '/src/js/accordian.js' ), true );
-		wp_enqueue_script( 'dropdown_js', get_template_directory_uri() . '/src/js/dropdown.js', array(), filemtime( get_template_directory() . '/src/js/dropdown.js' ), true );
-		wp_enqueue_script( 'menu_more_js', get_template_directory_uri() . '/src/js/menu-more.js', array( 'dropdown_js' ), filemtime( get_template_directory() . '/src/js/menu-more.js' ), true );
-		wp_enqueue_script( 'psuedobutton_js', get_template_directory_uri() . '/src/js/psuedo-button.js', array(), filemtime( get_template_directory() . '/src/js/psuedo-button.js' ), true );
+		// External js.
 		wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js', array( 'jquery' ), '3.9.1', true );
-		// CSSRule this is part of core but there's a separate CDN?
 		wp_enqueue_script( 'gsap_scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js', array( 'gsap' ), '3.9.1', true );
-		//wp_enqueue_script( 'parallax_js', get_template_directory_uri() . '/src/js/parallax.js', array( 'gsap_scrolltrigger' ), filemtime( get_template_directory() . '/src/js/parallax.js' ), true );
-
-
-		wp_enqueue_script( 'bundle_js', get_template_directory_uri() . '/js/bundle.js', array( 'gsap', 'gsap_scrolltrigger'  ), filemtime( get_template_directory() . '/js/bundle.js' ), true );
-
-
+		// Local js.
+		wp_enqueue_script( 'bundle_js', get_template_directory_uri() . '/js/bundle.js', array( 'gsap_scrolltrigger' ), filemtime( get_template_directory() . '/js/bundle.js' ), true );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'enqueue_scripts_and_styles' );

@@ -4,7 +4,10 @@
  * This plugin detects when a menu bar is outgrowing it's container, and moves as many
  * menu items as neccessary into an appended dropdown to make it fit.
  */
-const navAutoMore = (function () {
+
+import { dropdownControl } from './dropdown.js';
+
+const menuMore = () => {
 	'use strict';
 
 	// Settings.
@@ -31,7 +34,7 @@ const navAutoMore = (function () {
 	 *
 	 * The array must contain exactly two classes
 	 */
-	const updateClasses = (elem) => {
+	const updateClasses = ( elem ) => {
 		if (elem.classList.contains(classInMenu)) {
 			elem.classList.replace(classInMenu, classTopLevel);
 		} else if (elem.classList.contains(classTopLevel)) {
@@ -42,7 +45,7 @@ const navAutoMore = (function () {
 	/**
 	 * Get element inner width (without padding or borders).
 	 */
-	const getInnerWidth = (element) => {
+	const getInnerWidth = ( element ) => {
 		const widthIncPadding = element.clientWidth;
 		const styles = window.getComputedStyle(element);
 		const paddingLeft = parseInt(
@@ -113,7 +116,8 @@ const navAutoMore = (function () {
 
 					// Deregister hover event listeners.
 					if ( navLastItem.classList.contains( classInMenu ) ) {
-						dropdownPlugin.deregisterHover( navLastItem );
+console.log('HELLO');
+						dropdownControl.deregisterHover( navLastItem );
 					}
 				}
 			} else if ( moreContents.children.length > 0 ) {
@@ -134,7 +138,7 @@ const navAutoMore = (function () {
 
 					// Register hover event listeners.
 					if (moreFirstItem.classList.contains(classTopLevel)) {
-						dropdownPlugin.registerHover(moreFirstItem);
+						dropdownControl.registerHover(moreFirstItem);
 					}
 
 					// Calc the nav width with the next element.
@@ -171,7 +175,7 @@ const navAutoMore = (function () {
 			const autoMore = nav.querySelector('.autoMore');
 
 			// Attach dropdown hover event listeners.
-			dropdownPlugin.registerHover(autoMore);
+			dropdownControl.registerHover(autoMore);
 
 			// Attach keydown listener to psuedo-button for spacebar/enter key accessibility.
 			autoMore.firstElementChild.addEventListener('keydown', (event) => {
@@ -212,4 +216,6 @@ const navAutoMore = (function () {
 			init();
 		}
 	}, 1); // We want the init to run asap so the browser can get on with rendering.
-})();
+};
+
+export { menuMore };

@@ -8,8 +8,10 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
+
+gsap.registerPlugin( ScrollTrigger );
+
 const parallax = () => {
-	gsap.registerPlugin( ScrollTrigger );
 
 	const doParallax = () => {
 		const paraElems = document.querySelectorAll( '.parallax' );
