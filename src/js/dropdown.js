@@ -8,29 +8,26 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-
 // Get the an array of unique menu elements which contain dropdowns.
 const dropdowns = document.querySelectorAll('.dropdown-hover');
 const dropdownParents = [];
-dropdowns.forEach( ( dropdown ) => {
-	dropdownParents.push( dropdown.parentElement );
-} );
+dropdowns.forEach((dropdown) => {
+	dropdownParents.push(dropdown.parentElement);
+});
 const menuContainers = [...new Set(dropdownParents)];
 
 // True when mousedown on element, false after mouseup.
 let mouseDown = false;
 
-
 const dropdownControl = {
-
 	/**
 	 * Initialise the dropdowns.
 	 *
 	 * Fired on doc ready to attach event listeners to all dropdowns in the DOM.
 	 */
-	initDropdowns: function() {
+	initDropdowns: function () {
 		// Attach 'click' event handler to page.
-		document.addEventListener('click', dropdownControl.pageClickHandler );
+		document.addEventListener('click', dropdownControl.pageClickHandler);
 
 		// Attach 'mouseenter' and 'mouseleave' event handlers to dropdown(s).
 		let hoverDropdowns = document.querySelectorAll('.dropdown-hover');
@@ -39,15 +36,15 @@ const dropdownControl = {
 		});
 
 		// Attach 'click' event handler to the menu container(s).
-		menuContainers.forEach( ( menu ) => {
-			menu.addEventListener( 'click', dropdownControl.menuClickHandler );
-			menu.addEventListener( 'mousedown', () => {
+		menuContainers.forEach((menu) => {
+			menu.addEventListener('click', dropdownControl.menuClickHandler);
+			menu.addEventListener('mousedown', () => {
 				mouseDown = true;
-			} );
-			menu.addEventListener( 'mouseup', () => {
+			});
+			menu.addEventListener('mouseup', () => {
 				mouseDown = false;
-			} );
-		} );
+			});
+		});
 	},
 
 	/**
@@ -69,7 +66,7 @@ const dropdownControl = {
 	 *
 	 * @param {HTMLElement} element - Element to check.
 	 */
-	isInLeftHalf: function(element) {
+	isInLeftHalf: function (element) {
 		const dims = element.getBoundingClientRect();
 		const viewportWidth = window.innerWidth;
 
@@ -81,7 +78,7 @@ const dropdownControl = {
 	 *
 	 * @param {HTMLElement} menu - The dropdown contents (menu) element.
 	 */
-	scrollIntoView: function(menu) {
+	scrollIntoView: function (menu) {
 		const menuStyles = menu.getBoundingClientRect();
 		const bodyStyles = document.body.getBoundingClientRect();
 		const viewportHeight = window.innerHeight;
@@ -101,7 +98,6 @@ const dropdownControl = {
 		}
 	},
 
-
 	/**
 	 * Page Click Handler.
 	 *
@@ -110,15 +106,14 @@ const dropdownControl = {
 	 * @param {Event} event - The event object.
 	 */
 	pageClickHandler: function (event) {
-
 		// Bail if the click is on a menu.
 		let isAMenu = false;
-		menuContainers.forEach( ( menu ) => {
-			if ( true === !! menu.contains( event.target ) ) {
+		menuContainers.forEach((menu) => {
+			if (true === !!menu.contains(event.target)) {
 				isAMenu = true;
 			}
-		} );
-		if ( isAMenu ) return;
+		});
+		if (isAMenu) return;
 
 		// Get all active top-level dropdowns.
 		const activeDropdowns = [];
@@ -139,9 +134,7 @@ const dropdownControl = {
 					.closest('.dropdown-hover')
 					.setAttribute('data-hover-lock', 'false');
 			}
-			dropdownControl.close(
-				dropdown.querySelector('.dropdown_toggle')
-			);
+			dropdownControl.close(dropdown.querySelector('.dropdown_toggle'));
 		});
 	},
 
@@ -193,11 +186,7 @@ const dropdownControl = {
 				const mouseOverElem = (event) => {
 					hoverTarget = event.target;
 				};
-				document.addEventListener(
-					'mouseover',
-					mouseOverElem,
-					false
-				);
+				document.addEventListener('mouseover', mouseOverElem, false);
 				setTimeout(() => {
 					if (!button.parentElement.contains(hoverTarget)) {
 						dropdownControl.close(button);
@@ -316,11 +305,14 @@ const dropdownControl = {
 	 */
 	menuClickHandler: function (event) {
 		// If click is on a dropdown toggle button or dropdown primary element.
-		if ( true === !! event.target.closest('.dropdown_toggle')
-			|| true === !! event.target.closest('.dropdown_primary') ) {
-
+		if (
+			true === !!event.target.closest('.dropdown_toggle') ||
+			true === !!event.target.closest('.dropdown_primary')
+		) {
 			// Find the toggle button inside the parent dropdown element.
-			const button = event.target.closest( '.dropdown' ).querySelector('.dropdown_toggle');
+			const button = event.target
+				.closest('.dropdown')
+				.querySelector('.dropdown_toggle');
 
 			// If active and unlocked.
 			if (
@@ -338,11 +330,7 @@ const dropdownControl = {
 				true === !!button.closest('[data-hover-lock="true"]')
 			) {
 				// If it's the top level dropdown, unlock it.
-				if (
-					button.parentElement.classList.contains(
-						'dropdown-hover'
-					)
-				) {
+				if (button.parentElement.classList.contains('dropdown-hover')) {
 					button
 						.closest('.dropdown-hover')
 						.setAttribute('data-hover-lock', 'false');
@@ -391,7 +379,10 @@ const dropdownControl = {
 
 		// Set dropdown swing direction on smaller screens.
 		if (dropdown.classList.contains('dropdown-hover')) {
-			if (window.innerWidth <= 1024 && dropdownControl.isInLeftHalf(dropdown)) {
+			if (
+				window.innerWidth <= 1024 &&
+				dropdownControl.isInLeftHalf(dropdown)
+			) {
 				dropdown.classList.add('dropdown-swingRight');
 				dropdown.classList.remove('dropdown-swingLeft');
 			} else {
@@ -420,9 +411,7 @@ const dropdownControl = {
 		[...allTopLevelDropdowns].forEach((topLevelDropdown) => {
 			if (
 				topLevelDropdown.contains(
-					topLevelDropdown.querySelector(
-						'.dropdown_toggle-active'
-					)
+					topLevelDropdown.querySelector('.dropdown_toggle-active')
 				)
 			) {
 				activeTopLevelDropdowns.push(topLevelDropdown);
@@ -442,9 +431,7 @@ const dropdownControl = {
 		// Open the ancestors when reverse-tabbing focuses on a last-child dropdown item first.
 		if (
 			false ===
-				!!button.parentElement.classList.contains(
-					'dropdown-hover'
-				) &&
+				!!button.parentElement.classList.contains('dropdown-hover') &&
 			false === !!button.classList.contains('dropdown_toggle-active')
 		) {
 			// This is a child dropdown with no active ancestor.
@@ -509,7 +496,6 @@ const dropdownControl = {
 			button.setAttribute('aria-pressed', false);
 		}
 	},
-
 };
 
 export { dropdownControl };

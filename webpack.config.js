@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-	mode: "production",
+	mode: 'production',
 	// "production" | "development" | "none"
 	// Chosen mode tells webpack to use its built-in optimizations accordingly.
 	entry: './src/index.js',
@@ -11,7 +11,7 @@ module.exports = {
 	output: {
 		// options related to how webpack emits results
 		filename: 'bundle.js',
-		path: path.resolve( __dirname, 'js' ),
+		path: path.resolve(__dirname, 'js'),
 	},
 	optimization: {
 		minimize: true,

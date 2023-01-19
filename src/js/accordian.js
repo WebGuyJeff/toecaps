@@ -8,41 +8,41 @@
  * @copyright Copyright (c) 2022, Jefferson Real
  */
 
-const accordianButtons = [ ...document.querySelectorAll( 'button.accordian_title' ) ];
+const accordianButtons = [
+	...document.querySelectorAll('button.accordian_title'),
+];
 
 const accordian = {
+	bindEvents: () =>
+		accordianButtons.forEach((element) =>
+			element.addEventListener('click', function () {
+				accordian.toggleAria(this);
+			})
+		),
 
-	/**
-	 * Bind click listeners to accordian buttons.
-	 */
-	bindEvents: () => accordianButtons.forEach ( element => element.addEventListener(
-		'click',
-		function () {
-			accordian.toggleAria( this )
-		}
-	) ),
-
-	/**
-	 * Toggle ARIA attributes callback.
-	 */
-	toggleAria: ( accordian ) => {
-		accordian.setAttribute( 'aria-expanded', accordian.getAttribute( 'aria-expanded' ) === 'true' ? 'false' : 'true' );
-		accordian.setAttribute( 'aria-pressed', accordian.getAttribute( 'aria-pressed' ) === 'true' ? 'false' : 'true' );
+	toggleAria: (accordian) => {
+		accordian.setAttribute(
+			'aria-expanded',
+			accordian.getAttribute('aria-expanded') === 'true'
+				? 'false'
+				: 'true'
+		);
+		accordian.setAttribute(
+			'aria-pressed',
+			accordian.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'
+		);
 		// Toggle the checkbox toggle.
 		accordian.nextElementSibling.click();
 	},
 
-	/**
-	 * Initialise on doc ready.
-	 */
 	initialise: () => {
-		const docLoaded = setInterval( function () {
-			if ( document.readyState === 'complete' ) {
-				clearInterval( docLoaded );
+		const docLoaded = setInterval(function () {
+			if (document.readyState === 'complete') {
+				clearInterval(docLoaded);
 				accordian.bindEvents();
 			}
-		}, 100 );
+		}, 100);
 	},
-}
+};
 
 export { accordian };

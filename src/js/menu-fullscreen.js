@@ -10,7 +10,6 @@
  */
 
 const menuFullscreen = () => {
-
 	/**
 	 * Grab the menu checkbox (should only ever be one instance).
 	 */
@@ -18,30 +17,29 @@ const menuFullscreen = () => {
 
 	/**
 	 * Initialise the menu.
-	 * 
+	 *
 	 * Attach a checkbox 'change' event listener to toggle scroll lock.
 	 * Attach a button event listener to toggle the menu.
 	 */
 	function initialise() {
-		checkbox.addEventListener( 'change', function() {
-			if ( this.checked ) {
+		checkbox.addEventListener('change', function () {
+			if (this.checked) {
 				disableScroll();
 			} else {
 				enableScroll();
 			}
-		} );
+		});
 
 		const buttons = [
 			document.querySelector('.fullscreenMenu_open'),
-			document.querySelector('.fullscreenMenu_close')
-		]
+			document.querySelector('.fullscreenMenu_close'),
+		];
 
-		buttons.forEach( ( button ) => {
-
-			button.addEventListener( 'click', () => {
+		buttons.forEach((button) => {
+			button.addEventListener('click', () => {
 				document.getElementById('fullscreenMenu_toggle').click();
-			} );
-		} );
+			});
+		});
 	}
 
 	/**
@@ -84,7 +82,8 @@ const menuFullscreen = () => {
 			.getBoundingClientRect().width;
 
 		// Calc the scrollbar width
-		const scrollbarWidth = parseInt(widthWithScrollBar - widthWithoutScrollBar, 10) + 'px';
+		const scrollbarWidth =
+			parseInt(widthWithScrollBar - widthWithoutScrollBar, 10) + 'px';
 		return scrollbarWidth;
 	};
 
@@ -93,7 +92,7 @@ const menuFullscreen = () => {
 	 *
 	 * Sets 'overflow: hidden' on the body element and inserts a div element to fill the gap left
 	 * by the missing scrollbar.
-	 * 
+	 *
 	 * Also attaches an event listner which fires viewportSizeCheck() to update the UI on resize.
 	 */
 	function disableScroll() {

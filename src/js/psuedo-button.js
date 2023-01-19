@@ -21,7 +21,6 @@ const psuedoButtons = () => {
 		let buttons = document.querySelectorAll('.button:not( button )');
 
 		[...buttons].forEach((button) => {
-
 			// Tell assistive tech this is a button.
 			button.setAttribute('role', 'button');
 

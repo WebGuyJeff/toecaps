@@ -1551,7 +1551,7 @@ body > main {
 		animation: visibilityHidden 1s;
 	}
 
-	@media (max-width: 767px) {
+	@media (max-width: 767.999px) {
 		.fullscreenMenu_toggle:checked ~ .fullscreenMenu {
 			transform: translateX(0) !important;
 			animation: visibilityVisible 1s;
@@ -2446,6 +2446,7 @@ div.wp-block-buttons > .wp-block-button {
     font-family: 'Albertus Medium';
     font-style: normal;
     font-weight: 400;
+	font-display: swap;
     src: local('Albertus Medium'), url('https://fonts.cdnfonts.com/s/13715/Albertus Medium Regular.woff') format('woff');
 }
 

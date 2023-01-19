@@ -24,9 +24,9 @@ $tc_email    = ( isset( $tc_settings['tc_email_address'] ) ) ? $tc_settings['tc_
 				?>
 				<a
 					class="promoBanner_link"
-					href="mailto:<?php echo esc_html( $tc_email ); ?>?subject=New%20Website%20Enquiry"
-					aria-label="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
-					title="<?php esc_html_e( 'Email us', 'toecaps' ); ?>"
+					href="/contact/"
+					aria-label="<?php esc_html_e( 'Message us', 'toecaps' ); ?>"
+					title="<?php esc_html_e( 'Message us', 'toecaps' ); ?>"
 				>
 					<i class="fa-solid fa-envelope"></i>
 					<?php echo esc_html( $tc_email ); ?>

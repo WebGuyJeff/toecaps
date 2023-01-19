@@ -9,7 +9,6 @@
  */
 
 const searchPopup = () => {
-
 	/**
 	 * Grab the button which opens the search form (should only ever be one instance).
 	 */
@@ -17,13 +16,13 @@ const searchPopup = () => {
 
 	/**
 	 * Initialise the button.
-	 * 
+	 *
 	 * Attach a click event listener to the button which toggles the search form.
 	 */
 	function initialise() {
-		button.addEventListener( 'click', () => {
+		button.addEventListener('click', () => {
 			document.querySelector('.search_toggle').click();
-		} );
+		});
 	}
 
 	// Poll for doc ready state

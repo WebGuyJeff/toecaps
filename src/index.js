@@ -1,9 +1,9 @@
 /**
  * Index file for all js modules.
- * 
+ *
  * This file is used to import all Toecaps JS modules and set the theme functionality up. It also
  * provides an entry point for Webpack bundling.
- * 
+ *
  * @link https://metabox.io/modernizing-javascript-code-in-wordpress/
  */
 

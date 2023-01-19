@@ -34,8 +34,8 @@ if ( is_front_page() || is_home() ) {
 		if ( $tc_phone ) {
 			?>
 
-			<a class="header_ctaButton button button-cta" role="button" href="tel:<?php echo esc_attr( $tc_phone ); ?>" aria-label="Phone us">
-				<span>Call Now</span>
+			<a class="header_ctaButton button button-cta" role="button" href="/contact/" aria-label="Contact us">
+				<span>Contact us</span>
 			</a>
 
 			<?php
@@ -68,8 +68,8 @@ if ( is_front_page() || is_home() ) {
 			if ( $tc_phone ) {
 
 				?>
-				<a class="header_ctaButton button button-cta" role="button" href="tel:<?php echo esc_attr( $tc_phone ); ?>" aria-label="Phone us">
-					<span>Call Now</span>
+				<a class="header_ctaButton button button-cta" role="button" href="/contact/" aria-label="Contact us">
+					<span>Contact us</span>
 				</a>
 				<?php
 			}

@@ -41,8 +41,10 @@ get_template_part( 'template-parts/css-loader' );
 					if ( has_custom_logo() ) {
 						$logo_id  = get_theme_mod( 'custom_logo' );
 						$logo_src = wp_get_attachment_image_src( $logo_id, 'full' );
-						$logo_alt = get_post_meta( $logo_id, '_wp_attachment_image_alt', true );
-						echo '<img class="identity_logo" alt="' . esc_attr( $logo_alt ) . '" src="' . esc_url( $logo_src[0] ) . '">';
+						if ( $logo_src ) {
+							$logo_alt = get_post_meta( $logo_id, '_wp_attachment_image_alt', true );
+							echo '<img class="identity_logo" alt="' . esc_attr( $logo_alt ) . '" src="' . esc_url( $logo_src[0] ) . '">';
+						}
 					}
 					?>
 				</a>
@@ -106,7 +108,7 @@ get_template_part( 'template-parts/css-loader' );
 				</div>
 			</div>
 			<div class="navBar">
-				<div class="container">
+				<!--<div class="container">-->
 					<?php
 					Menu_Walker::output_theme_location_menu(
 						array(
@@ -118,7 +120,7 @@ get_template_part( 'template-parts/css-loader' );
 						)
 					);
 					?>
-				</div>
+				<!--</div>-->
 			</div>
 		</div>
 
@@ -146,10 +148,7 @@ get_template_part( 'template-parts/css-loader' );
 						?>
 
 						<img
-							class="header_image wp-post-image <?php echo esc_attr( $filter_class ); ?>"
-							width="1920"
-							height="960"
-							src="http://localhost:8001/wp-content/uploads/2022/04/hero-background.webp"
+							class="header_image wpreturn8001/wp-content/uploads/2022/04/hero-background.webp"
 							alt="Joinery Workshop"
 							loading="lazy"
 							srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback.webp 1920w,
