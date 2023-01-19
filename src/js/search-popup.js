@@ -12,7 +12,7 @@ const searchPopup = () => {
 	/**
 	 * Grab the button which opens the search form (should only ever be one instance).
 	 */
-	const button = document.querySelector('.search_button');
+	const button = document.querySelector( '.search_button' )
 
 	/**
 	 * Initialise the button.
@@ -20,18 +20,18 @@ const searchPopup = () => {
 	 * Attach a click event listener to the button which toggles the search form.
 	 */
 	function initialise() {
-		button.addEventListener('click', () => {
-			document.querySelector('.search_toggle').click();
-		});
+		button.addEventListener( 'click', () => {
+			document.querySelector( '.search_toggle' ).click()
+		} )
 	}
 
 	// Poll for doc ready state
-	let docLoaded = setInterval(function () {
-		if (document.readyState === 'complete') {
-			clearInterval(docLoaded);
-			initialise();
+	let docLoaded = setInterval( function () {
+		if ( document.readyState === 'complete' ) {
+			clearInterval( docLoaded )
+			initialise()
 		}
-	}, 100);
-};
+	}, 100 )
+}
 
-export { searchPopup };
+export { searchPopup }

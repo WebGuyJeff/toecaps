@@ -9,40 +9,40 @@
  */
 
 const accordianButtons = [
-	...document.querySelectorAll('button.accordian_title'),
-];
+	...document.querySelectorAll( 'button.accordian_title' ),
+]
 
 const accordian = {
 	bindEvents: () =>
-		accordianButtons.forEach((element) =>
-			element.addEventListener('click', function () {
-				accordian.toggleAria(this);
-			})
+		accordianButtons.forEach( ( element ) =>
+			element.addEventListener( 'click', function () {
+				accordian.toggleAria( this )
+			} )
 		),
 
-	toggleAria: (accordian) => {
+	toggleAria: ( accordian ) => {
 		accordian.setAttribute(
 			'aria-expanded',
-			accordian.getAttribute('aria-expanded') === 'true'
+			accordian.getAttribute( 'aria-expanded' ) === 'true'
 				? 'false'
 				: 'true'
-		);
+		)
 		accordian.setAttribute(
 			'aria-pressed',
-			accordian.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'
-		);
+			accordian.getAttribute( 'aria-pressed' ) === 'true' ? 'false' : 'true'
+		)
 		// Toggle the checkbox toggle.
-		accordian.nextElementSibling.click();
+		accordian.nextElementSibling.click()
 	},
 
 	initialise: () => {
-		const docLoaded = setInterval(function () {
-			if (document.readyState === 'complete') {
-				clearInterval(docLoaded);
-				accordian.bindEvents();
+		const docLoaded = setInterval( function () {
+			if ( document.readyState === 'complete' ) {
+				clearInterval( docLoaded )
+				accordian.bindEvents()
 			}
-		}, 100);
+		}, 100 )
 	},
-};
+}
 
-export { accordian };
+export { accordian }

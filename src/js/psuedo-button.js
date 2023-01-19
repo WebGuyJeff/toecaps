@@ -9,7 +9,7 @@
  */
 
 const psuedoButtons = () => {
-	'use strict';
+	'use strict'
 
 	/**
 	 * Initialise the buttons.
@@ -18,28 +18,28 @@ const psuedoButtons = () => {
 	 */
 	function initPsuedoButtons() {
 		// Get buttons which are not button elements.
-		let buttons = document.querySelectorAll('.button:not( button )');
+		let buttons = document.querySelectorAll( '.button:not( button )' );
 
-		[...buttons].forEach((button) => {
+		[ ...buttons ].forEach( ( button ) => {
 			// Tell assistive tech this is a button.
-			button.setAttribute('role', 'button');
+			button.setAttribute( 'role', 'button' )
 
 			// Add to the tab index.
-			button.setAttribute('tabindex', '0');
+			button.setAttribute( 'tabindex', '0' )
 
 			// Attach keydown listener for spacebar/enter key accessibility.
-			button.addEventListener('keydown', (event) => {
+			button.addEventListener( 'keydown', ( event ) => {
 				if (
 					event.key === ' ' ||
 					event.key === 'Enter' ||
 					event.key === 'Spacebar'
 				) {
-					event.target.click();
+					event.target.click()
 					// Prevent browser scroll on space down (default behaviour in Chrome/Firefox etc).
-					event.preventDefault();
+					event.preventDefault()
 				}
-			});
-		});
+			} )
+		} )
 	}
 
 	/**
@@ -47,12 +47,12 @@ const psuedoButtons = () => {
 	 *
 	 * Polls for document ready state.
 	 */
-	let docLoaded = setInterval(function () {
-		if (document.readyState === 'complete') {
-			clearInterval(docLoaded);
-			initPsuedoButtons();
+	let docLoaded = setInterval( function () {
+		if ( document.readyState === 'complete' ) {
+			clearInterval( docLoaded )
+			initPsuedoButtons()
 		}
-	}, 100);
-};
+	}, 100 )
+}
 
-export { psuedoButtons };
+export { psuedoButtons }

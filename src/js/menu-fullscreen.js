@@ -13,7 +13,7 @@ const menuFullscreen = () => {
 	/**
 	 * Grab the menu checkbox (should only ever be one instance).
 	 */
-	const checkbox = document.querySelector('#fullscreenMenu_toggle');
+	const checkbox = document.querySelector( '#fullscreenMenu_toggle' )
 
 	/**
 	 * Initialise the menu.
@@ -22,24 +22,24 @@ const menuFullscreen = () => {
 	 * Attach a button event listener to toggle the menu.
 	 */
 	function initialise() {
-		checkbox.addEventListener('change', function () {
-			if (this.checked) {
-				disableScroll();
+		checkbox.addEventListener( 'change', function () {
+			if ( this.checked ) {
+				disableScroll()
 			} else {
-				enableScroll();
+				enableScroll()
 			}
-		});
+		} )
 
 		const buttons = [
-			document.querySelector('.fullscreenMenu_open'),
-			document.querySelector('.fullscreenMenu_close'),
-		];
+			document.querySelector( '.fullscreenMenu_open' ),
+			document.querySelector( '.fullscreenMenu_close' ),
+		]
 
-		buttons.forEach((button) => {
-			button.addEventListener('click', () => {
-				document.getElementById('fullscreenMenu_toggle').click();
-			});
-		});
+		buttons.forEach( ( button ) => {
+			button.addEventListener( 'click', () => {
+				document.getElementById( 'fullscreenMenu_toggle' ).click()
+			} )
+		} )
 	}
 
 	/**
@@ -52,18 +52,18 @@ const menuFullscreen = () => {
 	 * button again.
 	 */
 	const viewportSizeCheck = () => {
-		let viewportResizeSettle = window.setTimeout(() => {
+		let viewportResizeSettle = window.setTimeout( () => {
 			let pageWidth = parseInt(
-				document.querySelector('html').getBoundingClientRect().width,
+				document.querySelector( 'html' ).getBoundingClientRect().width,
 				10
-			);
-			if (pageWidth >= 768 && checkbox.checked) {
-				window.clearTimeout(viewportResizeSettle);
-				checkbox.click();
-				return;
+			)
+			if ( pageWidth >= 768 && checkbox.checked ) {
+				window.clearTimeout( viewportResizeSettle )
+				checkbox.click()
+				return
 			}
-		}, 250); // Poll interval.
-	};
+		}, 250 ) // Poll interval.
+	}
 
 	/**
 	 * Get the scrollbar width.
@@ -74,18 +74,18 @@ const menuFullscreen = () => {
 	 */
 	const getScrollbarWidth = () => {
 		// Get window width inc scrollbar
-		const widthWithScrollBar = window.innerWidth;
+		const widthWithScrollBar = window.innerWidth
 
 		// Get window width exc scrollbar
 		const widthWithoutScrollBar = document
-			.querySelector('html')
-			.getBoundingClientRect().width;
+			.querySelector( 'html' )
+			.getBoundingClientRect().width
 
 		// Calc the scrollbar width
 		const scrollbarWidth =
-			parseInt(widthWithScrollBar - widthWithoutScrollBar, 10) + 'px';
-		return scrollbarWidth;
-	};
+			parseInt( widthWithScrollBar - widthWithoutScrollBar, 10 ) + 'px'
+		return scrollbarWidth
+	}
 
 	/**
 	 * Disable scroll.
@@ -97,29 +97,29 @@ const menuFullscreen = () => {
 	 */
 	function disableScroll() {
 		// Cover the missing scrollbar gap with a black div
-		let elemExists = document.getElementById('js_psuedoScrollBar');
+		let elemExists = document.getElementById( 'js_psuedoScrollBar' )
 
-		if (elemExists !== null) {
-			document.getElementById('js_psuedoScrollBar').style.display =
-				'block';
+		if ( elemExists !== null ) {
+			document.getElementById( 'js_psuedoScrollBar' ).style.display =
+				'block'
 		} else {
-			let psuedoScrollBar = document.createElement('div');
-			psuedoScrollBar.setAttribute('id', 'js_psuedoScrollBar');
-			psuedoScrollBar.style.position = 'fixed';
-			psuedoScrollBar.style.right = '0';
-			psuedoScrollBar.style.top = '0';
-			psuedoScrollBar.style.width = getScrollbarWidth();
-			psuedoScrollBar.style.height = '100vh';
-			psuedoScrollBar.style.background = '#333';
-			psuedoScrollBar.style.zIndex = '9';
-			document.body.appendChild(psuedoScrollBar);
+			let psuedoScrollBar = document.createElement( 'div' )
+			psuedoScrollBar.setAttribute( 'id', 'js_psuedoScrollBar' )
+			psuedoScrollBar.style.position = 'fixed'
+			psuedoScrollBar.style.right = '0'
+			psuedoScrollBar.style.top = '0'
+			psuedoScrollBar.style.width = getScrollbarWidth()
+			psuedoScrollBar.style.height = '100vh'
+			psuedoScrollBar.style.background = '#333'
+			psuedoScrollBar.style.zIndex = '9'
+			document.body.appendChild( psuedoScrollBar )
 		}
 
-		document.querySelector('body').style.overflow = 'hidden';
-		const scrollbarWidth = getScrollbarWidth();
-		document.querySelector('html').style.paddingRight = scrollbarWidth;
+		document.querySelector( 'body' ).style.overflow = 'hidden'
+		const scrollbarWidth = getScrollbarWidth()
+		document.querySelector( 'html' ).style.paddingRight = scrollbarWidth
 
-		window.addEventListener('resize', viewportSizeCheck);
+		window.addEventListener( 'resize', viewportSizeCheck )
 	}
 
 	/**
@@ -129,25 +129,25 @@ const menuFullscreen = () => {
 	 * missing scrollbar.
 	 */
 	function enableScroll() {
-		let elemExists = document.getElementById('js_psuedoScrollBar');
+		let elemExists = document.getElementById( 'js_psuedoScrollBar' )
 
-		if (elemExists !== null) {
-			document.getElementById('js_psuedoScrollBar').style.display =
-				'none';
-			document.querySelector('body').style.overflow = 'auto';
-			document.querySelector('html').style.paddingRight = '0';
+		if ( elemExists !== null ) {
+			document.getElementById( 'js_psuedoScrollBar' ).style.display =
+				'none'
+			document.querySelector( 'body' ).style.overflow = 'auto'
+			document.querySelector( 'html' ).style.paddingRight = '0'
 		}
 
-		window.removeEventListener('resize', viewportSizeCheck);
+		window.removeEventListener( 'resize', viewportSizeCheck )
 	}
 
 	// Poll for doc ready state
-	let docLoaded = setInterval(function () {
-		if (document.readyState === 'complete') {
-			clearInterval(docLoaded);
-			initialise();
+	let docLoaded = setInterval( function () {
+		if ( document.readyState === 'complete' ) {
+			clearInterval( docLoaded )
+			initialise()
 		}
-	}, 100);
-};
+	}, 100 )
+}
 
-export { menuFullscreen };
+export { menuFullscreen }

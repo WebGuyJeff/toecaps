@@ -604,17 +604,18 @@ a img.aligncenter {
 /* The following are style overrides for other WP elements and components */
 
 .post-edit-link {
-	background: #cb0023;
-	padding: 0.5em 1em;
+	filter: drop-shadow(0px 0px 10px white);
+	position: fixed;
+	bottom: 3em;
+	left: 1em;
+	z-index: 99;
 	border-radius: var(--tc_radius-small);
 	box-shadow: 0 0 3px 1px #000;
-	filter: drop-shadow(0px 0px 10px white);
-	font: 600 1.2em helvetica;
+	background: #cb0023;
+	padding: 0.5em 1em;
 	text-decoration: none;
 	color: #fff;
-	position: fixed;
-	left: 1em;
-	bottom: 3em;
+	font: 600 1.2em helvetica;
 }
 
 /* Add radius to images */
@@ -1476,6 +1477,7 @@ body > main {
 
 .navBar {
 	display: none;
+	max-width: 100%;
 }
 	.mainMenu {
 		gap: 0.5em;
@@ -1711,13 +1713,18 @@ body > main {
 		transition: all var(--tc_slideTime) ease-in;
 		z-index: 10;
 		background-color: var(--tc_colour-white);
-		color: var(--tc_colour-black);
 		width: calc( 100% - 8px );
 		min-width: fit-content;
 		max-height: 0;
 		overflow: hidden;
 		text-align: left;
+		color: var(--tc_colour-black);
 		font-size: inherit;
+	}
+	@media ( min-width: 768px ) {
+		.dropdown_contents {
+			min-width: max-content;
+		}
 	}
 	.dropdown-hover > .dropdown_contents {
 		border-bottom-left-radius: 0.25em;

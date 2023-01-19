@@ -78,35 +78,12 @@ const menuMore = () => {
 		if ( window.innerWidth < minActiveWidth ) return
 
 		if ( navWidth > navParentWidth ) {
-			// Nav width is too big.
-
-
-			console.log( '### DEBUG ###' )
-			console.log( 'SHRINKING' )
-
-			let navLastItem
+			// Nav width is too big so we move items to 'more' dropdown.
 			while ( navWidth > navParentWidth ) {
-				/*
-				 * Array keys start at 0 so last item key is length -1.
-				 * We deduct 2 as the last item is the 'more' element.
-				 */
-				let count   = nav.children.length - 2
-				navLastItem = nav.children[ count ]
-
-				// A robust check to make sure we don't have the 'more' element.
-				while ( navLastItem.classList.contains( 'autoMore' ) ) {
-					count--
-					navLastItem = nav.children[ count ]
-				}
-
-				// Move last menu item to 'more'.
+				let navLastItem = nav.querySelector( '.autoMore' ).previousElementSibling
 				moreContents.prepend( navLastItem )
 				navWidth = nav.offsetWidth
-
-				// Update classes if needed.
 				updateClasses( navLastItem )
-
-				// Deregister hover event listeners.
 				if ( navLastItem.classList.contains( inMoreClass ) ) {
 					dropdownControl.deregisterHover( navLastItem )
 				}
@@ -114,38 +91,25 @@ const menuMore = () => {
 
 		} else if ( moreContents.children.length > 0 ) {
 			// Nav width is smaller than parent and 'more' has children.
-
-			let firstChild      = moreContents.firstElementChild
-			let firstChildWidth = firstChild.offsetWidth
-			let newNavWidth     = navWidth + firstChildWidth + flexGap
-
-			// Move menu items back into nav bar if they fit.
-			for ( let i = 0; i < moreContents.children.length; i++ ) {
+			while ( moreContents.children.length > 0 ) {
+				let firstChild      = moreContents.firstElementChild
+				let firstChildWidth = firstChild.offsetWidth
+				let newNavWidth     = navWidth + firstChildWidth + flexGap
 				if ( newNavWidth < navParentWidth ) {
-
 					nav.insertBefore( firstChild, more )
-
-					// Update classes if needed.
 					updateClasses( firstChild )
-
-					// Register hover event listeners.
 					if ( firstChild.classList.contains( inNavbarClass ) ) {
 						dropdownControl.registerHover( firstChild )
 					}
 
+					if ( moreContents.children.length === 0 ) break
 
-
-					console.log( '### DEBUG ###' )
-					console.log( 'GROWING' )
-					console.log( moreContents.firstElementChild )
-					console.log( newNavWidth < navParentWidth )
-					console.log( moreContents.children.length > 0 )
-
-					// Calc the nav width with the next element.
 					firstChild = moreContents.firstElementChild
 					firstChildWidth = firstChild.offsetWidth
 					navWidth = nav.offsetWidth
 					newNavWidth = navWidth + firstChildWidth + flexGap
+				} else {
+					break
 				}
 			}
 		}
