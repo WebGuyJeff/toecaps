@@ -379,10 +379,7 @@ const dropdownControl = {
 
 		// Set dropdown swing direction on smaller screens.
 		if ( dropdown.classList.contains( 'dropdown-hover' ) ) {
-			if (
-				window.innerWidth <= 1024 &&
-				dropdownControl.isInLeftHalf( dropdown )
-			) {
+			if ( dropdownControl.isInLeftHalf( dropdown ) ) {
 				dropdown.classList.add( 'dropdown-swingRight' )
 				dropdown.classList.remove( 'dropdown-swingLeft' )
 			} else {

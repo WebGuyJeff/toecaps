@@ -342,7 +342,8 @@ class Menu_Walker extends Walker_Nav_Menu {
 		$title     = $item->title;
 
 		// Button aria attributes.
-		$aria_attributes = ( $is_parent ) ? 'aria-pressed="false" aria-expanded="false" aria-haspopup="menu"' : '';
+		$aria_attributes  = ( $is_parent ) ? 'aria-pressed="false" aria-expanded="false" aria-haspopup="menu"' : '';
+		$aria_attributes .= ' aria-label="' . $title . '"';
 
 		$output .= "{$this->n}{$this->i(0)}<button class=\"dropdown_toggle\" {$aria_attributes}>";
 		$output .= "{$this->n}{$this->i(1)}<span class=\"dropdown_toggleIcon\">{$icon}</span>";
@@ -590,7 +591,7 @@ class Menu_Walker extends Walker_Nav_Menu {
 		<span class="dropdown_primary" role="button" tabindex="0">
 			More
 		</span>
-		<button class="dropdown_toggle" aria-pressed="false" aria-expanded="false" aria-haspopup="menu">
+		<button class="dropdown_toggle" aria-label="More" aria-pressed="false" aria-expanded="false" aria-haspopup="menu">
 			<span class="dropdown_toggleIcon">
 				{$icon}
 			</span>

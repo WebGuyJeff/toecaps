@@ -19,20 +19,15 @@ const menuMore = () => {
 
 	let initialised = false 
 	let navParents  = []
+	const navBars   = document.querySelectorAll( navSelector )
 
-	// Get all in-page nav bars.
-	const navBars = document.querySelectorAll( navSelector )
-	// Bail if there are no menus in page.
 	if ( navBars.length === 0 ) return
-	// Get all the parent navParents.
 	navBars.forEach( ( nav ) => {
 		navParents.push( nav.parentElement )
 	} )
 
 	/**
-	 * Swap classes on an element.
-	 *
-	 * The array must contain exactly two classes
+	 * Swap in-nav/in-dropdown classes.
 	 */
 	const updateClasses = ( elem ) => {
 		if ( elem.classList.contains( inMoreClass ) ) {
@@ -123,9 +118,6 @@ const menuMore = () => {
 		}
 	}
 
-	/**
-	 * Initialise the plugin.
-	 */
 	const init = () => {
 		if ( initialised ) return
 		initialised = true
@@ -169,7 +161,7 @@ const menuMore = () => {
 	 * Initialise after page load.
 	 */
 	let docLoaded = setInterval( () => {
-		if ( document.readyState === 'interactive' ) {
+		if ( document.readyState === 'complete' ) {
 			clearInterval( docLoaded )
 			init()
 		}

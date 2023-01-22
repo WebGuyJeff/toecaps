@@ -4,7 +4,7 @@ Theme URI: https://jeffersonreal.uk
 Author: Jefferson Real
 Author URI: https://jeffersonreal.uk
 Description: Multi-page theme for tradespeople, manufactureres and construction companies.
-Version: 0.82
+Version: 0.83
 License: GNU General Public License v3.0
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -200,7 +200,7 @@ elements should be renamed to a convention not including the colours to avoid th
 
 For now, these are the mismatches to be aware of:
 
-*class* 						*theme colour*
+*class* 						*theme template colour*
 .page-template-toecaps-red		grey
 .page-template-toecaps-teal		violet
 
@@ -221,12 +221,14 @@ For now, these are the mismatches to be aware of:
 	background: var(--tc_colour-white);
 }
 .theme_fill-accent {
-	color: var(--tc_colour-white);
+	/* color: var(--tc_colour-white); */
+	color: var(--tc_colour-black); /* Lighthouse contrast */
 	background: var(--tc_theme-accent);
 	text-shadow: 0px 0px 1px #0008;
 }
 .theme_fill-opaque {
-	color: var(--tc_colour-white);
+	/* color: var(--tc_colour-white); */
+	color: var(--tc_colour-black); /* Lighthouse contrast */
 	background: var(--tc_theme-accent-opaque);
 }
 .theme_font-accent,
@@ -316,7 +318,8 @@ For now, these are the mismatches to be aware of:
 .page-template-toecaps-red .categoryMenu_item:hover,
 .page-template-toecaps-teal .categoryMenu_item:hover,
 .page-template-toecaps-green .categoryMenu_item:hover {
-	color: var(--tc_colour-white);
+	/* color: var(--tc_colour-white); */
+	color: var(--tc_colour-black); /* Lighthouse contrast */
 }
 .page-template-toecaps-blue .accordian_title,
 .page-template-toecaps-yellow .accordian_title,
@@ -341,11 +344,8 @@ For now, these are the mismatches to be aware of:
 	color: var(--tc_colour-black);
 	background: var(--tc_colour-white);
 }
-.page-template-toecaps-blue button-cta,
 .page-template-toecaps-blue .button-cta,
-.page-template-toecaps-yellow button-cta,
 .page-template-toecaps-yellow .button-cta,
-.page-template-toecaps-tan button-cta,
 .page-template-toecaps-tan .button-cta {
 	color: var(--tc_colour-white);
 	background: var(--tc_colour-darkBlack);
@@ -353,6 +353,7 @@ For now, these are the mismatches to be aware of:
 }
 
 /* Add font shadow for contrast definition */
+
 .page-template-toecaps-red .promoBanner,
 .page-template-toecaps-teal .promoBanner,
 .page-template-toecaps-green .promoBanner,
@@ -365,8 +366,10 @@ For now, these are the mismatches to be aware of:
 .page-template-toecaps-red .USPBar,
 .page-template-toecaps-teal .USPBar,
 .page-template-toecaps-green .USPBar {
-	text-shadow: var(--tc_textShadow);
+	/*text-shadow: var(--tc_textShadow);*/
+	text-shadow: none; /* Lighthouse contrast */
 }
+
 
 /* Colour overrides */
 
@@ -383,15 +386,18 @@ For now, these are the mismatches to be aware of:
 	background: var(--tc_theme-blue);
 }
 .theme_fill-red {
-	color: var(--tc_colour-white);
+	/*color: var(--tc_colour-white);*/
+	color: var(--tc_colour-black); /* Lighthouse contrast */
 	background: var(--tc_theme-grey);
 }
 .theme_fill-teal {
-	color: var(--tc_colour-white);
+	/*color: var(--tc_colour-white);*/
+	color: var(--tc_colour-black); /* Lighthouse contrast */
 	background: var(--tc_theme-violet);
 }
 .theme_fill-green {
-	color: var(--tc_colour-white);
+	/*color: var(--tc_colour-white);*/
+	color: var(--tc_colour-black); /* Lighthouse contrast */
 	background: var(--tc_theme-green);
 }
 
@@ -657,40 +663,65 @@ a img.aligncenter {
 .wp-block-columns.cards {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: 1em;
+	gap: 1.2em;
 }
-	.wp-block-column.card {
-		margin: 0 !important;
-		border: solid 3px #fff;
-		border-radius: var(--tc_radius-medium);
-		box-shadow: 0 0 10px 0 #5556;
-		padding: 0.75em;
-	}
-
 @media (min-width: 600px) {
 	.wp-block-columns.cards {
-		grid-template-columns: 50% 50%;
+		grid-template-columns: 1fr 1fr;
 	}
 }
 
 @media (min-width: 900px) {
 	.wp-block-columns.cards {
-		grid-template-columns: 33.3% 33.3% 33.3%;
+		grid-template-columns: 1fr 1fr 1fr;
 	}
 }
+	.wp-block-column.card {
+		aspect-ratio: 2 / 2.6;
+		transition: all var(--tc_hoverTime) ease-in;
+		margin: 0 !important;
+		border: solid 0.2em #0000;
+		border-radius: var(--tc_radius-medium);
+		box-shadow: 0 0 10px 0 #5556;
+		padding: 0.75em;
+	}
+	.card .wp-block-cover {
+		border-top-left-radius: var(--tc_radius-small);
+		border-top-right-radius: var(--tc_radius-small);
+		overflow: hidden;
+	}
+	.card h3 {
+		border-bottom-left-radius: var(--tc_radius-small);
+		border-bottom-right-radius: var(--tc_radius-small);
+		background: var(--tc_colour-white);
+		padding: 0.2em;
+		color: var(--tc_colour-black);
+	}
+	.card > p {
+		margin: auto 0 0 0;
+	}
+	.wp-block-column.card .wp-block-button__link {
+		border: none;
+		border-bottom: solid 0.2em #0000;
+		background: none;
+		padding: 0 0 0.5em 0;
+		color: inherit;
+	}
+	.wp-block-columns > .wp-block-column.card > .wp-block-buttons {
+		margin-top: 0;
+	}
 
-.card .wp-block-cover {
-	border-top-left-radius: var(--tc_radius-small);
-	border-top-right-radius: var(--tc_radius-small);
-	overflow: hidden;
+.wp-block-column.card:hover {
+	transform: scale(1.02);
+	border: solid 0.2em #0005;
+	box-shadow: 0 0 36px -5px #000a;
 }
-.card h3 {
-	background: var(--tc_colour-white);
-	color: var(--tc_colour-black);
-	padding: 0.2em;
-	border-bottom-left-radius: var(--tc_radius-small);
-	border-bottom-right-radius: var(--tc_radius-small);
-}
+	.wp-block-column.card:hover a.wp-block-button__link {
+		border-bottom: solid 0.2em;
+	}
+		.wp-block-column.card:hover a.wp-block-button__link:after {
+			transform: translateX( 0.4em );
+		}
 
 /* Google reviews slider indicator fix */
 
@@ -1146,9 +1177,10 @@ body > main {
 
 .header {
 	background: var(--tc_theme-accent);
-    width: 100%;
-    height: fit-content;
-    color: var(--tc_colour-white);
+	width: 100%;
+	height: fit-content;
+	/* color: var(--tc_colour-white); */
+	color: var(--tc_colour-black); /* Lighthouse contrast */
 }
 	.header_main {
 		display: grid;
@@ -1204,6 +1236,7 @@ body > main {
 			margin-left: auto;
 			margin-right: auto;
 			filter: drop-shadow(0px 0px 0.15em #000);
+			color: var(--tc_colour-white); /* Lighthouse contrast */
 		}
 
 .header_margin {
@@ -1581,6 +1614,7 @@ body > main {
 	}
 	.navBar {
 		display: block;
+		padding: 0 0.75em;
 	}
 	.footer .mainMenu {
 		flex-flow: row wrap;
