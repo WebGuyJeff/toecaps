@@ -50,13 +50,21 @@ get_template_part( 'template-parts/css-loader' );
 				</a>
 
 				<nav class="secondaryMenu" aria-label="Secondary Menu">
-					<a class="secondaryMenu_item button" href="/contact#find-us">
+					<a
+						class="secondaryMenu_item button"
+						href="/contact#find-us"
+						alt="Find us"
+						aria-label="Find us"
+					>
 						<i class="fa-solid fa-location-dot"></i>	
 						<span class="secondaryMenu_label">
 							Find us
 						</span>
 					</a>
-					<button class="secondaryMenu_item button search_button">
+					<button
+						class="secondaryMenu_item button search_button"
+						aria-label="Search the site"
+					>
 						<i class="fa-solid fa-magnifying-glass"></i>	
 						<span class="secondaryMenu_label">
 							Search
