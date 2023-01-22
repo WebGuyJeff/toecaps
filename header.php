@@ -53,7 +53,6 @@ get_template_part( 'template-parts/css-loader' );
 					<a
 						class="secondaryMenu_item button"
 						href="/contact#find-us"
-						alt="Find us"
 						aria-label="Find us"
 					>
 						<i class="fa-solid fa-location-dot"></i>	
@@ -70,7 +69,10 @@ get_template_part( 'template-parts/css-loader' );
 							Search
 						</span>
 					</button>
-					<button class="secondaryMenu_item fullscreenMenu_open button">
+					<button
+						class="secondaryMenu_item fullscreenMenu_open button"
+						aria-label="Menu"
+					>
 						<i class="fullscreenMenu_icon fa fa-solid fa-bars"></i>
 					</button>
 				</nav>
