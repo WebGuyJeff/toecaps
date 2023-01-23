@@ -13,34 +13,57 @@
 
 namespace BigupWeb\Toecaps;
 
+/**
+ * SEO Meta.
+ *
+ * Scrape WordPress for metadata and generate meta HTML output ready to insert into the HTML <head>.
+ * Tries to select the most appropriate values for the page being queried.
+ */
 class Seo_Meta {
 
 
-	// array of meta vars
+	/**
+	 * Metadata variables
+	 *
+	 * @var array The metadata values scraped from WordPress.
+	 */
 	public $meta;
-	// complete output ready for <head>
+
+
+	/**
+	 * Head meta variable.
+	 *
+	 * @var string HTML output ready to inset into <head>.
+	 */
 	public $head_meta;
 
-	// init the class on each new instance
-	function __construct() {
+
+	/**
+	 * Construct the class.
+	 *
+	 * Scrape WordPress for metadata then generate the <head> meta HTML output.
+	 */
+	public function __construct() {
 		$this->meta      = $this->build_meta_vars();
 		$this->head_meta = $this->generate_head_meta( $this->meta );
-	}//end __construct()
+	}
 
 
-	// to be called inside the html head
+	/**
+	 * Output the head meta.
+	 */
 	public function print_head_meta() {
 		echo $this->head_meta;
 	}
 
 
 	/**
-	 * Function enforce_forward_slash
+	 * Enforce forward slash.
 	 *
-	 * Append forward slash to strings where not already present, return same value if arg is empty.
-	 * Serving multiple versions of the same url i.e url.com/ and url.com can lead to cannibalisation.
-	 * This function serves to ensure trailing slashes are present. This should be controlled by a top-
-	 * level SEO setting where the site owner can set slashes on or off.
+	 * Append forward slash to strings where not already present.
+	 *
+	 * @param string $url The URL to process.
+	 * @return string The URL with a forward slash or empty string if no URL passed.
 	 */
 	public function enforce_forward_slash( $url ) {
 		if ( $url !== '' && substr( $url, -1 ) !== '/' ) {
@@ -51,10 +74,10 @@ class Seo_Meta {
 
 
 	/**
-	 * function first_not_empty
+	 * Find first non-empty value.
 	 *
-	 * Accepts an array of values and returns the first non-empty value as a string.
-	 * Returns empty string on failure.
+	 * @param array $array The values to be checked.
+	 * @return string The first non-empty value, or empty string if no value found.
 	 */
 	public function first_not_empty( $array ) {
 		$string = '';
@@ -63,26 +86,23 @@ class Seo_Meta {
 				$trimmed = trim( $value, ' ' );
 				if ( ! empty( $trimmed ) ) {
 					$string = $trimmed;
-					goto end;
+					break;
 				}
 			}
-			end:
-			unset( $value ); // Cleanup
+			unset( $value );
 			if ( empty( $string ) ) {
 				$string = '';
 			}
 		}
 		return $string;
-	}//end first_not_empty()
+	}
 
 
 	/**
-	 * Function extract_image_from_content
+	 * Extract inline image from content.
 	 *
-	 * Accepts post content to be parsed with regular expression to find an image src.
-	 * It doesn't care what context the image is in, it's attributes or otherwise, it
-	 * just returns the first image found.
-	 * The cleaned URL is returned without quotes.
+	 * @param string $content HTML content to be parsed with regular expression to find an image.
+	 * @return string The cleaned URL without quotes.
 	 */
 	public function extract_image_from_content( $content ) {
 		$url = '';
@@ -97,9 +117,9 @@ class Seo_Meta {
 			preg_match_all( $regex, $content, $matches, PREG_PATTERN_ORDER );
 
 			if ( isset( $matches[0][0] ) ) {
-				$match    = $matches[0][0];
-				$urlParts = explode( '"', $match, 3 );
-				$url      = $urlParts[1];
+				$match     = $matches[0][0];
+				$url_parts = explode( '"', $match, 3 );
+				$url       = $url_parts[1];
 
 			} else {
 				$url = '';
@@ -108,123 +128,158 @@ class Seo_Meta {
 			$url = '';
 		}
 			return $url;
-	}//end extract_image_from_content()
+	}
 
 
+	/**
+	 * Get name of parent post.
+	 *
+	 * @param string $ID ID of the post to check for a parent.
+	 * @return string The name of the parent post of empty string if no parent is found.
+	 */
+	private function get_parent_post_name( $id ) {
+		$parent_post = get_post_parent( $id );
+		if ( $parent_post === null ) {
+			return '';
+		} else {
+			return apply_filters( 'the_title', $parent_post->post_title );
+		}
+	}
+
+
+	/**
+	 * Build meta variables.
+	 *
+	 * Process and select the most suitable meta values for the page.
+	 *
+	 * @return array An array of meta variables.
+	 */
 	public function build_meta_vars() {
 
 		/* Constants (need a source) */
-		$bw_siteauthor = 'Joinery Team';
-		$bw_localealt  = 'en_US';
-		$bw_objecttype = 'website';
-		$bw_robots     = 'index, follow, nocache, noarchive';
+		$site_author = 'Joinery Team';
+		$locale_alt  = 'en_US';
+		$object_type = 'website';
+		$robots      = 'index, follow, nocache, noarchive';
 
 		/* Sitewide */
-		$bw_identity  = wp_strip_all_tags( get_bloginfo( 'name', 'display' ) );
-		$bw_blogtitle = wp_strip_all_tags( get_the_title( get_option( 'page_for_posts', true ) ) );
-		$bw_sitedesc  = wp_strip_all_tags( get_bloginfo( 'description', 'display' ) );
-		$bw_siteurl   = esc_url( home_url( $path = '/', $scheme = 'https' ) );
-		$bw_sitelogo  = esc_url( wp_get_attachment_url( get_theme_mod( 'custom_logo' ) ) );
-		$bw_locale    = wp_strip_all_tags( get_bloginfo( 'language' ) );
-		$bw_charset   = wp_strip_all_tags( get_bloginfo( 'charset' ) );
-		$bw_themeuri  = get_template_directory_uri();
+		$site_name    = wp_strip_all_tags( get_bloginfo( 'name', 'display' ) );
+		$blog_title   = wp_strip_all_tags( get_the_title( get_option( 'page_for_posts', true ) ) );
+		$site_tagline = wp_strip_all_tags( get_bloginfo( 'description', 'display' ) );
+		$site_url     = esc_url( home_url( $path = '/', $scheme = 'https' ) );
+		$logo         = esc_url( wp_get_attachment_url( get_theme_mod( 'custom_logo' ) ) );
+		$locale       = wp_strip_all_tags( get_bloginfo( 'language' ) );
+		$charset      = wp_strip_all_tags( get_bloginfo( 'charset' ) );
+		$theme_uri    = get_template_directory_uri();
 
 		/* Page-Specific */
-		$post = get_post(); // Set up the post manually.
+		$post = get_post();
 		setup_postdata( $post );
-		$bw_postid      = get_the_ID();
-		$bw_postcontent = get_post_field( 'post_content', $bw_postid, '' );
-		$bw_postimage   = esc_url( $this->extract_image_from_content( $bw_postcontent ) );
-		$bw_posttitle   = wp_strip_all_tags( get_the_title() );
-		$bw_permalink   = esc_url( get_permalink() );
+		$post_id           = get_the_ID();
+		$post_content      = get_post_field( 'post_content', $post_id, '' );
+		$post_inline_img   = esc_url( $this->extract_image_from_content( $post_content ) );
+		$post_title        = wp_strip_all_tags( get_the_title() );
+		$post_parent_title = $this->get_parent_post_name( $post_id );
+		$post_url          = esc_url( get_permalink() );
 
 		/* Set scope */
-		$bw_catexcerpt   = '';
-		$bw_archivetitle = '';
-		$bw_postexcerpt  = '';
-		$bw_postauthor   = '';
+		$category_excerpt = '';
+		$archive_title    = '';
+		$post_excerpt     = '';
+		$post_author      = '';
 
 		/* scrape conditionally by page type */
-		if ( is_category() ) { // User may have set desc
-			$bw_catexcerpt = preg_split( '/[.?!]/', wp_strip_all_tags( category_description(), true ) )[0] . '.';
+		if ( is_category() ) { // User may have set desc.
+			$category_excerpt = preg_split( '/[.?!]/', wp_strip_all_tags( category_description(), true ) )[0] . '.';
 		}
-		if ( is_archive() ) { // Also matches categories (don't set vars twice)
-			$bw_archivetitle = wp_strip_all_tags( post_type_archive_title( '', false ) );
-			$bw_thumbnail    = esc_url( get_the_post_thumbnail_url( $bw_postid ) );
+
+		if ( is_archive() ) { // Also matches categories (don't set vars twice).
+			$archive_title  = wp_strip_all_tags( post_type_archive_title( '', false ) );
+			$post_thumbnail = esc_url( get_the_post_thumbnail_url( $post_id ) );
 		} else {
-			$bw_postexcerpt = preg_split( '/[.?!]/', wp_strip_all_tags( $bw_postcontent, true ) )[0] . '.';
-			$bw_postauthor  = wp_strip_all_tags( get_the_author() );
-			$bw_thumbnail   = esc_url( get_the_post_thumbnail_url( $bw_postid ) );
+			$post_excerpt   = preg_split( '/[.?!]/', wp_strip_all_tags( $post_content, true ) )[0] . '.';
+			$post_author    = wp_strip_all_tags( get_the_author() );
+			$post_thumbnail = esc_url( get_the_post_thumbnail_url( $post_id ) );
 		}
 
 		/* choose the most suitable scraped value with preference order by page type */
-		if ( is_front_page() ) { // Homepage
-			$bw_title   = ucwords( $bw_identity );
-			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_sitedesc, $bw_postexcerpt ) ) );
-			$bw_author  = ucwords( $this->first_not_empty( array( $bw_siteauthor, $bw_postauthor ) ) );
-			$bw_canon   = $this->enforce_forward_slash( $bw_siteurl );
-			$bw_ogimage = $this->first_not_empty( array( $bw_sitelogo, $bw_thumbnail, $bw_postimage ) );
-		} elseif ( is_home() ) { // Posts Page
-			$bw_title   = ucwords( $this->first_not_empty( array( $bw_blogtitle, $bw_identity ) ) );
-			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_postexcerpt, $bw_sitedesc ) ) );
-			$bw_author  = ucwords( $bw_siteauthor );
-			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
-			$bw_ogimage = $this->first_not_empty( array( $bw_thumbnail, $bw_sitelogo, $bw_postimage ) );
+		if ( is_front_page() ) { // Homepage.
+			$meta_desc      = ucfirst( $this->first_not_empty( array( $site_tagline, $post_excerpt ) ) );
+			$meta_title     = ucwords( $site_name . ' | ' . $meta_desc );
+			$meta_author    = ucwords( $this->first_not_empty( array( $site_author, $post_author ) ) );
+			$meta_canonical = $this->enforce_forward_slash( $site_url );
+			$meta_og_image  = $this->first_not_empty( array( $logo, $post_thumbnail, $post_inline_img ) );
+
+		} elseif ( is_home() ) { // Posts Page.
+			$meta_desc      = ucfirst( $this->first_not_empty( array( $post_excerpt, $site_tagline ) ) );
+			$meta_title     = ucwords( $this->first_not_empty( array( $blog_title, $site_name ) ) . ' | ' . $meta_desc );
+			$meta_author    = ucwords( $site_author );
+			$meta_canonical = $this->enforce_forward_slash( $post_url );
+			$meta_og_image  = $this->first_not_empty( array( $post_thumbnail, $logo, $post_inline_img ) );
+
 		} elseif ( is_category() ) {
-			$bw_title   = ucwords( $this->first_not_empty( array( $bw_archivetitle, $bw_posttitle ) ) );
-			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_catexcerpt, $bw_postexcerpt, $bw_sitedesc ) ) );
-			$bw_author  = ucwords( $this->first_not_empty( array( $bw_postauthor, $bw_siteauthor ) ) );
-			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
-			$bw_ogimage = $this->first_not_empty( array( $bw_thumbnail, $bw_postimage, $bw_sitelogo ) );
-		} elseif ( is_archive() ) { // Auto-gen 'cats'
-			$bw_title   = ucwords( $this->first_not_empty( array( $bw_archivetitle, $bw_posttitle ) ) );
-			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_catexcerpt, $bw_postexcerpt, $bw_sitedesc ) ) );
-			$bw_author  = ucwords( $this->first_not_empty( array( $bw_postauthor, $bw_siteauthor ) ) );
-			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
-			$bw_ogimage = $this->first_not_empty( array( $bw_thumbnail, $bw_postimage, $bw_sitelogo ) );
-		} elseif ( is_singular() ) { // These vars should be reliable
-			$bw_title   = ucwords( $bw_posttitle );
-			$bw_desc    = ucfirst( $bw_postexcerpt );
-			$bw_author  = ucwords( $bw_postauthor );
-			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
-			$bw_ogimage = $this->first_not_empty( array( $bw_postimage, $bw_thumbnail, $bw_sitelogo ) );
+			$meta_title     = ucwords( $this->first_not_empty( array( $archive_title, $post_title ) ) );
+			$meta_desc      = ucfirst( $this->first_not_empty( array( $category_excerpt, $post_excerpt, $site_tagline ) ) );
+			$meta_author    = ucwords( $this->first_not_empty( array( $post_author, $site_author ) ) );
+			$meta_canonical = $this->enforce_forward_slash( $post_url );
+			$meta_og_image  = $this->first_not_empty( array( $post_thumbnail, $post_inline_img, $logo ) );
+
+		} elseif ( is_archive() ) { // Auto-generated categories.
+			$meta_title     = ucwords( $this->first_not_empty( array( $archive_title, $post_title ) ) );
+			$meta_desc      = ucfirst( $this->first_not_empty( array( $category_excerpt, $post_excerpt, $site_tagline ) ) );
+			$meta_author    = ucwords( $this->first_not_empty( array( $post_author, $site_author ) ) );
+			$meta_canonical = $this->enforce_forward_slash( $post_url );
+			$meta_og_image  = $this->first_not_empty( array( $post_thumbnail, $post_inline_img, $logo ) );
+
+		} elseif ( is_singular() ) { // All single posts types: posts, pages, attachments etc.
+			$meta_title     = ucwords( $post_title . ' | ' . $this->first_not_empty( array( $post_parent_title, $site_name ) ) );
+			$meta_desc      = ucfirst( $post_excerpt );
+			$meta_author    = ucwords( $post_author );
+			$meta_canonical = $this->enforce_forward_slash( $post_url );
+			$meta_og_image  = $this->first_not_empty( array( $post_inline_img, $post_thumbnail, $logo ) );
+
 		} elseif ( is_search() ) {
-			$bw_title   = ucwords( 'Search Results' );
-			$bw_desc    = ucfirst( 'We are here to help you find what you\'re looking for.' );
-			$bw_author  = ucwords( $bw_siteauthor );
-			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
-			$bw_ogimage = $this->first_not_empty( array( $bw_postimage, $bw_thumbnail, $bw_sitelogo ) );
+			$meta_title     = ucwords( 'Search Results' );
+			$meta_desc      = ucfirst( 'We are here to help you find what you\'re looking for.' );
+			$meta_author    = ucwords( $site_author );
+			$meta_canonical = $this->enforce_forward_slash( $post_url );
+			$meta_og_image  = $this->first_not_empty( array( $post_inline_img, $post_thumbnail, $logo ) );
+
 		} else {
 			echo '<!-- META FALLBACK - CHECK THEME-SEO TEMPLATE FUNCTIONS -->';
-			$bw_title   = ucwords( $this->first_not_empty( array( $bw_posttitle, $bw_archivetitle, $bw_identity ) ) );
-			$bw_desc    = ucfirst( $this->first_not_empty( array( $bw_postexcerpt, $bw_catexcerpt, $bw_sitedesc ) ) );
-			$bw_author  = ucwords( $this->first_not_empty( array( $bw_postauthor, $bw_siteauthor ) ) );
-			$bw_canon   = $this->enforce_forward_slash( $bw_permalink );
-			$bw_ogimage = $this->first_not_empty( array( $bw_thumbnail, $bw_postimage, $bw_sitelogo ) );
+			$meta_title     = ucwords( $this->first_not_empty( array( $post_title, $archive_title, $site_name ) ) );
+			$meta_desc      = ucfirst( $this->first_not_empty( array( $post_excerpt, $category_excerpt, $site_tagline ) ) );
+			$meta_author    = ucwords( $this->first_not_empty( array( $post_author, $site_author ) ) );
+			$meta_canonical = $this->enforce_forward_slash( $post_url );
+			$meta_og_image  = $this->first_not_empty( array( $post_thumbnail, $post_inline_img, $logo ) );
 		}
 
 		return $meta = array(
-			'title'       => $bw_title,
-			'desc'        => $bw_desc,
-			'author'      => $bw_author,
-			'canon'       => $bw_canon,
-			'ogimage'     => $bw_ogimage,
-			'ogtitle'     => $bw_title,
-			'robots'      => $bw_robots,
-			'ogtype'      => $bw_objecttype,
-			'ogurl'       => $bw_canon,
-			'oglocale'    => $bw_locale,
-			'oglocalealt' => $bw_localealt,
-			'ogdesc'      => $bw_desc,
-			'ogsitename'  => $bw_identity,
-			'charset'     => $bw_charset,
-			'themeuri'    => $bw_themeuri,
+			'title'          => $meta_title,
+			'desc'           => $meta_desc,
+			'author'         => $meta_author,
+			'canonical'      => $meta_canonical,
+			'robots'         => $robots,
+			'charset'        => $charset,
+			'theme_uri'      => $theme_uri,
+			'og_image'       => $meta_og_image,
+			'og_title'       => $meta_title,
+			'og_type'        => $object_type,
+			'og_url'         => $meta_canonical,
+			'og_locale'      => $locale,
+			'og_localealt'   => $locale_alt,
+			'og_description' => $meta_desc,
+			'og_sitename'    => $site_name,
 		);
 
-	}//end build_meta_vars()
+	}
 
-
-
+	/**
+	 * Generate the head meta.
+	 *
+	 * @param array $meta The metadata scraped from WordPress.
+	 * @return string Head meta HTML.
+	 */
 	public static function generate_head_meta( $meta ) {
 
 		$head_meta = <<<EOF
@@ -238,25 +293,25 @@ class Seo_Meta {
 <meta name="description" content="{$meta["desc"]}">
 <meta name="author" content="{$meta["author"]}">
 <meta name="robots" content="{$meta["robots"]}">
-<link rel="canonical" href="{$meta["canon"]}">
+<link rel="canonical" href="{$meta["canonical"]}">
 <!-- Open Graph Meta - <html> namespace must match og:type -->
-<meta property="og:title" content="{$meta["ogtitle"]}">
-<meta property="og:type" content="{$meta["ogtype"]}">
-<meta property="og:image" content="{$meta["ogimage"]}">
-<meta property="og:url" content="{$meta["ogurl"]}">
-<meta property="og:locale" content="{$meta["oglocale"]}">
-<meta property="og:locale:alternate" content="{$meta["oglocalealt"]}">
-<meta property="og:description" content="{$meta["ogdesc"]}">
-<meta property="og:site_name" content="{$meta["ogsitename"]}">
+<meta property="og:title" content="{$meta["og_title"]}">
+<meta property="og:type" content="{$meta["og_type"]}">
+<meta property="og:image" content="{$meta["og_image"]}">
+<meta property="og:url" content="{$meta["og_url"]}">
+<meta property="og:locale" content="{$meta["og_locale"]}">
+<meta property="og:locale:alternate" content="{$meta["og_localealt"]}">
+<meta property="og:description" content="{$meta["og_description"]}">
+<meta property="og:site_name" content="{$meta["og_sitename"]}">
 <!-- Branding Meta -->
 <!-- Favicon and Web App Definitions -->
 <meta name="application-name" content="{$meta["title"]}">
 <meta name="msapplication-TileColor" content="#fff">
-<meta name="msapplication-TileImage" content="{$meta["themeuri"]}/imagery/favicon/mstile-144x144.png">
-<meta name="msapplication-square70x70logo" content="{$meta["themeuri"]}/imagery/favicon/mstile-70x70.png">
-<meta name="msapplication-square150x150logo" content="{$meta["themeuri"]}/imagery/favicon/mstile-150x150.png">
-<meta name="msapplication-wide310x150logo" content="{$meta["themeuri"]}/imagery/favicon/mstile-310x150.png">
-<meta name="msapplication-square310x310logo" content="{$meta["themeuri"]}/imagery/favicon/mstile-310x310.png">
+<meta name="msapplication-TileImage" content="{$meta["theme_uri"]}/imagery/favicon/mstile-144x144.png">
+<meta name="msapplication-square70x70logo" content="{$meta["theme_uri"]}/imagery/favicon/mstile-70x70.png">
+<meta name="msapplication-square150x150logo" content="{$meta["theme_uri"]}/imagery/favicon/mstile-150x150.png">
+<meta name="msapplication-wide310x150logo" content="{$meta["theme_uri"]}/imagery/favicon/mstile-310x150.png">
+<meta name="msapplication-square310x310logo" content="{$meta["theme_uri"]}/imagery/favicon/mstile-310x310.png">
 <!-- Mobile Browser Colours -->
 <!-- Chrome, Firefox OS and Opera -->
 <meta name="theme-color" content="#29a367"/>
@@ -266,13 +321,13 @@ class Seo_Meta {
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="#29a367">
 <!-- Favicons and vendor-specific icons -->
-<link rel="icon" type="image/png" href="{$meta["themeuri"]}/imagery/favicon/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="{$meta["themeuri"]}/imagery/favicon/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="{$meta["theme_uri"]}/imagery/favicon/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="{$meta["theme_uri"]}/imagery/favicon/favicon-16x16.png" sizes="16x16">
 <!-- hb_head end -->
 EOF;
 
 		return $head_meta;
 
-	}//end generate_head_meta()
+	}
 
-}//end class
+}
