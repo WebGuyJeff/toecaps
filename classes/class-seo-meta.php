@@ -148,6 +148,22 @@ class Seo_Meta {
 
 
 	/**
+	 * Get text content of first <P> after a <H2>.
+	 *
+	 * @param string $content The HTML to parse.
+	 * @return string The content of the first <p> found after a <h2>.
+	 */
+	private function get_first_p_after_a_h2( $content ) {
+		$pattern_first_p_after_a_h2 = '/(?<=<h2).*?<p.*?>(.*?)([\.!?]|<\/p)/ms';
+		if ( preg_match( $pattern_first_p_after_a_h2, $content, $matches ) ) {
+			return $matches[1];
+		} else {
+			return '';
+		}
+	}
+
+
+	/**
 	 * Build meta variables.
 	 *
 	 * Process and select the most suitable meta values for the page.
@@ -197,7 +213,7 @@ class Seo_Meta {
 			$archive_title  = wp_strip_all_tags( post_type_archive_title( '', false ) );
 			$post_thumbnail = esc_url( get_the_post_thumbnail_url( $post_id ) );
 		} else {
-			$post_excerpt   = preg_split( '/[.?!]/', wp_strip_all_tags( $post_content, true ) )[0] . '.';
+			$post_excerpt   = $this->get_first_p_after_a_h2( $post_content );
 			$post_author    = wp_strip_all_tags( get_the_author() );
 			$post_thumbnail = esc_url( get_the_post_thumbnail_url( $post_id ) );
 		}
@@ -233,7 +249,7 @@ class Seo_Meta {
 
 		} elseif ( is_singular() ) { // All single posts types: posts, pages, attachments etc.
 			$meta_title     = ucwords( $post_title . ' | ' . $this->first_not_empty( array( $post_parent_title, $site_name ) ) );
-			$meta_desc      = ucfirst( $post_excerpt );
+			$meta_desc      = ucfirst( $this->first_not_empty( array( $post_excerpt, $site_tagline ) ) );
 			$meta_author    = ucwords( $post_author );
 			$meta_canonical = $this->enforce_forward_slash( $post_url );
 			$meta_og_image  = $this->first_not_empty( array( $post_inline_img, $post_thumbnail, $logo ) );
