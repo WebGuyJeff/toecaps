@@ -142,38 +142,41 @@ get_template_part( 'template-parts/css-loader' );
 
 			<div class="parallax">
 				<div class="parallax_inner">
-
 					<?php
 					$is_homepage  = is_front_page() || is_home();
 					$is_parent    = is_page() && ! empty( get_pages( array( 'child_of' => get_queried_object_id() ) ) );
 					$filter_class = ( $is_homepage || $is_parent ) ? ' header_filter-light' : ' header_filter-dark';
 
 					if ( has_post_thumbnail() ) {
-						$attributes = array(
-							'class' => 'header_image' . $filter_class,
-						);
-						the_post_thumbnail( 'post-thumbnail', $attributes );
-
+						$image_id = get_post_thumbnail_id();
+						?>
+						<img
+							src="<?php echo esc_url( wp_get_attachment_image_url( $image_id, 'hero-banner-small' ) ); ?>"
+							srcset="<?php echo esc_attr( wp_get_attachment_image_srcset( $image_id ) ); ?>"
+							alt="<?php echo esc_attr( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ); ?>"
+							class="<?php echo esc_attr( 'header_image' . $filter_class ); ?>"
+						/>
+						<?php
 					} else {
 						?>
-
 						<img
 							class="header_image wpreturn8001/wp-content/uploads/2022/04/hero-background.webp"
 							alt="Joinery Workshop"
 							loading="lazy"
 							srcset="<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback.webp 1920w,
-									<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-300x150.webp 300w,
+									<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-1536x768.webp 1536w,
 									<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-1024x512.webp 1024w,
 									<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-768x384.webp 768w,
-									<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-1536x768.webp 1536w"
-							sizes="(max-width: 1920px) 100vw, 1920px"
+									<?php echo esc_url( get_template_directory_uri() ); ?>/imagery/rasters/hero-fallback/hero-fallback-300x150.webp 300w"
+							sizes="( max-width: 300px ) 300px,
+								   ( max-width: 768px ) 768px,
+								   ( max-width: 1024px ) 1024px,
+								   ( max-width: 1536px ) 1536px,
+								   1920px"
 						>
-
 						<?php
 					}
-
 					?>
-
 				</div>
 			</div>
 

@@ -297,3 +297,13 @@ add_filter(
 	10,
 	2
 );
+
+/**
+ * Add custom image sizes.
+ *
+ * add_image_size( 'name-of-size', width, height, crop mode (true == hard) ).
+ */
+add_image_size( 'hero-banner-large', 1920, 250, true );
+add_image_size( 'hero-banner-medium', 1024, 200, true );
+add_image_size( 'hero-banner-small', 500, 200, true );
+add_image_size( 'gallery', 700, 700 ); // Soft Crop Mode
