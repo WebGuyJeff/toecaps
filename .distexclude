@@ -1,0 +1,12 @@
+# Consumed by bash script ./bin/dist.sh
+# Be sure to specify project root (./) where applicable otherwise it may break packages!
+#
+./bin
+./dist
+./node_modules
+./src
+./package*
+./webpack*
+./vendor
+./.*
+./*.code-workspace

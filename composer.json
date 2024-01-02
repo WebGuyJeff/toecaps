@@ -1,17 +1,18 @@
 {
-    "require-dev": {
-		"squizlabs/php_codesniffer": "^3.3.1",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-		"wp-coding-standards/wpcs": "^2.3.0"
-    },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
+	"name": "jefferson/bigup_forms",
+	"description": "A customisable form plugin for WordPress Gutenberg Editor",
+	"type": "project",
+	"require": {
+		"phpmailer/phpmailer": "^6.8"
+	},
+	"require-dev": {
+        "squizlabs/php_codesniffer": "^3.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"wp-coding-standards/wpcs": "^3.0"
     },
 	"scripts": {
-        "phpcheck": "./vendor/bin/phpcs --standard=WordPress **/*.php",
-		"phpcheck-summary": "./vendor/bin/phpcs --report=summary --standard=WordPress **/*.php",
-		"phpfix": "./vendor/bin/phpcbf --standard=WordPress -v **/*.php"
+		"lint": "vendor/bin/phpcs -ps ./classes --standard=WordPress",
+		"lint-fix": "vendor/bin/phpcbf -ps ./classes --standard=WordPress",
+        "phpcompat": "./vendor/bin/phpcs -p . --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6-"
     }
 }

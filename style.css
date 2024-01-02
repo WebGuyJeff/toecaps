@@ -4,7 +4,7 @@ Theme URI: https://jeffersonreal.uk
 Author: Jefferson Real
 Author URI: https://jeffersonreal.uk
 Description: Multi-page theme for tradespeople, manufactureres and construction companies.
-Version: 0.83.6
+Version: 0.83.7
 License: GNU General Public License v3.0
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -94,8 +94,8 @@ RANGE
 	--tc_theme-tan-opaque: #d2aa6de6;
 	--tc_theme-grey: #9b9b9b;
 	--tc_theme-grey-opaque: #9b9b9be6;
-	--tc_theme-violet: #c49be1;
-	--tc_theme-violet-opaque: #c49be1e6;
+	--tc_theme-orange: #f3ab5c;
+	--tc_theme-orange-opaque: #f3ab5ce6;
 
 	/* Theme default colours */
 	--tc_theme-accent: var(--tc_theme-green);
@@ -271,8 +271,8 @@ For now, these are the mismatches to be aware of:
 	--tc_theme-accent-opaque: var(--tc_theme-grey-opaque);
 }
 .page-template-toecaps-teal {
-	--tc_theme-accent: var(--tc_theme-violet);
-	--tc_theme-accent-opaque: var(--tc_theme-violet-opaque);
+	--tc_theme-accent: var(--tc_theme-orange);
+	--tc_theme-accent-opaque: var(--tc_theme-orange-opaque);
 }
 .page-template-toecaps-green {
 	--tc_theme-accent: var(--tc_theme-green);
@@ -393,7 +393,7 @@ For now, these are the mismatches to be aware of:
 .theme_fill-teal {
 	/*color: var(--tc_colour-white);*/
 	color: var(--tc_colour-black); /* Lighthouse contrast */
-	background: var(--tc_theme-violet);
+	background: var(--tc_theme-orange);
 }
 .theme_fill-green {
 	/*color: var(--tc_colour-white);*/
