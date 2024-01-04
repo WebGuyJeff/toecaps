@@ -90,12 +90,12 @@ RANGE
 	--tc_theme-yellow-opaque: #fdff86e6;
 	--tc_theme-blue: #98c5e9;
 	--tc_theme-blue-opaque: #98c5e9e6;
-	--tc_theme-tan:#d2aa6d;
-	--tc_theme-tan-opaque: #d2aa6de6;
+	--tc_theme-tan:#f3ab5c;
+	--tc_theme-tan-opaque: #f3ab5ce6;
 	--tc_theme-grey: #9b9b9b;
 	--tc_theme-grey-opaque: #9b9b9be6;
-	--tc_theme-orange: #f3ab5c;
-	--tc_theme-orange-opaque: #f3ab5ce6;
+	--tc_theme-teal: #29a2a3;
+	--tc_theme-teal-opaque: #29a2a3e6;
 
 	/* Theme default colours */
 	--tc_theme-accent: var(--tc_theme-green);
@@ -271,8 +271,8 @@ For now, these are the mismatches to be aware of:
 	--tc_theme-accent-opaque: var(--tc_theme-grey-opaque);
 }
 .page-template-toecaps-teal {
-	--tc_theme-accent: var(--tc_theme-orange);
-	--tc_theme-accent-opaque: var(--tc_theme-orange-opaque);
+	--tc_theme-accent: var(--tc_theme-teal);
+	--tc_theme-accent-opaque: var(--tc_theme-teal-opaque);
 }
 .page-template-toecaps-green {
 	--tc_theme-accent: var(--tc_theme-green);
@@ -393,7 +393,7 @@ For now, these are the mismatches to be aware of:
 .theme_fill-teal {
 	/*color: var(--tc_colour-white);*/
 	color: var(--tc_colour-black); /* Lighthouse contrast */
-	background: var(--tc_theme-orange);
+	background: var(--tc_theme-teal);
 }
 .theme_fill-green {
 	/*color: var(--tc_colour-white);*/
