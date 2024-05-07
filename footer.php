@@ -11,10 +11,10 @@ namespace BigupWeb\Toecaps;
 
 use BigupWeb\Toecaps\Helpers;
 
-$tc_settings = get_option( 'tc_theme_array' ); // Serialized array of all options.
-$tc_phone    = ( isset( $tc_settings['tc_phone_number'] ) ) ? $tc_settings['tc_phone_number'] : '';
-$tc_email    = ( isset( $tc_settings['tc_email_address'] ) ) ? $tc_settings['tc_email_address'] : '';
-$tc_street_address  = ( isset( $tc_settings['tc_street_address'] ) ) ? $tc_settings['tc_street_address'] : '';
+$tc_settings       = get_option( 'tc_theme_array' ); // Serialized array of all options.
+$tc_phone          = ( isset( $tc_settings['tc_phone_number'] ) ) ? $tc_settings['tc_phone_number'] : '';
+$tc_email          = ( isset( $tc_settings['tc_email_address'] ) ) ? $tc_settings['tc_email_address'] : '';
+$tc_street_address = ( isset( $tc_settings['tc_street_address'] ) ) ? $tc_settings['tc_street_address'] : '';
 
 ?>
 
@@ -96,6 +96,7 @@ $tc_street_address  = ( isset( $tc_settings['tc_street_address'] ) ) ? $tc_setti
 			?>
 
 			<p class="footer_label">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?></p>
+			<p class="footer_label">Website by <a style="color:#fbfc00;text-decoration:none" target="_blank" href="https://jeffersonreal.uk/">Jefferson Real</a></p>
 		</div>
 	</div>
 </footer>
