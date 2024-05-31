@@ -46,6 +46,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 	5.20 USP BAR
 	5.21 ACCORDIAN
 	5.22 PAGINATION
+	5.23 WILD CAMP CTA
 6. FONT IMPORTS
 	6.1 ALBERTUS MEDIUM
 	6.2 SOURCE SANS PRO
@@ -246,7 +247,10 @@ For now, these are the mismatches to be aware of:
 }
 
 
-/* Theme overrides */
+/* Theme overrides
+
+Note that due to repeated amends by the client, the names no longer match the colours.
+*/
 
 .page-template-toecaps-tan {
 	--tc_theme-accent: var(--tc_theme-tan);
@@ -2476,6 +2480,17 @@ div.wp-block-buttons > .wp-block-button {
 				margin: 0 auto;
 				width: 100%;
 			}
+
+
+/*-------------------------------------------------- 5.23 WILD CAMP CTA ----*/
+
+
+.wp-block-group.wildCampCTA > div {
+	padding: 1.25em 2.375em;
+	margin-bottom: 28px;
+	margin-top: 28px;
+	background-color: #ffdddd !important;
+}
 
 
 /*======================================================= 6. FONT IMPORTS ====*/
