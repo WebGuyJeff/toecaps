@@ -67,16 +67,6 @@ add_action( 'admin_enqueue_scripts', 'toecaps_load_admin_scripts_and_styles' );
 // ======================================================= Basic WordPress setup
 
 /**
- * Disable plugin auto updates
- */
-add_filter( 'auto_update_plugin', '__return_false' );
-
-/**
- * Disable theme auto updates
- */
-add_filter( 'auto_update_theme', '__return_false' );
-
-/**
  * Register widget area.
  */
 function toecaps_widgets_init() {
