@@ -96,7 +96,9 @@ $tc_street_address = ( isset( $tc_settings['tc_street_address'] ) ) ? $tc_settin
 			?>
 
 			<p class="footer_label">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?></p>
-			<p class="footer_label">Website by <a style="color:#fbfc00;text-decoration:none" target="_blank" href="https://jeffersonreal.uk/">Jefferson Real</a></p>
+			<div style="display:flex;justify-content:center;width:100%;font-family:sans-serif;font-size:1rem;font-weight: 400;">
+				<p id="footer_backlink">Website by <a style="color:#f8f801;text-decoration:none;font-weight:600;letter-spacing:-0.03rem;" target="_blank" href="https://webguyjeff.com/">Web Guy Jeff</a></p>
+			</div>
 		</div>
 	</div>
 </footer>
